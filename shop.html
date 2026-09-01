@@ -1,0 +1,1095 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Shop | Grably</title>
+
+    <style>
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: Arial, Helvetica, sans-serif;
+            background: #f7f7f7;
+            color: #222;
+        }
+
+        header {
+            background: white;
+            border-bottom: 1px solid #ddd;
+            padding: 20px 6%;
+
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .logo {
+            font-size: 32px;
+            font-weight: bold;
+        }
+
+        nav {
+            display: flex;
+            gap: 28px;
+        }
+
+        nav a {
+            text-decoration: none;
+            color: #222;
+        }
+
+        .cart-button {
+            background: #222;
+            color: white;
+
+            padding: 12px 18px;
+            border-radius: 7px;
+
+            text-decoration: none;
+        }
+
+        /* SHOP HEADING */
+
+        .shop-heading {
+            text-align: center;
+            padding: 60px 20px 30px;
+        }
+
+        .shop-heading small {
+            letter-spacing: 5px;
+            color: #777;
+        }
+
+        .shop-heading h1 {
+            font-size: 42px;
+            margin: 10px 0;
+        }
+
+        .shop-heading p {
+            color: #666;
+        }
+
+        /* DELIVERY NOTICE */
+
+        .delivery-notice {
+            width: 92%;
+            max-width: 1250px;
+
+            margin: 0 auto 25px;
+
+            background: white;
+            border: 1px solid #ddd;
+
+            padding: 16px 20px;
+
+            border-radius: 10px;
+
+            text-align: center;
+
+            font-size: 14px;
+        }
+
+        /* SEARCH AND FILTERS */
+
+        .shop-tools {
+            width: 92%;
+            max-width: 1250px;
+
+            margin: 0 auto 35px;
+
+            display: flex;
+            flex-direction: column;
+
+            gap: 20px;
+        }
+
+        .search-box input {
+            width: 100%;
+
+            padding: 14px 18px;
+
+            border: 1px solid #ccc;
+            border-radius: 8px;
+
+            font-size: 16px;
+        }
+
+        .filters {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+
+        .filter-button {
+            border: 1px solid #ccc;
+            background: white;
+
+            padding: 10px 16px;
+
+            border-radius: 25px;
+
+            cursor: pointer;
+        }
+
+        .filter-button.active {
+            background: #222;
+            color: white;
+            border-color: #222;
+        }
+
+        /* PRODUCTS */
+
+        .products {
+            width: 92%;
+            max-width: 1250px;
+
+            margin: auto;
+
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+
+            gap: 25px;
+
+            padding-bottom: 60px;
+        }
+
+        .product {
+            background: white;
+
+            border-radius: 12px;
+            overflow: hidden;
+
+            box-shadow: 0 3px 12px rgba(0,0,0,0.08);
+        }
+
+        .product img {
+            width: 100%;
+            height: 350px;
+
+            object-fit: contain;
+
+            background: #eee;
+
+            display: block;
+        }
+
+        .product-info {
+            padding: 20px;
+        }
+
+        .category {
+            color: #777;
+
+            font-size: 13px;
+
+            margin-bottom: 7px;
+        }
+
+        .product h2 {
+            font-size: 21px;
+            margin-bottom: 8px;
+        }
+
+        .description {
+            color: #555;
+
+            font-size: 14px;
+            line-height: 1.5;
+
+            min-height: 64px;
+        }
+
+        .price {
+            font-size: 22px;
+            font-weight: bold;
+
+            margin: 15px 0;
+        }
+
+        .add-button {
+            width: 100%;
+
+            padding: 13px;
+
+            background: #222;
+            color: white;
+
+            border: none;
+            border-radius: 6px;
+
+            cursor: pointer;
+
+            font-size: 15px;
+        }
+
+        .add-button:hover {
+            opacity: 0.85;
+        }
+
+        #no-results {
+            display: none;
+
+            text-align: center;
+
+            font-size: 20px;
+            color: #666;
+
+            padding: 60px 20px;
+        }
+
+        #message {
+            position: fixed;
+
+            right: 25px;
+            bottom: 25px;
+
+            background: #222;
+            color: white;
+
+            padding: 15px 25px;
+
+            border-radius: 8px;
+
+            display: none;
+
+            z-index: 200;
+        }
+
+        footer {
+            background: #222;
+            color: white;
+
+            text-align: center;
+
+            padding: 30px;
+        }
+
+        /* TABLET */
+
+        @media (max-width: 900px) {
+
+            .products {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+        }
+
+        /* MOBILE */
+
+        @media (max-width: 600px) {
+
+            header {
+                flex-wrap: wrap;
+                gap: 15px;
+            }
+
+            nav {
+                width: 100%;
+
+                justify-content: center;
+
+                order: 3;
+            }
+
+            .products {
+                grid-template-columns: 1fr;
+            }
+
+            .shop-heading h1 {
+                font-size: 34px;
+            }
+
+        }
+
+    </style>
+</head>
+
+
+<body>
+
+
+<header>
+
+    <div class="logo">
+        Grably
+    </div>
+
+    <nav>
+
+        <a href="index.html">
+            Home
+        </a>
+
+        <a href="shop.html">
+            Shop
+        </a>
+
+        <a href="index.html#about">
+            About
+        </a>
+
+        <a href="index.html#contact">
+            Contact
+        </a>
+
+    </nav>
+
+
+    <a href="cart.html" class="cart-button">
+
+        🛒 Cart
+        <span id="cart-count">0</span>
+
+    </a>
+
+</header>
+
+
+
+<section class="shop-heading">
+
+    <small>
+        GRABLY
+    </small>
+
+    <h1>
+        Shop Our Products
+    </h1>
+
+    <p>
+        Find useful products for home, fitness and everyday life.
+    </p>
+
+</section>
+
+
+
+<div class="delivery-notice">
+
+    🚚 <strong>Delivery fee not included.</strong>
+    Delivery is calculated separately based on distance.
+
+</div>
+
+
+
+<section class="shop-tools">
+
+
+    <div class="search-box">
+
+        <input
+            type="text"
+            id="search-input"
+            placeholder="Search products..."
+            oninput="filterProducts()">
+
+    </div>
+
+
+    <div class="filters">
+
+        <button
+            class="filter-button active"
+            onclick="selectCategory('all', this)">
+
+            All Products
+
+        </button>
+
+
+        <button
+            class="filter-button"
+            onclick="selectCategory('health', this)">
+
+            Health & Fitness
+
+        </button>
+
+
+        <button
+            class="filter-button"
+            onclick="selectCategory('storage', this)">
+
+            Home & Storage
+
+        </button>
+
+
+        <button
+            class="filter-button"
+            onclick="selectCategory('cleaning', this)">
+
+            Home & Cleaning
+
+        </button>
+
+
+        <button
+            class="filter-button"
+            onclick="selectCategory('bathroom', this)">
+
+            Bathroom
+
+        </button>
+
+    </div>
+
+</section>
+
+
+
+<main class="products" id="product-list">
+
+
+    <!-- PRODUCT 1 -->
+
+    <div
+        class="product"
+        data-name="adjustable ankle support"
+        data-category="health">
+
+        <img
+            src="images/1.jpeg"
+            alt="Adjustable Ankle Support">
+
+
+        <div class="product-info">
+
+            <div class="category">
+                Health & Fitness
+            </div>
+
+
+            <h2>
+                Adjustable Ankle Support
+            </h2>
+
+
+            <p class="description">
+
+                Breathable adjustable ankle support for sport,
+                exercise and everyday use.
+
+            </p>
+
+
+            <div class="price">
+                R149.00
+            </div>
+
+
+            <button
+                class="add-button"
+                onclick="addToCart(
+                    'Adjustable Ankle Support',
+                    149,
+                    'images/1.jpeg'
+                )">
+
+                Add to Cart
+
+            </button>
+
+        </div>
+
+    </div>
+
+
+
+    <!-- PRODUCT 2 -->
+
+    <div
+        class="product"
+        data-name="hanging storage organizer"
+        data-category="storage">
+
+        <img
+            src="images/2.jpeg"
+            alt="Hanging Storage Organizer">
+
+
+        <div class="product-info">
+
+            <div class="category">
+                Home & Storage
+            </div>
+
+
+            <h2>
+                Hanging Storage Organizer
+            </h2>
+
+
+            <p class="description">
+
+                Multifunctional hanging storage for bathrooms,
+                kitchens, bedrooms and laundry rooms.
+
+            </p>
+
+
+            <div class="price">
+                R50.00
+            </div>
+
+
+            <button
+                class="add-button"
+                onclick="addToCart(
+                    'Hanging Storage Organizer',
+                    50,
+                    'images/2.jpeg'
+                )">
+
+                Add to Cart
+
+            </button>
+
+        </div>
+
+    </div>
+
+
+
+    <!-- PRODUCT 3 -->
+
+    <div
+        class="product"
+        data-name="adjustable wrist brace"
+        data-category="health">
+
+        <img
+            src="images/3.jpeg"
+            alt="Adjustable Wrist Brace">
+
+
+        <div class="product-info">
+
+            <div class="category">
+                Health & Fitness
+            </div>
+
+
+            <h2>
+                Adjustable Wrist Brace
+            </h2>
+
+
+            <p class="description">
+
+                Comfortable adjustable wrist support for work,
+                sport, gym and everyday activities.
+
+            </p>
+
+
+            <div class="price">
+                R27.00
+            </div>
+
+
+            <button
+                class="add-button"
+                onclick="addToCart(
+                    'Adjustable Wrist Brace',
+                    27,
+                    'images/3.jpeg'
+                )">
+
+                Add to Cart
+
+            </button>
+
+        </div>
+
+    </div>
+
+
+
+    <!-- PRODUCT 4 -->
+
+    <div
+        class="product"
+        data-name="padded knee support strap"
+        data-category="health">
+
+        <img
+            src="images/4.jpeg"
+            alt="Padded Knee Support Strap">
+
+
+        <div class="product-info">
+
+            <div class="category">
+                Health & Fitness
+            </div>
+
+
+            <h2>
+                Padded Knee Support Strap
+            </h2>
+
+
+            <p class="description">
+
+                Adjustable padded knee support for running,
+                gym, hiking and everyday activities.
+
+            </p>
+
+
+            <div class="price">
+                R169.00
+            </div>
+
+
+            <button
+                class="add-button"
+                onclick="addToCart(
+                    'Padded Knee Support Strap',
+                    169,
+                    'images/4.jpeg'
+                )">
+
+                Add to Cart
+
+            </button>
+
+        </div>
+
+    </div>
+
+
+
+    <!-- PRODUCT 5 -->
+
+    <div
+        class="product"
+        data-name="compression knee support"
+        data-category="health">
+
+        <img
+            src="images/5.jpeg"
+            alt="Compression Knee Support">
+
+
+        <div class="product-info">
+
+            <div class="category">
+                Health & Fitness
+            </div>
+
+
+            <h2>
+                Compression Knee Support
+            </h2>
+
+
+            <p class="description">
+
+                Stretchable compression support for exercise
+                and everyday activities.
+
+            </p>
+
+
+            <div class="price">
+                R44.00
+            </div>
+
+
+            <button
+                class="add-button"
+                onclick="addToCart(
+                    'Compression Knee Support',
+                    44,
+                    'images/5.jpeg'
+                )">
+
+                Add to Cart
+
+            </button>
+
+        </div>
+
+    </div>
+
+
+
+    <!-- PRODUCT 6 -->
+
+    <div
+        class="product"
+        data-name="hand free flat mop"
+        data-category="cleaning">
+
+        <img
+            src="images/6.jpeg"
+            alt="Hand-Free Flat Mop">
+
+
+        <div class="product-info">
+
+            <div class="category">
+                Home & Cleaning
+            </div>
+
+
+            <h2>
+                Hand-Free Flat Mop
+            </h2>
+
+
+            <p class="description">
+
+                Lightweight flat mop with flexible rotation
+                for convenient everyday cleaning.
+
+            </p>
+
+
+            <div class="price">
+                R81.00
+            </div>
+
+
+            <button
+                class="add-button"
+                onclick="addToCart(
+                    'Hand-Free Flat Mop',
+                    81,
+                    'images/6.jpeg'
+                )">
+
+                Add to Cart
+
+            </button>
+
+        </div>
+
+    </div>
+
+
+
+    <!-- PRODUCT 7 -->
+
+    <div
+        class="product"
+        data-name="toothpaste dispenser toothbrush holder"
+        data-category="bathroom">
+
+        <img
+            src="images/7.jpeg"
+            alt="Toothpaste Dispenser">
+
+
+        <div class="product-info">
+
+            <div class="category">
+                Bathroom
+            </div>
+
+
+            <h2>
+                Toothpaste Dispenser
+            </h2>
+
+
+            <p class="description">
+
+                Convenient one-touch toothpaste dispenser
+                with toothbrush storage.
+
+            </p>
+
+
+            <div class="price">
+                R29.00
+            </div>
+
+
+            <button
+                class="add-button"
+                onclick="addToCart(
+                    'Toothpaste Dispenser',
+                    29,
+                    'images/7.jpeg'
+                )">
+
+                Add to Cart
+
+            </button>
+
+        </div>
+
+    </div>
+
+
+</main>
+
+
+
+<div id="no-results">
+
+    No products found.
+
+</div>
+
+
+
+<div id="message">
+
+    Added to cart ✓
+
+</div>
+
+
+
+<footer>
+
+    © 2026 Grably. All rights reserved.
+
+</footer>
+
+
+
+<script>
+
+    let cart =
+        JSON.parse(
+            localStorage.getItem("grablyCart")
+        ) || [];
+
+
+    let selectedCategory = "all";
+
+
+
+    function updateCartCount() {
+
+        let totalQuantity = 0;
+
+
+        cart.forEach(product => {
+
+            totalQuantity +=
+                product.quantity || 1;
+
+        });
+
+
+        document
+            .getElementById("cart-count")
+            .textContent = totalQuantity;
+
+    }
+
+
+
+    function addToCart(name, price, image) {
+
+        const existingProduct =
+            cart.find(
+                product =>
+                    product.name === name
+            );
+
+
+        if (existingProduct) {
+
+            existingProduct.quantity =
+                (existingProduct.quantity || 1) + 1;
+
+
+            /* Update old saved prices too */
+
+            existingProduct.price =
+                price;
+
+
+            existingProduct.image =
+                image;
+
+        }
+
+        else {
+
+            cart.push({
+
+                name: name,
+
+                price: price,
+
+                image: image,
+
+                quantity: 1
+
+            });
+
+        }
+
+
+        localStorage.setItem(
+
+            "grablyCart",
+
+            JSON.stringify(cart)
+
+        );
+
+
+        updateCartCount();
+
+
+        const message =
+            document.getElementById("message");
+
+
+        message.style.display =
+            "block";
+
+
+        setTimeout(function() {
+
+            message.style.display =
+                "none";
+
+        }, 1400);
+
+    }
+
+
+
+    function selectCategory(category, button) {
+
+        selectedCategory =
+            category;
+
+
+        document
+            .querySelectorAll(".filter-button")
+            .forEach(btn => {
+
+                btn.classList.remove(
+                    "active"
+                );
+
+            });
+
+
+        button.classList.add(
+            "active"
+        );
+
+
+        filterProducts();
+
+    }
+
+
+
+    function filterProducts() {
+
+        const searchText =
+            document
+                .getElementById("search-input")
+                .value
+                .toLowerCase()
+                .trim();
+
+
+        const products =
+            document.querySelectorAll(
+                ".product"
+            );
+
+
+        let visibleProducts =
+            0;
+
+
+        products.forEach(product => {
+
+            const productName =
+                product.dataset.name
+                    .toLowerCase();
+
+
+            const productCategory =
+                product.dataset.category;
+
+
+            const matchesSearch =
+                productName.includes(
+                    searchText
+                );
+
+
+            const matchesCategory =
+
+                selectedCategory === "all"
+
+                ||
+
+                productCategory ===
+                    selectedCategory;
+
+
+            if (
+                matchesSearch &&
+                matchesCategory
+            ) {
+
+                product.style.display =
+                    "block";
+
+
+                visibleProducts++;
+
+            }
+
+            else {
+
+                product.style.display =
+                    "none";
+
+            }
+
+        });
+
+
+        document
+            .getElementById("no-results")
+            .style.display =
+
+            visibleProducts === 0
+
+            ? "block"
+
+            : "none";
+
+    }
+
+
+
+    updateCartCount();
+
+</script>
+
+
+</body>
+
+</html>

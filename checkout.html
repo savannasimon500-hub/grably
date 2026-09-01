@@ -1,0 +1,1033 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Checkout | Grably</title>
+
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: Arial, Helvetica, sans-serif;
+            background: #f7f7f7;
+            color: #222;
+        }
+
+        /* HEADER */
+
+        header {
+            background: white;
+            border-bottom: 1px solid #ddd;
+            padding: 20px 6%;
+
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-size: 32px;
+            font-weight: bold;
+        }
+
+        nav {
+            display: flex;
+            gap: 25px;
+        }
+
+        nav a {
+            text-decoration: none;
+            color: #222;
+        }
+
+        /* PAGE */
+
+        .page-title {
+            text-align: center;
+            padding: 50px 20px 30px;
+        }
+
+        .page-title small {
+            letter-spacing: 5px;
+            color: #777;
+        }
+
+        .page-title h1 {
+            font-size: 40px;
+            margin: 10px 0;
+        }
+
+        .page-title p {
+            color: #666;
+        }
+
+        /* CHECKOUT */
+
+        .checkout-container {
+            width: 92%;
+            max-width: 1150px;
+            margin: 0 auto 60px;
+
+            display: grid;
+            grid-template-columns: 1.5fr 1fr;
+            gap: 30px;
+        }
+
+        .box {
+            background: white;
+            padding: 30px;
+            border-radius: 12px;
+
+            box-shadow: 0 3px 12px rgba(0,0,0,0.07);
+        }
+
+        .box h2 {
+            margin-bottom: 22px;
+        }
+
+        .section-title {
+            margin-top: 30px;
+            margin-bottom: 15px;
+
+            font-size: 19px;
+        }
+
+        /* FORM */
+
+        .form-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+        }
+
+        .form-group {
+            margin-bottom: 17px;
+        }
+
+        label {
+            display: block;
+
+            font-size: 14px;
+            font-weight: bold;
+
+            margin-bottom: 7px;
+        }
+
+        input,
+        select,
+        textarea {
+            width: 100%;
+
+            padding: 13px;
+
+            border: 1px solid #ccc;
+            border-radius: 7px;
+
+            font-size: 15px;
+            font-family: inherit;
+        }
+
+        textarea {
+            min-height: 100px;
+            resize: vertical;
+        }
+
+        /* EFT */
+
+        .payment-box {
+            border: 1px solid #ddd;
+            border-radius: 8px;
+
+            padding: 18px;
+
+            background: #fafafa;
+        }
+
+        .payment-option {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+
+            font-size: 16px;
+        }
+
+        .payment-option input {
+            width: auto;
+        }
+
+        .eft-note {
+            color: #666;
+
+            font-size: 14px;
+            line-height: 1.5;
+
+            margin-top: 12px;
+        }
+
+        /* ORDER SUMMARY */
+
+        .summary-box {
+            height: fit-content;
+        }
+
+        .summary-product {
+            display: flex;
+            justify-content: space-between;
+            gap: 15px;
+
+            padding: 13px 0;
+
+            border-bottom: 1px solid #eee;
+        }
+
+        .summary-product-name {
+            flex: 1;
+        }
+
+        .summary-product-price {
+            font-weight: bold;
+            white-space: nowrap;
+        }
+
+        .summary-row {
+            display: flex;
+            justify-content: space-between;
+
+            padding: 15px 0;
+
+            border-bottom: 1px solid #eee;
+        }
+
+        .delivery-text {
+            color: #666;
+            text-align: right;
+        }
+
+        .total-row {
+            display: flex;
+            justify-content: space-between;
+
+            font-size: 21px;
+            font-weight: bold;
+
+            padding: 20px 0;
+        }
+
+        .delivery-notice {
+            background: #f4f4f4;
+
+            padding: 14px;
+
+            border-radius: 7px;
+
+            font-size: 13px;
+            line-height: 1.5;
+
+            margin-bottom: 20px;
+        }
+
+        /* BUTTON */
+
+        .order-button {
+            width: 100%;
+
+            padding: 15px;
+
+            border: none;
+            border-radius: 7px;
+
+            background: #222;
+            color: white;
+
+            font-size: 16px;
+            font-weight: bold;
+
+            cursor: pointer;
+        }
+
+        .order-button:hover {
+            opacity: 0.85;
+        }
+
+        .back-cart {
+            display: block;
+
+            text-align: center;
+
+            margin-top: 15px;
+
+            color: #555;
+            text-decoration: none;
+        }
+
+        .empty-message {
+            color: #777;
+            padding: 20px 0;
+        }
+
+        /* FOOTER */
+
+        footer {
+            background: #222;
+            color: white;
+
+            text-align: center;
+
+            padding: 30px;
+        }
+
+        /* MOBILE */
+
+        @media (max-width: 800px) {
+
+            .checkout-container {
+                grid-template-columns: 1fr;
+            }
+
+            .summary-box {
+                order: -1;
+            }
+
+        }
+
+        @media (max-width: 550px) {
+
+            header {
+                flex-direction: column;
+                gap: 15px;
+            }
+
+            nav {
+                gap: 15px;
+            }
+
+            .form-row {
+                grid-template-columns: 1fr;
+                gap: 0;
+            }
+
+            .page-title h1 {
+                font-size: 32px;
+            }
+
+            .box {
+                padding: 20px;
+            }
+
+        }
+    </style>
+
+</head>
+
+
+<body>
+
+
+<header>
+
+    <div class="logo">
+        Grably
+    </div>
+
+    <nav>
+
+        <a href="index.html">
+            Home
+        </a>
+
+        <a href="shop.html">
+            Shop
+        </a>
+
+        <a href="cart.html">
+            Cart
+        </a>
+
+    </nav>
+
+</header>
+
+
+<section class="page-title">
+
+    <small>
+        GRABLY
+    </small>
+
+    <h1>
+        Checkout
+    </h1>
+
+    <p>
+        Complete your details below to place your order.
+    </p>
+
+</section>
+
+
+<main class="checkout-container">
+
+
+    <!-- CUSTOMER DETAILS -->
+
+    <section class="box">
+
+        <h2>
+            Customer Details
+        </h2>
+
+
+        <form id="checkout-form">
+
+
+            <div class="form-row">
+
+                <div class="form-group">
+
+                    <label for="first-name">
+                        First Name *
+                    </label>
+
+                    <input
+                        type="text"
+                        id="first-name"
+                        required>
+
+                </div>
+
+
+                <div class="form-group">
+
+                    <label for="last-name">
+                        Last Name *
+                    </label>
+
+                    <input
+                        type="text"
+                        id="last-name"
+                        required>
+
+                </div>
+
+            </div>
+
+
+            <div class="form-row">
+
+                <div class="form-group">
+
+                    <label for="phone">
+                        Phone Number *
+                    </label>
+
+                    <input
+                        type="tel"
+                        id="phone"
+                        placeholder="e.g. 079 123 4567"
+                        required>
+
+                </div>
+
+
+                <div class="form-group">
+
+                    <label for="email">
+                        Email Address *
+                    </label>
+
+                    <input
+                        type="email"
+                        id="email"
+                        required>
+
+                </div>
+
+            </div>
+
+
+            <h3 class="section-title">
+                Delivery Address
+            </h3>
+
+
+            <div class="form-group">
+
+                <label for="street">
+                    Street Address *
+                </label>
+
+                <input
+                    type="text"
+                    id="street"
+                    required>
+
+            </div>
+
+
+            <div class="form-row">
+
+                <div class="form-group">
+
+                    <label for="city">
+                        City / Suburb *
+                    </label>
+
+                    <input
+                        type="text"
+                        id="city"
+                        required>
+
+                </div>
+
+
+                <div class="form-group">
+
+                    <label for="postal">
+                        Postal Code *
+                    </label>
+
+                    <input
+                        type="text"
+                        id="postal"
+                        required>
+
+                </div>
+
+            </div>
+
+
+            <div class="form-group">
+
+                <label for="province">
+                    Province *
+                </label>
+
+                <select id="province" required>
+
+                    <option value="">
+                        Select Province
+                    </option>
+
+                    <option>Eastern Cape</option>
+                    <option>Free State</option>
+                    <option>Gauteng</option>
+                    <option>KwaZulu-Natal</option>
+                    <option>Limpopo</option>
+                    <option>Mpumalanga</option>
+                    <option>Northern Cape</option>
+                    <option>North West</option>
+                    <option>Western Cape</option>
+
+                </select>
+
+            </div>
+
+
+            <div class="form-group">
+
+                <label for="notes">
+                    Order Notes
+                </label>
+
+                <textarea
+                    id="notes"
+                    placeholder="Optional notes about your order or delivery...">
+                </textarea>
+
+            </div>
+
+
+            <!-- PAYMENT -->
+
+            <h3 class="section-title">
+                Payment
+            </h3>
+
+
+            <div class="payment-box">
+
+                <label class="payment-option">
+
+                    <input
+                        type="radio"
+                        name="payment"
+                        value="EFT / Bank Transfer"
+                        checked
+                        required>
+
+                    EFT / Bank Transfer
+
+                </label>
+
+
+                <p class="eft-note">
+
+                    Your EFT payment details will be provided
+                    after your order and delivery fee have been
+                    confirmed.
+
+                </p>
+
+            </div>
+
+
+        </form>
+
+    </section>
+
+
+
+    <!-- ORDER SUMMARY -->
+
+    <aside class="box summary-box">
+
+        <h2>
+            Your Order
+        </h2>
+
+
+        <div id="order-items">
+        </div>
+
+
+        <div class="summary-row">
+
+            <span>
+                Product Total
+            </span>
+
+            <strong id="subtotal">
+                R0.00
+            </strong>
+
+        </div>
+
+
+        <div class="summary-row">
+
+            <span>
+                Delivery
+            </span>
+
+            <span class="delivery-text">
+                To be confirmed
+            </span>
+
+        </div>
+
+
+        <div class="total-row">
+
+            <span>
+                Product Total
+            </span>
+
+            <span id="total">
+                R0.00
+            </span>
+
+        </div>
+
+
+        <div class="delivery-notice">
+
+            🚚 <strong>Delivery is calculated separately.</strong>
+
+            The delivery fee will be confirmed based on
+            the distance to your delivery address.
+
+        </div>
+
+
+        <button
+            type="submit"
+            form="checkout-form"
+            class="order-button"
+            id="order-button">
+
+            Place Order via WhatsApp
+
+        </button>
+
+
+        <a
+            href="cart.html"
+            class="back-cart">
+
+            ← Back to Cart
+
+        </a>
+
+    </aside>
+
+
+</main>
+
+
+<footer>
+
+    © 2026 Grably. All rights reserved.
+
+</footer>
+
+
+
+<script>
+
+    const cart =
+        JSON.parse(
+            localStorage.getItem("grablyCart")
+        ) || [];
+
+
+    const orderItems =
+        document.getElementById("order-items");
+
+
+    let subtotal = 0;
+
+
+
+    function displayOrder() {
+
+        orderItems.innerHTML = "";
+
+        subtotal = 0;
+
+
+        if (cart.length === 0) {
+
+            orderItems.innerHTML =
+
+                '<p class="empty-message">' +
+                'Your cart is empty.' +
+                '</p>';
+
+
+            document
+                .getElementById("order-button")
+                .disabled = true;
+
+
+            document
+                .getElementById("order-button")
+                .style.opacity = "0.5";
+
+
+            return;
+
+        }
+
+
+        cart.forEach(product => {
+
+            const quantity =
+                product.quantity || 1;
+
+
+            const itemTotal =
+                Number(product.price) *
+                quantity;
+
+
+            subtotal += itemTotal;
+
+
+            const productElement =
+                document.createElement("div");
+
+
+            productElement.className =
+                "summary-product";
+
+
+            productElement.innerHTML =
+
+                '<div class="summary-product-name">' +
+
+                product.name +
+
+                ' × ' +
+
+                quantity +
+
+                '</div>' +
+
+                '<div class="summary-product-price">' +
+
+                'R' +
+
+                itemTotal.toFixed(2) +
+
+                '</div>';
+
+
+            orderItems.appendChild(
+                productElement
+            );
+
+        });
+
+
+        document
+            .getElementById("subtotal")
+            .textContent =
+
+            "R" + subtotal.toFixed(2);
+
+
+        document
+            .getElementById("total")
+            .textContent =
+
+            "R" + subtotal.toFixed(2);
+
+    }
+
+
+
+    document
+        .getElementById("checkout-form")
+        .addEventListener(
+            "submit",
+            function(event) {
+
+                event.preventDefault();
+
+
+                if (cart.length === 0) {
+
+                    alert(
+                        "Your cart is empty."
+                    );
+
+                    return;
+
+                }
+
+
+                const firstName =
+                    document
+                        .getElementById("first-name")
+                        .value
+                        .trim();
+
+
+                const lastName =
+                    document
+                        .getElementById("last-name")
+                        .value
+                        .trim();
+
+
+                const phone =
+                    document
+                        .getElementById("phone")
+                        .value
+                        .trim();
+
+
+                const email =
+                    document
+                        .getElementById("email")
+                        .value
+                        .trim();
+
+
+                const street =
+                    document
+                        .getElementById("street")
+                        .value
+                        .trim();
+
+
+                const city =
+                    document
+                        .getElementById("city")
+                        .value
+                        .trim();
+
+
+                const province =
+                    document
+                        .getElementById("province")
+                        .value;
+
+
+                const postal =
+                    document
+                        .getElementById("postal")
+                        .value
+                        .trim();
+
+
+                const notes =
+                    document
+                        .getElementById("notes")
+                        .value
+                        .trim();
+
+
+
+                let orderText = "";
+
+
+                cart.forEach(product => {
+
+                    const quantity =
+                        product.quantity || 1;
+
+
+                    const itemTotal =
+                        Number(product.price) *
+                        quantity;
+
+
+                    orderText +=
+
+                        "• " +
+
+                        product.name +
+
+                        " x" +
+
+                        quantity +
+
+                        " - R" +
+
+                        itemTotal.toFixed(2) +
+
+                        "\n";
+
+                });
+
+
+
+                let message =
+
+                    "NEW GRABLY ORDER\n\n" +
+
+                    "CUSTOMER DETAILS\n" +
+
+                    "Name: " +
+
+                    firstName +
+
+                    " " +
+
+                    lastName +
+
+                    "\n" +
+
+                    "Phone: " +
+
+                    phone +
+
+                    "\n" +
+
+                    "Email: " +
+
+                    email +
+
+                    "\n\n" +
+
+
+                    "DELIVERY ADDRESS\n" +
+
+                    street +
+
+                    "\n" +
+
+                    city +
+
+                    "\n" +
+
+                    province +
+
+                    "\n" +
+
+                    postal +
+
+                    "\n\n" +
+
+
+                    "ORDER\n" +
+
+                    orderText +
+
+                    "\n" +
+
+                    "Product Total: R" +
+
+                    subtotal.toFixed(2) +
+
+                    "\n" +
+
+                    "Delivery Fee: To be confirmed based on distance" +
+
+                    "\n\n" +
+
+
+                    "PAYMENT METHOD\n" +
+
+                    "EFT / Bank Transfer";
+
+
+                if (notes !== "") {
+
+                    message +=
+
+                        "\n\nORDER NOTES\n" +
+
+                        notes;
+
+                }
+
+
+                message +=
+
+                    "\n\nPlease confirm the delivery fee, final total and EFT banking details.";
+
+
+
+                const whatsappNumber =
+                    "27792025514";
+
+
+                const whatsappURL =
+
+                    "https://wa.me/" +
+
+                    whatsappNumber +
+
+                    "?text=" +
+
+                    encodeURIComponent(message);
+
+
+
+                window.open(
+                    whatsappURL,
+                    "_blank"
+                );
+
+            }
+        );
+
+
+
+    displayOrder();
+
+</script>
+
+
+</body>
+
+</html>

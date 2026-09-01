@@ -1,0 +1,660 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Grably | Online Store</title>
+
+    <style>
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: Arial, Helvetica, sans-serif;
+            background: #f7f7f7;
+            color: #222;
+        }
+
+        /* HEADER */
+
+        header {
+            background: white;
+            padding: 20px 6%;
+
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+
+            border-bottom: 1px solid #ddd;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .logo {
+            font-size: 32px;
+            font-weight: bold;
+        }
+
+        nav {
+            display: flex;
+            gap: 30px;
+        }
+
+        nav a {
+            color: #222;
+            text-decoration: none;
+        }
+
+        nav a:hover {
+            color: #777;
+        }
+
+        .cart-button {
+            background: #222;
+            color: white;
+
+            padding: 12px 18px;
+
+            border-radius: 7px;
+
+            text-decoration: none;
+        }
+
+
+        /* HERO */
+
+        .hero {
+            min-height: 600px;
+
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            padding: 70px 6%;
+
+            background:
+                linear-gradient(
+                    120deg,
+                    #f2f2f2,
+                    #ffffff
+                );
+        }
+
+        .hero-content {
+            max-width: 750px;
+            text-align: center;
+        }
+
+        .hero-small {
+            letter-spacing: 6px;
+            color: #777;
+
+            font-size: 13px;
+
+            margin-bottom: 18px;
+        }
+
+        .hero h1 {
+            font-size: 64px;
+            line-height: 1.05;
+
+            margin-bottom: 22px;
+        }
+
+        .hero p {
+            font-size: 19px;
+            color: #666;
+
+            line-height: 1.6;
+
+            margin-bottom: 30px;
+        }
+
+        .hero-buttons {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+        }
+
+        .primary-button,
+        .secondary-button {
+            display: inline-block;
+
+            padding: 15px 30px;
+
+            border-radius: 8px;
+
+            text-decoration: none;
+
+            font-weight: bold;
+        }
+
+        .primary-button {
+            background: #222;
+            color: white;
+        }
+
+        .secondary-button {
+            background: white;
+            color: #222;
+
+            border: 1px solid #ccc;
+        }
+
+
+        /* FEATURES */
+
+        .features {
+            max-width: 1200px;
+            margin: -30px auto 70px;
+
+            padding: 0 5%;
+
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+
+            gap: 20px;
+        }
+
+        .feature-card {
+            background: white;
+
+            border-radius: 12px;
+
+            padding: 28px;
+
+            text-align: center;
+
+            box-shadow:
+                0 8px 25px rgba(0,0,0,0.06);
+        }
+
+        .feature-icon {
+            font-size: 32px;
+            margin-bottom: 12px;
+        }
+
+        .feature-card h3 {
+            margin-bottom: 8px;
+        }
+
+        .feature-card p {
+            color: #666;
+            line-height: 1.5;
+            font-size: 14px;
+        }
+
+
+        /* CATEGORIES */
+
+        .categories {
+            max-width: 1250px;
+            margin: auto;
+
+            padding: 20px 5% 80px;
+        }
+
+        .section-heading {
+            text-align: center;
+            margin-bottom: 35px;
+        }
+
+        .section-heading small {
+            letter-spacing: 4px;
+            color: #777;
+        }
+
+        .section-heading h2 {
+            font-size: 38px;
+            margin-top: 10px;
+        }
+
+        .category-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+
+            gap: 22px;
+        }
+
+        .category-card {
+            min-height: 220px;
+
+            background: white;
+
+            border-radius: 14px;
+
+            padding: 30px;
+
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-end;
+
+            text-decoration: none;
+            color: #222;
+
+            box-shadow:
+                0 5px 20px rgba(0,0,0,0.05);
+        }
+
+        .category-card span {
+            color: #777;
+            font-size: 13px;
+            margin-bottom: 6px;
+        }
+
+        .category-card h3 {
+            font-size: 25px;
+        }
+
+
+        /* CTA */
+
+        .cta {
+            margin: 20px 5% 80px;
+
+            background: #222;
+            color: white;
+
+            border-radius: 18px;
+
+            padding: 70px 30px;
+
+            text-align: center;
+        }
+
+        .cta h2 {
+            font-size: 38px;
+            margin-bottom: 12px;
+        }
+
+        .cta p {
+            color: #ddd;
+            margin-bottom: 25px;
+        }
+
+        .cta a {
+            display: inline-block;
+
+            background: white;
+            color: #222;
+
+            padding: 14px 28px;
+
+            border-radius: 8px;
+
+            text-decoration: none;
+            font-weight: bold;
+        }
+
+
+        /* ABOUT */
+
+        .about {
+            max-width: 900px;
+            margin: auto;
+
+            padding: 20px 5% 80px;
+
+            text-align: center;
+        }
+
+        .about h2 {
+            font-size: 36px;
+            margin-bottom: 15px;
+        }
+
+        .about p {
+            color: #666;
+            line-height: 1.7;
+        }
+
+
+        /* FOOTER */
+
+        footer {
+            background: #222;
+            color: white;
+
+            padding: 35px 6%;
+
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+
+            gap: 20px;
+        }
+
+        footer a {
+            color: white;
+            text-decoration: none;
+        }
+
+
+        /* MOBILE */
+
+        @media (max-width: 850px) {
+
+            .hero h1 {
+                font-size: 48px;
+            }
+
+            .features,
+            .category-grid {
+                grid-template-columns: 1fr;
+            }
+
+        }
+
+
+        @media (max-width: 650px) {
+
+            header {
+                flex-wrap: wrap;
+                gap: 15px;
+            }
+
+            nav {
+                width: 100%;
+
+                order: 3;
+
+                justify-content: center;
+
+                gap: 18px;
+            }
+
+            .hero {
+                min-height: 500px;
+            }
+
+            .hero h1 {
+                font-size: 38px;
+            }
+
+            .hero-buttons {
+                flex-direction: column;
+            }
+
+            footer {
+                flex-direction: column;
+                text-align: center;
+            }
+
+        }
+
+    </style>
+</head>
+
+
+<body>
+
+
+<header>
+
+    <div class="logo">
+        Grably
+    </div>
+
+    <nav>
+
+        <a href="index.html">
+            Home
+        </a>
+
+        <a href="shop.html">
+            Shop
+        </a>
+
+        <a href="#about">
+            About
+        </a>
+
+        <a href="#contact">
+            Contact
+        </a>
+
+    </nav>
+
+    <a href="cart.html" class="cart-button">
+        🛒 Cart
+    </a>
+
+</header>
+
+
+
+<section class="hero">
+
+    <div class="hero-content">
+
+        <div class="hero-small">
+            WELCOME TO GRABLY
+        </div>
+
+        <h1>
+            Great finds.<br>
+            Better prices.
+        </h1>
+
+        <p>
+            Shop useful products for your home, fitness,
+            bathroom and everyday life — all in one place.
+        </p>
+
+        <div class="hero-buttons">
+
+            <a
+                href="shop.html"
+                class="primary-button">
+
+                Shop Now
+
+            </a>
+
+            <a
+                href="#categories"
+                class="secondary-button">
+
+                Browse Categories
+
+            </a>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+
+<section class="features">
+
+    <div class="feature-card">
+
+        <div class="feature-icon">
+            🛍️
+        </div>
+
+        <h3>
+            Easy Shopping
+        </h3>
+
+        <p>
+            Browse products, add them to your cart
+            and place your order in a few simple steps.
+        </p>
+
+    </div>
+
+
+    <div class="feature-card">
+
+        <div class="feature-icon">
+            📦
+        </div>
+
+        <h3>
+            Useful Products
+        </h3>
+
+        <p>
+            Grably brings together useful everyday
+            products across different categories.
+        </p>
+
+    </div>
+
+
+    <div class="feature-card">
+
+        <div class="feature-icon">
+            💬
+        </div>
+
+        <h3>
+            Easy Ordering
+        </h3>
+
+        <p>
+            Complete your checkout and send your
+            order directly through WhatsApp.
+        </p>
+
+    </div>
+
+</section>
+
+
+
+<section
+    class="categories"
+    id="categories">
+
+    <div class="section-heading">
+
+        <small>
+            EXPLORE
+        </small>
+
+        <h2>
+            Shop by Category
+        </h2>
+
+    </div>
+
+
+    <div class="category-grid">
+
+        <a
+            href="shop.html"
+            class="category-card">
+
+            <span>
+                SUPPORT & COMFORT
+            </span>
+
+            <h3>
+                Health & Fitness
+            </h3>
+
+        </a>
+
+
+        <a
+            href="shop.html"
+            class="category-card">
+
+            <span>
+                ORGANISE YOUR SPACE
+            </span>
+
+            <h3>
+                Home & Storage
+            </h3>
+
+        </a>
+
+
+        <a
+            href="shop.html"
+            class="category-card">
+
+            <span>
+                EVERYDAY ESSENTIALS
+            </span>
+
+            <h3>
+                Home & Bathroom
+            </h3>
+
+        </a>
+
+    </div>
+
+</section>
+
+
+
+<section class="cta">
+
+    <h2>
+        Discover something useful.
+    </h2>
+
+    <p>
+        Browse the latest products available from Grably.
+    </p>
+
+    <a href="shop.html">
+        Start Shopping
+    </a>
+
+</section>
+
+
+
+<section
+    class="about"
+    id="about">
+
+    <h2>
+        About Grably
+    </h2>
+
+    <p>
+        Grably is an online shop offering a little bit of
+        everything. Our goal is to make it easy to discover
+        useful products for your home, fitness and everyday
+        life without complicated shopping.
+    </p>
+
+</section>
+
+
+
+<footer id="contact">
+
+    <div>
+        © 2026 Grably. All rights reserved.
+    </div>
+
+    <div>
+        <a href="shop.html">
+            Shop Grably
+        </a>
+    </div>
+
+</footer>
+
+
+</body>
+
+</html>
