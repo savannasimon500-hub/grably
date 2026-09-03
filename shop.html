@@ -1,129 +1,138 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
     <title>Shop | Grably</title>
 
-    <style>
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
+    <style>
         * {
             box-sizing: border-box;
             margin: 0;
             padding: 0;
         }
 
+        :root {
+            --lime: #9BE000;
+            --dark: #171717;
+            --light: #f7f7f7;
+            --grey: #666;
+        }
+
         body {
             font-family: Arial, Helvetica, sans-serif;
             background: #f7f7f7;
-            color: #222;
+            color: var(--dark);
         }
 
         header {
             background: white;
             border-bottom: 1px solid #ddd;
-            padding: 20px 6%;
-
+            padding: 14px 6%;
             display: flex;
             justify-content: space-between;
             align-items: center;
-
             position: sticky;
             top: 0;
             z-index: 100;
         }
 
         .logo {
-            font-size: 32px;
-            font-weight: bold;
+            display: flex;
+            align-items: center;
+        }
+
+        .logo img {
+            width: 150px;
+            height: 70px;
+            object-fit: contain;
         }
 
         nav {
             display: flex;
             gap: 28px;
+            align-items: center;
         }
 
         nav a {
             text-decoration: none;
-            color: #222;
+            color: var(--dark);
+            font-weight: 600;
+        }
+
+        nav a:hover {
+            color: var(--lime);
         }
 
         .cart-button {
-            background: #222;
+            background: var(--dark);
             color: white;
-
             padding: 12px 18px;
-            border-radius: 7px;
-
+            border-radius: 8px;
             text-decoration: none;
+            font-weight: bold;
         }
 
-        /* SHOP HEADING */
+        .cart-button:hover {
+            background: var(--lime);
+            color: var(--dark);
+        }
 
         .shop-heading {
             text-align: center;
             padding: 60px 20px 30px;
+            background: linear-gradient(135deg, white, #f7f7f7, #efffd0);
         }
 
         .shop-heading small {
+            color: var(--lime);
             letter-spacing: 5px;
-            color: #777;
+            font-weight: bold;
         }
 
         .shop-heading h1 {
-            font-size: 42px;
-            margin: 10px 0;
+            font-size: 46px;
+            margin: 12px 0;
         }
 
         .shop-heading p {
-            color: #666;
+            color: var(--grey);
         }
-
-        /* DELIVERY NOTICE */
 
         .delivery-notice {
             width: 92%;
             max-width: 1250px;
-
-            margin: 0 auto 25px;
-
-            background: white;
-            border: 1px solid #ddd;
-
+            margin: 30px auto 20px;
+            background: #efffd0;
+            border-left: 5px solid var(--lime);
             padding: 16px 20px;
-
             border-radius: 10px;
-
             text-align: center;
-
-            font-size: 14px;
         }
-
-        /* SEARCH AND FILTERS */
 
         .shop-tools {
             width: 92%;
             max-width: 1250px;
-
-            margin: 0 auto 35px;
-
+            margin: 25px auto 35px;
             display: flex;
             flex-direction: column;
-
             gap: 20px;
         }
 
         .search-box input {
             width: 100%;
-
-            padding: 14px 18px;
-
+            padding: 15px 18px;
             border: 1px solid #ccc;
             border-radius: 8px;
-
             font-size: 16px;
+        }
+
+        .search-box input:focus {
+            outline: none;
+            border-color: var(--lime);
         }
 
         .filters {
@@ -135,874 +144,573 @@
         .filter-button {
             border: 1px solid #ccc;
             background: white;
-
             padding: 10px 16px;
-
             border-radius: 25px;
-
             cursor: pointer;
+            font-weight: 600;
+        }
+
+        .filter-button:hover {
+            border-color: var(--lime);
         }
 
         .filter-button.active {
-            background: #222;
-            color: white;
-            border-color: #222;
+            background: var(--lime);
+            color: var(--dark);
+            border-color: var(--lime);
         }
-
-        /* PRODUCTS */
 
         .products {
             width: 92%;
             max-width: 1250px;
-
             margin: auto;
-
             display: grid;
             grid-template-columns: repeat(3, 1fr);
-
             gap: 25px;
-
-            padding-bottom: 60px;
+            padding-bottom: 70px;
         }
 
         .product {
             background: white;
-
-            border-radius: 12px;
+            border-radius: 14px;
             overflow: hidden;
+            box-shadow: 0 3px 14px rgba(0,0,0,0.08);
+            transition: 0.2s;
+            display: flex;
+            flex-direction: column;
+        }
 
-            box-shadow: 0 3px 12px rgba(0,0,0,0.08);
+        .product:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 25px rgba(0,0,0,0.12);
+        }
+
+        .product-image-box {
+            position: relative;
+            background: #eee;
         }
 
         .product img {
             width: 100%;
-            height: 350px;
-
+            height: 340px;
             object-fit: contain;
-
-            background: #eee;
-
             display: block;
+        }
+
+        .new-badge,
+        .out-badge {
+            position: absolute;
+            top: 14px;
+            left: 14px;
+            padding: 7px 11px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: bold;
+        }
+
+        .new-badge {
+            background: var(--lime);
+            color: var(--dark);
+        }
+
+        .out-badge {
+            background: #171717;
+            color: white;
         }
 
         .product-info {
             padding: 20px;
+            display: flex;
+            flex-direction: column;
+            flex: 1;
         }
 
         .category {
-            color: #777;
-
-            font-size: 13px;
-
-            margin-bottom: 7px;
+            color: #79b800;
+            font-weight: bold;
+            font-size: 12px;
+            margin-bottom: 8px;
+            text-transform: uppercase;
         }
 
         .product h2 {
-            font-size: 21px;
-            margin-bottom: 8px;
+            font-size: 20px;
+            margin-bottom: 10px;
         }
 
         .description {
-            color: #555;
-
+            color: var(--grey);
             font-size: 14px;
-            line-height: 1.5;
-
-            min-height: 64px;
+            line-height: 1.55;
+            margin-bottom: 15px;
+            flex: 1;
         }
 
         .price {
-            font-size: 22px;
+            font-size: 24px;
             font-weight: bold;
-
-            margin: 15px 0;
+            margin: 10px 0 16px;
         }
 
         .add-button {
             width: 100%;
-
-            padding: 13px;
-
-            background: #222;
-            color: white;
-
+            padding: 14px;
+            background: var(--lime);
+            color: var(--dark);
             border: none;
-            border-radius: 6px;
-
+            border-radius: 8px;
             cursor: pointer;
-
             font-size: 15px;
+            font-weight: bold;
         }
 
-        .add-button:hover {
-            opacity: 0.85;
+        .add-button:hover:not(:disabled) {
+            background: var(--dark);
+            color: white;
         }
 
-        #no-results {
-            display: none;
-
-            text-align: center;
-
-            font-size: 20px;
+        .add-button:disabled {
+            background: #ccc;
             color: #666;
-
-            padding: 60px 20px;
+            cursor: not-allowed;
         }
 
         #message {
             position: fixed;
-
             right: 25px;
             bottom: 25px;
-
-            background: #222;
+            background: var(--dark);
             color: white;
-
-            padding: 15px 25px;
-
+            padding: 15px 22px;
+            border-left: 5px solid var(--lime);
             border-radius: 8px;
-
             display: none;
+            z-index: 300;
+        }
 
-            z-index: 200;
+        #no-results,
+        #loading,
+        #shop-error {
+            text-align: center;
+            font-size: 18px;
+            color: #666;
+            padding: 50px 20px;
+        }
+
+        #no-results,
+        #shop-error {
+            display: none;
+        }
+
+        #shop-error {
+            color: #b00020;
         }
 
         footer {
-            background: #222;
+            background: #111;
             color: white;
-
             text-align: center;
-
-            padding: 30px;
+            padding: 35px;
         }
 
-        /* TABLET */
+        footer strong {
+            color: var(--lime);
+        }
 
-        @media (max-width: 900px) {
+        footer p {
+            color: #aaa;
+            margin-top: 7px;
+        }
 
+        @media (max-width: 950px) {
             .products {
                 grid-template-columns: repeat(2, 1fr);
             }
-
         }
 
-        /* MOBILE */
-
-        @media (max-width: 600px) {
-
+        @media (max-width: 650px) {
             header {
                 flex-wrap: wrap;
-                gap: 15px;
+                gap: 12px;
+            }
+
+            .logo img {
+                width: 120px;
+                height: 55px;
             }
 
             nav {
                 width: 100%;
-
-                justify-content: center;
-
                 order: 3;
-            }
-
-            .products {
-                grid-template-columns: 1fr;
+                justify-content: center;
+                gap: 15px;
+                flex-wrap: wrap;
             }
 
             .shop-heading h1 {
                 font-size: 34px;
             }
 
-        }
+            .products {
+                grid-template-columns: 1fr;
+            }
 
+            .product img {
+                height: auto;
+                max-height: 440px;
+            }
+        }
     </style>
 </head>
 
-
 <body>
 
-
 <header>
-
-    <div class="logo">
-        Grably
-    </div>
-
-    <nav>
-
-        <a href="index.html">
-            Home
-        </a>
-
-        <a href="shop.html">
-            Shop
-        </a>
-
-        <a href="index.html#about">
-            About
-        </a>
-
-        <a href="index.html#contact">
-            Contact
-        </a>
-
-    </nav>
-
-
-    <a href="cart.html" class="cart-button">
-
-        🛒 Cart
-        <span id="cart-count">0</span>
-
+    <a href="index.html" class="logo">
+        <img src="images/grably-logo.png" alt="Grably Logo">
     </a>
 
+    <nav>
+        <a href="index.html">Home</a>
+        <a href="shop.html">Shop</a>
+        <a href="index.html#about">About</a>
+        <a href="index.html#contact">Contact</a>
+    </nav>
+
+    <a href="cart.html" class="cart-button">
+        🛒 Cart <span id="cart-count">0</span>
+    </a>
 </header>
 
 
-
 <section class="shop-heading">
-
-    <small>
-        GRABLY
-    </small>
-
-    <h1>
-        Shop Our Products
-    </h1>
-
-    <p>
-        Find useful products for home, fitness and everyday life.
-    </p>
-
+    <small>GRABLY</small>
+    <h1>Shop Our Products</h1>
+    <p>Great finds. Better prices.</p>
 </section>
 
 
-
 <div class="delivery-notice">
-
-    🚚 <strong>Delivery fee not included.</strong>
+    🚚 <strong>Delivery fee is not included.</strong>
     Delivery is calculated separately based on distance.
-
 </div>
-
 
 
 <section class="shop-tools">
 
-
     <div class="search-box">
-
         <input
             type="text"
             id="search-input"
-            placeholder="Search products..."
+            placeholder="Search Grably products..."
             oninput="filterProducts()">
-
     </div>
 
-
     <div class="filters">
-
-        <button
-            class="filter-button active"
-            onclick="selectCategory('all', this)">
-
-            All Products
-
-        </button>
-
-
-        <button
-            class="filter-button"
-            onclick="selectCategory('health', this)">
-
-            Health & Fitness
-
-        </button>
-
-
-        <button
-            class="filter-button"
-            onclick="selectCategory('storage', this)">
-
-            Home & Storage
-
-        </button>
-
-
-        <button
-            class="filter-button"
-            onclick="selectCategory('cleaning', this)">
-
-            Home & Cleaning
-
-        </button>
-
-
-        <button
-            class="filter-button"
-            onclick="selectCategory('bathroom', this)">
-
-            Bathroom
-
-        </button>
-
+        <button class="filter-button active" onclick="selectCategory('all', this)">All Products</button>
+        <button class="filter-button" onclick="selectCategory('health', this)">Health & Fitness</button>
+        <button class="filter-button" onclick="selectCategory('home', this)">Home</button>
+        <button class="filter-button" onclick="selectCategory('cleaning', this)">Cleaning</button>
+        <button class="filter-button" onclick="selectCategory('bathroom', this)">Bathroom</button>
+        <button class="filter-button" onclick="selectCategory('outdoor', this)">Camping & Outdoor</button>
+        <button class="filter-button" onclick="selectCategory('other', this)">Other</button>
     </div>
 
 </section>
 
 
+<div id="loading">Loading Grably products...</div>
+<div id="shop-error"></div>
 
-<main class="products" id="product-list">
+<main class="products" id="products"></main>
 
+<div id="no-results">No products found.</div>
 
-    <!-- PRODUCT 1 -->
-
-    <div
-        class="product"
-        data-name="adjustable ankle support"
-        data-category="health">
-
-        <img
-            src="images/1.jpeg"
-            alt="Adjustable Ankle Support">
-
-
-        <div class="product-info">
-
-            <div class="category">
-                Health & Fitness
-            </div>
-
-
-            <h2>
-                Adjustable Ankle Support
-            </h2>
-
-
-            <p class="description">
-
-                Breathable adjustable ankle support for sport,
-                exercise and everyday use.
-
-            </p>
-
-
-            <div class="price">
-                R149.00
-            </div>
-
-
-            <button
-                class="add-button"
-                onclick="addToCart(
-                    'Adjustable Ankle Support',
-                    149,
-                    'images/1.jpeg'
-                )">
-
-                Add to Cart
-
-            </button>
-
-        </div>
-
-    </div>
-
-
-
-    <!-- PRODUCT 2 -->
-
-    <div
-        class="product"
-        data-name="hanging storage organizer"
-        data-category="storage">
-
-        <img
-            src="images/2.jpeg"
-            alt="Hanging Storage Organizer">
-
-
-        <div class="product-info">
-
-            <div class="category">
-                Home & Storage
-            </div>
-
-
-            <h2>
-                Hanging Storage Organizer
-            </h2>
-
-
-            <p class="description">
-
-                Multifunctional hanging storage for bathrooms,
-                kitchens, bedrooms and laundry rooms.
-
-            </p>
-
-
-            <div class="price">
-                R50.00
-            </div>
-
-
-            <button
-                class="add-button"
-                onclick="addToCart(
-                    'Hanging Storage Organizer',
-                    50,
-                    'images/2.jpeg'
-                )">
-
-                Add to Cart
-
-            </button>
-
-        </div>
-
-    </div>
-
-
-
-    <!-- PRODUCT 3 -->
-
-    <div
-        class="product"
-        data-name="adjustable wrist brace"
-        data-category="health">
-
-        <img
-            src="images/3.jpeg"
-            alt="Adjustable Wrist Brace">
-
-
-        <div class="product-info">
-
-            <div class="category">
-                Health & Fitness
-            </div>
-
-
-            <h2>
-                Adjustable Wrist Brace
-            </h2>
-
-
-            <p class="description">
-
-                Comfortable adjustable wrist support for work,
-                sport, gym and everyday activities.
-
-            </p>
-
-
-            <div class="price">
-                R27.00
-            </div>
-
-
-            <button
-                class="add-button"
-                onclick="addToCart(
-                    'Adjustable Wrist Brace',
-                    27,
-                    'images/3.jpeg'
-                )">
-
-                Add to Cart
-
-            </button>
-
-        </div>
-
-    </div>
-
-
-
-    <!-- PRODUCT 4 -->
-
-    <div
-        class="product"
-        data-name="padded knee support strap"
-        data-category="health">
-
-        <img
-            src="images/4.jpeg"
-            alt="Padded Knee Support Strap">
-
-
-        <div class="product-info">
-
-            <div class="category">
-                Health & Fitness
-            </div>
-
-
-            <h2>
-                Padded Knee Support Strap
-            </h2>
-
-
-            <p class="description">
-
-                Adjustable padded knee support for running,
-                gym, hiking and everyday activities.
-
-            </p>
-
-
-            <div class="price">
-                R169.00
-            </div>
-
-
-            <button
-                class="add-button"
-                onclick="addToCart(
-                    'Padded Knee Support Strap',
-                    169,
-                    'images/4.jpeg'
-                )">
-
-                Add to Cart
-
-            </button>
-
-        </div>
-
-    </div>
-
-
-
-    <!-- PRODUCT 5 -->
-
-    <div
-        class="product"
-        data-name="compression knee support"
-        data-category="health">
-
-        <img
-            src="images/5.jpeg"
-            alt="Compression Knee Support">
-
-
-        <div class="product-info">
-
-            <div class="category">
-                Health & Fitness
-            </div>
-
-
-            <h2>
-                Compression Knee Support
-            </h2>
-
-
-            <p class="description">
-
-                Stretchable compression support for exercise
-                and everyday activities.
-
-            </p>
-
-
-            <div class="price">
-                R44.00
-            </div>
-
-
-            <button
-                class="add-button"
-                onclick="addToCart(
-                    'Compression Knee Support',
-                    44,
-                    'images/5.jpeg'
-                )">
-
-                Add to Cart
-
-            </button>
-
-        </div>
-
-    </div>
-
-
-
-    <!-- PRODUCT 6 -->
-
-    <div
-        class="product"
-        data-name="hand free flat mop"
-        data-category="cleaning">
-
-        <img
-            src="images/6.jpeg"
-            alt="Hand-Free Flat Mop">
-
-
-        <div class="product-info">
-
-            <div class="category">
-                Home & Cleaning
-            </div>
-
-
-            <h2>
-                Hand-Free Flat Mop
-            </h2>
-
-
-            <p class="description">
-
-                Lightweight flat mop with flexible rotation
-                for convenient everyday cleaning.
-
-            </p>
-
-
-            <div class="price">
-                R81.00
-            </div>
-
-
-            <button
-                class="add-button"
-                onclick="addToCart(
-                    'Hand-Free Flat Mop',
-                    81,
-                    'images/6.jpeg'
-                )">
-
-                Add to Cart
-
-            </button>
-
-        </div>
-
-    </div>
-
-
-
-    <!-- PRODUCT 7 -->
-
-    <div
-        class="product"
-        data-name="toothpaste dispenser toothbrush holder"
-        data-category="bathroom">
-
-        <img
-            src="images/7.jpeg"
-            alt="Toothpaste Dispenser">
-
-
-        <div class="product-info">
-
-            <div class="category">
-                Bathroom
-            </div>
-
-
-            <h2>
-                Toothpaste Dispenser
-            </h2>
-
-
-            <p class="description">
-
-                Convenient one-touch toothpaste dispenser
-                with toothbrush storage.
-
-            </p>
-
-
-            <div class="price">
-                R29.00
-            </div>
-
-
-            <button
-                class="add-button"
-                onclick="addToCart(
-                    'Toothpaste Dispenser',
-                    29,
-                    'images/7.jpeg'
-                )">
-
-                Add to Cart
-
-            </button>
-
-        </div>
-
-    </div>
-
-
-</main>
-
-
-
-<div id="no-results">
-
-    No products found.
-
-</div>
-
-
-
-<div id="message">
-
-    Added to cart ✓
-
-</div>
-
+<div id="message">Added to cart ✓</div>
 
 
 <footer>
-
-    © 2026 Grably. All rights reserved.
-
+    <strong>GRABLY</strong>
+    <p>Great finds. Better prices.</p>
+    <p>© 2026 Grably. All rights reserved.</p>
 </footer>
 
 
-
 <script>
+    const SUPABASE_URL =
+        "https://ifvuodmmsmyohwtzgqsa.supabase.co";
+
+    const SUPABASE_KEY =
+        "sb_publishable_uG11g-DgVvHp79lsHskk0Q_YxdqqV0L";
+
+    const supabaseClient =
+        supabase.createClient(
+            SUPABASE_URL,
+            SUPABASE_KEY
+        );
 
     let cart =
         JSON.parse(
             localStorage.getItem("grablyCart")
         ) || [];
 
-
     let selectedCategory = "all";
-
+    let shopProducts = [];
 
 
     function updateCartCount() {
-
-        let totalQuantity = 0;
-
+        let total = 0;
 
         cart.forEach(product => {
-
-            totalQuantity +=
-                product.quantity || 1;
-
+            total += product.quantity || 1;
         });
-
 
         document
             .getElementById("cart-count")
-            .textContent = totalQuantity;
-
+            .textContent = total;
     }
 
 
+    async function loadProducts() {
+        const loading =
+            document.getElementById("loading");
 
-    function addToCart(name, price, image) {
+        const errorBox =
+            document.getElementById("shop-error");
+
+        loading.style.display = "block";
+        errorBox.style.display = "none";
+
+        const { data, error } =
+            await supabaseClient
+                .from("products")
+                .select("*")
+                .order("created_at", {
+                    ascending: true
+                });
+
+        loading.style.display = "none";
+
+        if (error) {
+            console.error(error);
+
+            errorBox.textContent =
+                "We couldn't load the products right now. Please try again.";
+
+            errorBox.style.display = "block";
+            return;
+        }
+
+        shopProducts = data || [];
+
+        syncCartPrices();
+        renderProducts();
+    }
+
+
+    function syncCartPrices() {
+        let changed = false;
+
+        cart.forEach(cartItem => {
+            const latest =
+                shopProducts.find(
+                    product =>
+                        String(product.id) ===
+                            String(cartItem.id) ||
+                        product.name === cartItem.name
+                );
+
+            if (latest) {
+                cartItem.id = latest.id;
+                cartItem.price = Number(latest.price);
+                cartItem.name = latest.name;
+                cartItem.image = latest.image_url || "";
+                changed = true;
+            }
+        });
+
+        if (changed) {
+            localStorage.setItem(
+                "grablyCart",
+                JSON.stringify(cart)
+            );
+        }
+
+        updateCartCount();
+    }
+
+
+    function renderProducts() {
+        const container =
+            document.getElementById("products");
+
+        container.innerHTML = "";
+
+        if (shopProducts.length === 0) {
+            document.getElementById("no-results").style.display = "block";
+            document.getElementById("no-results").textContent =
+                "No products have been added yet.";
+            return;
+        }
+
+        shopProducts.forEach(product => {
+            const card =
+                document.createElement("div");
+
+            card.className = "product";
+            card.dataset.name =
+                (product.name || "").toLowerCase();
+
+            card.dataset.description =
+                (product.description || "").toLowerCase();
+
+            card.dataset.category =
+                product.category || "other";
+
+            const imageUrl =
+                product.image_url || "";
+
+            const categoryName =
+                displayCategory(
+                    product.category
+                );
+
+            const badge =
+                product.in_stock === false
+                    ? '<span class="out-badge">OUT OF STOCK</span>'
+                    : product.featured
+                        ? '<span class="new-badge">FEATURED</span>'
+                        : "";
+
+            const button =
+                product.in_stock === false
+                    ? '<button class="add-button" disabled>Out of Stock</button>'
+                    : `<button class="add-button" data-product-id="${escapeHtml(product.id)}">Add to Cart</button>`;
+
+            card.innerHTML = `
+                <div class="product-image-box">
+                    ${badge}
+                    <img
+                        src="${escapeHtml(imageUrl)}"
+                        alt="${escapeHtml(product.name || "Grably Product")}"
+                        onerror="this.style.visibility='hidden'">
+                </div>
+
+                <div class="product-info">
+                    <div class="category">
+                        ${escapeHtml(categoryName)}
+                    </div>
+
+                    <h2>
+                        ${escapeHtml(product.name || "")}
+                    </h2>
+
+                    <p class="description">
+                        ${escapeHtml(product.description || "")}
+                    </p>
+
+                    <div class="price">
+                        R${formatPrice(product.price)}
+                    </div>
+
+                    ${button}
+                </div>
+            `;
+
+            container.appendChild(card);
+        });
+
+        container
+            .querySelectorAll(".add-button[data-product-id]")
+            .forEach(button => {
+                button.addEventListener("click", function() {
+                    addToCart(this.dataset.productId);
+                });
+            });
+
+        filterProducts();
+    }
+
+
+    function addToCart(productId) {
+        const product =
+            shopProducts.find(
+                item =>
+                    String(item.id) ===
+                    String(productId)
+            );
+
+        if (!product || product.in_stock === false) {
+            return;
+        }
 
         const existingProduct =
             cart.find(
-                product =>
-                    product.name === name
+                item =>
+                    String(item.id) ===
+                        String(product.id) ||
+                    item.name === product.name
             );
 
-
         if (existingProduct) {
-
             existingProduct.quantity =
                 (existingProduct.quantity || 1) + 1;
 
+            existingProduct.id =
+                product.id;
 
-            /* Update old saved prices too */
+            existingProduct.name =
+                product.name;
 
             existingProduct.price =
-                price;
-
+                Number(product.price);
 
             existingProduct.image =
-                image;
-
-        }
-
-        else {
-
+                product.image_url || "";
+        } else {
             cart.push({
-
-                name: name,
-
-                price: price,
-
-                image: image,
-
+                id: product.id,
+                name: product.name,
+                price: Number(product.price),
+                image: product.image_url || "",
                 quantity: 1
-
             });
-
         }
-
 
         localStorage.setItem(
-
             "grablyCart",
-
             JSON.stringify(cart)
-
         );
 
-
         updateCartCount();
-
 
         const message =
             document.getElementById("message");
 
-
-        message.style.display =
-            "block";
-
+        message.style.display = "block";
 
         setTimeout(function() {
-
-            message.style.display =
-                "none";
-
-        }, 1400);
-
+            message.style.display = "none";
+        }, 1500);
     }
 
 
-
     function selectCategory(category, button) {
-
-        selectedCategory =
-            category;
-
+        selectedCategory = category;
 
         document
             .querySelectorAll(".filter-button")
             .forEach(btn => {
-
-                btn.classList.remove(
-                    "active"
-                );
-
+                btn.classList.remove("active");
             });
 
-
-        button.classList.add(
-            "active"
-        );
-
+        button.classList.add("active");
 
         filterProducts();
-
     }
 
 
-
     function filterProducts() {
-
         const searchText =
             document
                 .getElementById("search-input")
@@ -1010,86 +718,104 @@
                 .toLowerCase()
                 .trim();
 
-
         const products =
-            document.querySelectorAll(
-                ".product"
-            );
+            document.querySelectorAll(".product");
 
-
-        let visibleProducts =
-            0;
-
+        let visibleProducts = 0;
 
         products.forEach(product => {
-
             const productName =
-                product.dataset.name
-                    .toLowerCase();
+                product.dataset.name || "";
 
+            const description =
+                product.dataset.description || "";
 
-            const productCategory =
+            const category =
                 product.dataset.category;
 
-
             const matchesSearch =
-                productName.includes(
-                    searchText
-                );
-
+                productName.includes(searchText) ||
+                description.includes(searchText);
 
             const matchesCategory =
-
-                selectedCategory === "all"
-
-                ||
-
-                productCategory ===
-                    selectedCategory;
-
+                selectedCategory === "all" ||
+                category === selectedCategory;
 
             if (
                 matchesSearch &&
                 matchesCategory
             ) {
-
-                product.style.display =
-                    "block";
-
-
+                product.style.display = "flex";
                 visibleProducts++;
-
+            } else {
+                product.style.display = "none";
             }
-
-            else {
-
-                product.style.display =
-                    "none";
-
-            }
-
         });
 
+        const noResults =
+            document.getElementById("no-results");
 
-        document
-            .getElementById("no-results")
-            .style.display =
-
+        noResults.style.display =
             visibleProducts === 0
+                ? "block"
+                : "none";
 
-            ? "block"
-
-            : "none";
-
+        if (
+            shopProducts.length > 0 &&
+            visibleProducts === 0
+        ) {
+            noResults.textContent =
+                "No products found.";
+        }
     }
 
 
+    function displayCategory(category) {
+        const categories = {
+            health: "Health & Fitness",
+            home: "Home & Storage",
+            cleaning: "Cleaning",
+            bathroom: "Bathroom",
+            outdoor: "Camping & Outdoor",
+            other: "Other"
+        };
+
+        return categories[category] ||
+            category ||
+            "Other";
+    }
+
+
+    function formatPrice(value) {
+        const number = Number(value);
+
+        if (Number.isNaN(number)) {
+            return "0.00";
+        }
+
+        return number.toLocaleString(
+            "en-ZA",
+            {
+                minimumFractionDigits: 2,
+                maximumFractionDigits: 2
+            }
+        );
+    }
+
+
+    function escapeHtml(value) {
+        return String(value ?? "")
+            .replaceAll("&", "&amp;")
+            .replaceAll("<", "&lt;")
+            .replaceAll(">", "&gt;")
+            .replaceAll('"', "&quot;")
+            .replaceAll("'", "&#039;");
+    }
+
 
     updateCartCount();
-
+    loadProducts();
 </script>
 
-
 </body>
-
 </html>
