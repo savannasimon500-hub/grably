@@ -1,0 +1,1257 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <title>Grably Admin</title>
+
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
+  <style>
+    :root {
+      --lime: #9BE000;
+      --lime-dark: #79b800;
+      --dark: #171717;
+      --light: #f5f5f5;
+      --grey: #666;
+      --border: #dddddd;
+      --danger: #d32f2f;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: Arial, sans-serif;
+      background: var(--light);
+      color: var(--dark);
+    }
+
+    .topbar {
+      background: var(--dark);
+      padding: 16px 24px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 15px;
+    }
+
+    .topbar img {
+      height: 58px;
+      max-width: 180px;
+      object-fit: contain;
+    }
+
+    .topbar-right {
+      display: flex;
+      align-items: center;
+      gap: 15px;
+    }
+
+    .topbar h2 {
+      color: var(--lime);
+      font-size: 22px;
+    }
+
+    .topbar .shop-link {
+      color: white;
+      text-decoration: none;
+      font-weight: bold;
+      font-size: 14px;
+    }
+
+    .topbar .shop-link:hover {
+      color: var(--lime);
+    }
+
+    .login-container {
+      min-height: calc(100vh - 90px);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      padding: 20px;
+    }
+
+    .login-box {
+      width: 100%;
+      max-width: 420px;
+      background: white;
+      padding: 35px;
+      border-radius: 15px;
+      box-shadow: 0 8px 30px rgba(0,0,0,0.12);
+    }
+
+    .login-box h1 {
+      text-align: center;
+      margin-bottom: 8px;
+    }
+
+    .login-box p {
+      text-align: center;
+      color: var(--grey);
+      margin-bottom: 25px;
+    }
+
+    label {
+      display: block;
+      font-weight: bold;
+      margin-bottom: 7px;
+    }
+
+    input,
+    textarea,
+    select {
+      width: 100%;
+      padding: 12px;
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      margin-bottom: 16px;
+      font-size: 15px;
+      font-family: Arial, sans-serif;
+      background: white;
+    }
+
+    textarea {
+      min-height: 110px;
+      resize: vertical;
+    }
+
+    input:focus,
+    textarea:focus,
+    select:focus {
+      outline: none;
+      border-color: var(--lime);
+      box-shadow: 0 0 0 2px rgba(155, 224, 0, 0.12);
+    }
+
+    button {
+      border: none;
+      border-radius: 8px;
+      background: var(--lime);
+      color: #111;
+      font-size: 15px;
+      font-weight: bold;
+      cursor: pointer;
+      padding: 12px 18px;
+    }
+
+    button:hover {
+      opacity: 0.9;
+    }
+
+    button:disabled {
+      opacity: 0.55;
+      cursor: not-allowed;
+    }
+
+    .login-box button {
+      width: 100%;
+      padding: 14px;
+      font-size: 16px;
+    }
+
+    #message {
+      margin-top: 15px;
+      text-align: center;
+      font-weight: bold;
+    }
+
+    .error {
+      color: var(--danger);
+    }
+
+    .success {
+      color: #489000;
+    }
+
+    .dashboard {
+      display: none;
+      max-width: 1250px;
+      margin: 32px auto;
+      padding: 0 20px 40px;
+    }
+
+    .dashboard-header {
+      background: white;
+      padding: 24px;
+      border-radius: 15px;
+      box-shadow: 0 5px 20px rgba(0,0,0,0.07);
+      margin-bottom: 24px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 20px;
+      flex-wrap: wrap;
+    }
+
+    .dashboard-header h1 {
+      margin-bottom: 7px;
+    }
+
+    .dashboard-header h1 span {
+      color: var(--lime-dark);
+    }
+
+    .dashboard-header p {
+      color: var(--grey);
+    }
+
+    .logout-btn {
+      background: var(--dark);
+      color: white;
+    }
+
+    .admin-grid {
+      display: grid;
+      grid-template-columns: minmax(300px, 390px) 1fr;
+      gap: 24px;
+      align-items: start;
+    }
+
+    .card {
+      background: white;
+      padding: 24px;
+      border-radius: 15px;
+      box-shadow: 0 5px 20px rgba(0,0,0,0.07);
+    }
+
+    .card h2 {
+      margin-bottom: 8px;
+    }
+
+    .card-subtitle {
+      color: var(--grey);
+      margin-bottom: 22px;
+      font-size: 14px;
+      line-height: 1.5;
+    }
+
+    .form-row {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
+    }
+
+    .checkbox-row {
+      display: flex;
+      gap: 20px;
+      flex-wrap: wrap;
+      margin: 5px 0 18px;
+    }
+
+    .checkbox-label {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-weight: normal;
+      margin: 0;
+    }
+
+    .checkbox-label input {
+      width: auto;
+      margin: 0;
+      accent-color: var(--lime-dark);
+    }
+
+    .image-preview {
+      display: none;
+      width: 100%;
+      height: 200px;
+      object-fit: contain;
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      margin: 0 0 16px;
+      background: #fafafa;
+    }
+
+    .form-actions {
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+    }
+
+    .form-actions button {
+      flex: 1;
+      min-width: 130px;
+    }
+
+    .cancel-btn {
+      background: #e7e7e7;
+      color: #222;
+      display: none;
+    }
+
+    #productMessage {
+      margin-top: 15px;
+      font-weight: bold;
+      line-height: 1.4;
+    }
+
+    .products-toolbar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 15px;
+      margin-bottom: 18px;
+      flex-wrap: wrap;
+    }
+
+    .products-toolbar h2 {
+      margin: 0;
+    }
+
+    .refresh-btn {
+      background: #eeeeee;
+      color: #222;
+      padding: 9px 14px;
+    }
+
+    .products-list {
+      display: grid;
+      gap: 14px;
+    }
+
+    .product-item {
+      display: grid;
+      grid-template-columns: 92px 1fr auto;
+      gap: 16px;
+      align-items: center;
+      border: 1px solid #e7e7e7;
+      border-radius: 12px;
+      padding: 14px;
+    }
+
+    .product-image {
+      width: 92px;
+      height: 92px;
+      object-fit: contain;
+      background: #fafafa;
+      border-radius: 9px;
+      border: 1px solid #eee;
+    }
+
+    .product-info h3 {
+      margin-bottom: 6px;
+      font-size: 17px;
+    }
+
+    .product-price {
+      font-weight: bold;
+      color: var(--lime-dark);
+      margin-bottom: 5px;
+    }
+
+    .product-meta {
+      color: var(--grey);
+      font-size: 13px;
+      margin-bottom: 5px;
+    }
+
+    .status-badges {
+      display: flex;
+      gap: 7px;
+      flex-wrap: wrap;
+      margin-top: 7px;
+    }
+
+    .badge {
+      display: inline-block;
+      padding: 5px 8px;
+      border-radius: 999px;
+      font-size: 11px;
+      font-weight: bold;
+    }
+
+    .badge-stock {
+      background: #eef8d8;
+      color: #497500;
+    }
+
+    .badge-out {
+      background: #ffe4e4;
+      color: #a00000;
+    }
+
+    .badge-featured {
+      background: #fff4c7;
+      color: #775800;
+    }
+
+    .product-actions {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      min-width: 88px;
+    }
+
+    .edit-btn {
+      background: var(--lime);
+      color: #111;
+    }
+
+    .delete-btn {
+      background: var(--danger);
+      color: white;
+    }
+
+    .empty-state,
+    .loading-state {
+      text-align: center;
+      padding: 35px 15px;
+      color: var(--grey);
+      background: #fafafa;
+      border-radius: 10px;
+    }
+
+    .small-note {
+      color: var(--grey);
+      font-size: 12px;
+      margin-top: -8px;
+      margin-bottom: 16px;
+      line-height: 1.45;
+    }
+
+    @media (max-width: 900px) {
+      .admin-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    @media (max-width: 650px) {
+      .topbar {
+        padding: 12px 15px;
+      }
+
+      .topbar img {
+        height: 48px;
+      }
+
+      .topbar h2 {
+        font-size: 18px;
+      }
+
+      .topbar .shop-link {
+        display: none;
+      }
+
+      .dashboard {
+        padding: 0 12px 30px;
+        margin-top: 20px;
+      }
+
+      .dashboard-header,
+      .card {
+        padding: 18px;
+      }
+
+      .form-row {
+        grid-template-columns: 1fr;
+        gap: 0;
+      }
+
+      .product-item {
+        grid-template-columns: 75px 1fr;
+      }
+
+      .product-image {
+        width: 75px;
+        height: 75px;
+      }
+
+      .product-actions {
+        grid-column: 1 / -1;
+        flex-direction: row;
+      }
+
+      .product-actions button {
+        flex: 1;
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+<header class="topbar">
+  <img src="images/grably-logo.png" alt="Grably Logo">
+
+  <div class="topbar-right">
+    <a href="shop.html" class="shop-link">View Shop</a>
+    <h2>ADMIN</h2>
+  </div>
+</header>
+
+
+<div class="login-container" id="loginSection">
+  <div class="login-box">
+
+    <h1>Admin Login</h1>
+    <p>Sign in to manage your Grably shop.</p>
+
+    <form id="loginForm">
+
+      <label for="email">Email Address</label>
+      <input
+        type="email"
+        id="email"
+        placeholder="Your admin email"
+        autocomplete="email"
+        required
+      >
+
+      <label for="password">Password</label>
+      <input
+        type="password"
+        id="password"
+        placeholder="Your password"
+        autocomplete="current-password"
+        required
+      >
+
+      <button type="submit">Login</button>
+    </form>
+
+    <div id="message"></div>
+  </div>
+</div>
+
+
+<div class="dashboard" id="dashboard">
+
+  <div class="dashboard-header">
+    <div>
+      <h1>Welcome to <span>Grably Admin</span></h1>
+      <p>Add products, change prices, update stock and manage your shop.</p>
+    </div>
+
+    <button class="logout-btn" onclick="logout()">Log Out</button>
+  </div>
+
+
+  <div class="admin-grid">
+
+    <section class="card">
+      <h2 id="formTitle">Add Product</h2>
+      <p class="card-subtitle">
+        Add a new item to your Grably shop. Product images will be uploaded to Supabase Storage.
+      </p>
+
+      <form id="productForm">
+
+        <input type="hidden" id="editingProductId">
+        <input type="hidden" id="existingImageUrl">
+
+        <label for="productName">Product Name</label>
+        <input
+          type="text"
+          id="productName"
+          placeholder="Example: Fitness Gloves"
+          required
+        >
+
+        <div class="form-row">
+          <div>
+            <label for="productPrice">Price (R)</label>
+            <input
+              type="number"
+              id="productPrice"
+              min="0"
+              step="0.01"
+              placeholder="99"
+              required
+            >
+          </div>
+
+          <div>
+            <label for="productCategory">Category</label>
+            <select id="productCategory" required>
+              <option value="">Choose category</option>
+              <option value="health">Health & Fitness</option>
+              <option value="beauty">Beauty & Personal Care</option>
+              <option value="home">Home & Storage</option>
+              <option value="kitchen">Kitchen</option>
+              <option value="bathroom">Bathroom</option>
+              <option value="cleaning">Cleaning</option>
+              <option value="outdoor">Camping & Outdoor</option>
+              <option value="tools">Tools & DIY</option>
+              <option value="electronics">Electronics & Accessories</option>
+              <option value="car">Car Accessories</option>
+              <option value="baby">Baby & Kids</option>
+              <option value="pets">Pet Products</option>
+              <option value="gifts">Gifts & Lifestyle</option>
+              <option value="other">Other</option>
+            </select>
+          </div>
+        </div>
+
+        <label for="productDescription">Description</label>
+        <textarea
+          id="productDescription"
+          placeholder="Describe the product..."
+          required
+        ></textarea>
+
+        <label for="productImage">Product Image</label>
+        <input
+          type="file"
+          id="productImage"
+          accept="image/jpeg,image/png,image/webp,image/gif"
+        >
+
+        <p class="small-note" id="imageHelp">
+          Choose an image for the new product.
+        </p>
+
+        <img id="imagePreview" class="image-preview" alt="Product image preview">
+
+        <div class="checkbox-row">
+          <label class="checkbox-label">
+            <input type="checkbox" id="productStock" checked>
+            In stock
+          </label>
+
+          <label class="checkbox-label">
+            <input type="checkbox" id="productFeatured">
+            Featured
+          </label>
+        </div>
+
+        <div class="form-actions">
+          <button type="submit" id="saveProductBtn">Add Product</button>
+          <button type="button" class="cancel-btn" id="cancelEditBtn" onclick="resetProductForm()">
+            Cancel Edit
+          </button>
+        </div>
+
+        <div id="productMessage"></div>
+      </form>
+    </section>
+
+
+    <section class="card">
+      <div class="products-toolbar">
+        <h2>Your Products</h2>
+        <button class="refresh-btn" onclick="loadProducts()">Refresh</button>
+      </div>
+
+      <div id="productsList" class="products-list">
+        <div class="loading-state">Loading products...</div>
+      </div>
+    </section>
+
+  </div>
+</div>
+
+
+<script>
+const SUPABASE_URL =
+  "https://ifvuodmmsmyohwtzgqsa.supabase.co";
+
+const SUPABASE_KEY =
+  "sb_publishable_uG11g-DgVvHp79lsHskk0Q_YxdqqV0L";
+
+const ADMIN_UID =
+  "0992d572-01eb-4267-8441-4829a2a811c9";
+
+const STORAGE_BUCKET = "product-images";
+
+const supabaseClient = supabase.createClient(
+  SUPABASE_URL,
+  SUPABASE_KEY
+);
+
+
+const loginForm = document.getElementById("loginForm");
+const message = document.getElementById("message");
+const loginSection = document.getElementById("loginSection");
+const dashboard = document.getElementById("dashboard");
+
+const productForm = document.getElementById("productForm");
+const productMessage = document.getElementById("productMessage");
+const productsList = document.getElementById("productsList");
+const saveProductBtn = document.getElementById("saveProductBtn");
+const cancelEditBtn = document.getElementById("cancelEditBtn");
+const imagePreview = document.getElementById("imagePreview");
+const imageHelp = document.getElementById("imageHelp");
+
+let productsCache = [];
+
+
+loginForm.addEventListener("submit", async function(event) {
+  event.preventDefault();
+
+  message.className = "";
+  message.textContent = "Signing in...";
+
+  const email = document.getElementById("email").value.trim();
+  const password = document.getElementById("password").value;
+
+  const { data, error } =
+    await supabaseClient.auth.signInWithPassword({
+      email,
+      password
+    });
+
+  if (error) {
+    message.className = "error";
+    message.textContent =
+      "Login failed. Please check your email and password.";
+    return;
+  }
+
+  if (!data.user || data.user.id !== ADMIN_UID) {
+    await supabaseClient.auth.signOut();
+
+    message.className = "error";
+    message.textContent =
+      "This account does not have admin access.";
+    return;
+  }
+
+  showDashboard();
+});
+
+
+productForm.addEventListener("submit", async function(event) {
+  event.preventDefault();
+
+  clearProductMessage();
+
+  const editingId =
+    document.getElementById("editingProductId").value;
+
+  const name =
+    document.getElementById("productName").value.trim();
+
+  const price =
+    Number(document.getElementById("productPrice").value);
+
+  const category =
+    document.getElementById("productCategory").value;
+
+  const description =
+    document.getElementById("productDescription").value.trim();
+
+  const inStock =
+    document.getElementById("productStock").checked;
+
+  const featured =
+    document.getElementById("productFeatured").checked;
+
+  const imageFile =
+    document.getElementById("productImage").files[0];
+
+  let imageUrl =
+    document.getElementById("existingImageUrl").value;
+
+  if (!name || !category || !description || Number.isNaN(price) || price < 0) {
+    showProductMessage(
+      "Please complete all required product details.",
+      "error"
+    );
+    return;
+  }
+
+  if (!editingId && !imageFile) {
+    showProductMessage(
+      "Please choose a product image.",
+      "error"
+    );
+    return;
+  }
+
+  saveProductBtn.disabled = true;
+  saveProductBtn.textContent =
+    editingId ? "Saving..." : "Adding...";
+
+  try {
+
+    if (imageFile) {
+      imageUrl = await uploadProductImage(imageFile);
+    }
+
+    const productData = {
+      name,
+      price,
+      description,
+      category,
+      image_url: imageUrl,
+      in_stock: inStock,
+      featured
+    };
+
+    if (editingId) {
+      const { error } =
+        await supabaseClient
+          .from("products")
+          .update(productData)
+          .eq("id", editingId);
+
+      if (error) {
+        throw error;
+      }
+
+      showProductMessage(
+        "Product updated successfully ✅",
+        "success"
+      );
+
+    } else {
+      const { error } =
+        await supabaseClient
+          .from("products")
+          .insert([productData]);
+
+      if (error) {
+        throw error;
+      }
+
+      showProductMessage(
+        "Product added successfully ✅",
+        "success"
+      );
+    }
+
+    resetProductForm(false);
+    await loadProducts();
+
+  } catch (error) {
+    console.error(error);
+
+    showProductMessage(
+      error.message || "Something went wrong while saving the product.",
+      "error"
+    );
+  } finally {
+    saveProductBtn.disabled = false;
+    saveProductBtn.textContent = "Add Product";
+  }
+});
+
+
+document
+  .getElementById("productImage")
+  .addEventListener("change", function(event) {
+
+    const file = event.target.files[0];
+
+    if (!file) {
+      return;
+    }
+
+    const reader = new FileReader();
+
+    reader.onload = function(e) {
+      imagePreview.src = e.target.result;
+      imagePreview.style.display = "block";
+    };
+
+    reader.readAsDataURL(file);
+  });
+
+
+async function uploadProductImage(file) {
+
+  const extension =
+    file.name.split(".").pop().toLowerCase();
+
+  const safeExtension =
+    ["jpg", "jpeg", "png", "webp", "gif"].includes(extension)
+      ? extension
+      : "jpg";
+
+  const fileName =
+    `${Date.now()}-${crypto.randomUUID()}.${safeExtension}`;
+
+  const { error: uploadError } =
+    await supabaseClient.storage
+      .from(STORAGE_BUCKET)
+      .upload(fileName, file, {
+        cacheControl: "3600",
+        upsert: false
+      });
+
+  if (uploadError) {
+    throw uploadError;
+  }
+
+  const { data } =
+    supabaseClient.storage
+      .from(STORAGE_BUCKET)
+      .getPublicUrl(fileName);
+
+  if (!data || !data.publicUrl) {
+    throw new Error("The image uploaded, but its public URL could not be created.");
+  }
+
+  return data.publicUrl;
+}
+
+
+async function loadProducts() {
+
+  productsList.innerHTML =
+    '<div class="loading-state">Loading products...</div>';
+
+  const { data, error } =
+    await supabaseClient
+      .from("products")
+      .select("*")
+      .order("created_at", { ascending: false });
+
+  if (error) {
+    console.error(error);
+
+    productsList.innerHTML =
+      `<div class="empty-state error">
+        Could not load products: ${escapeHtml(error.message)}
+      </div>`;
+
+    return;
+  }
+
+  productsCache = data || [];
+
+  renderProducts();
+}
+
+
+function renderProducts() {
+
+  if (productsCache.length === 0) {
+    productsList.innerHTML =
+      `<div class="empty-state">
+        No products are in Supabase yet.<br><br>
+        Use the form on the left to add your first product.
+      </div>`;
+    return;
+  }
+
+  productsList.innerHTML =
+    productsCache.map(product => {
+
+      const image =
+        product.image_url
+          ? escapeHtml(product.image_url)
+          : "";
+
+      return `
+        <div class="product-item">
+
+          ${
+            image
+              ? `<img src="${image}" class="product-image" alt="${escapeHtml(product.name)}">`
+              : `<div class="product-image"></div>`
+          }
+
+          <div class="product-info">
+            <h3>${escapeHtml(product.name)}</h3>
+
+            <div class="product-price">
+              R${formatPrice(product.price)}
+            </div>
+
+            <div class="product-meta">
+              Category: ${escapeHtml(displayCategory(product.category))}
+            </div>
+
+            <div class="product-meta">
+              ${escapeHtml(shorten(product.description || "", 110))}
+            </div>
+
+            <div class="status-badges">
+              ${
+                product.in_stock
+                  ? '<span class="badge badge-stock">IN STOCK</span>'
+                  : '<span class="badge badge-out">OUT OF STOCK</span>'
+              }
+
+              ${
+                product.featured
+                  ? '<span class="badge badge-featured">FEATURED</span>'
+                  : ''
+              }
+            </div>
+          </div>
+
+          <div class="product-actions">
+            <button
+              class="edit-btn"
+              onclick="editProduct('${product.id}')">
+              Edit
+            </button>
+
+            <button
+              class="delete-btn"
+              onclick="deleteProduct('${product.id}')">
+              Delete
+            </button>
+          </div>
+
+        </div>
+      `;
+    }).join("");
+}
+
+
+function editProduct(id) {
+
+  const product =
+    productsCache.find(item => String(item.id) === String(id));
+
+  if (!product) {
+    return;
+  }
+
+  document.getElementById("editingProductId").value =
+    product.id;
+
+  document.getElementById("existingImageUrl").value =
+    product.image_url || "";
+
+  document.getElementById("productName").value =
+    product.name || "";
+
+  document.getElementById("productPrice").value =
+    product.price ?? "";
+
+  document.getElementById("productCategory").value =
+    product.category || "";
+
+  document.getElementById("productDescription").value =
+    product.description || "";
+
+  document.getElementById("productStock").checked =
+    product.in_stock !== false;
+
+  document.getElementById("productFeatured").checked =
+    product.featured === true;
+
+  document.getElementById("productImage").value = "";
+
+  if (product.image_url) {
+    imagePreview.src = product.image_url;
+    imagePreview.style.display = "block";
+  } else {
+    imagePreview.removeAttribute("src");
+    imagePreview.style.display = "none";
+  }
+
+  document.getElementById("formTitle").textContent =
+    "Edit Product";
+
+  saveProductBtn.textContent =
+    "Save Changes";
+
+  cancelEditBtn.style.display =
+    "block";
+
+  imageHelp.textContent =
+    "Leave the image field empty to keep the current image, or choose a new image to replace it.";
+
+  clearProductMessage();
+
+  window.scrollTo({
+    top: 0,
+    behavior: "smooth"
+  });
+}
+
+
+async function deleteProduct(id) {
+
+  const product =
+    productsCache.find(item => String(item.id) === String(id));
+
+  if (!product) {
+    return;
+  }
+
+  const confirmed =
+    confirm(
+      `Delete "${product.name}"?\n\nThis will remove the product from your Grably database.`
+    );
+
+  if (!confirmed) {
+    return;
+  }
+
+  const { error } =
+    await supabaseClient
+      .from("products")
+      .delete()
+      .eq("id", id);
+
+  if (error) {
+    alert(
+      "Could not delete the product: " + error.message
+    );
+    return;
+  }
+
+  if (
+    document.getElementById("editingProductId").value &&
+    String(document.getElementById("editingProductId").value) === String(id)
+  ) {
+    resetProductForm();
+  }
+
+  await loadProducts();
+}
+
+
+function resetProductForm(clearMessage = true) {
+
+  productForm.reset();
+
+  document.getElementById("editingProductId").value = "";
+  document.getElementById("existingImageUrl").value = "";
+  document.getElementById("productStock").checked = true;
+  document.getElementById("productFeatured").checked = false;
+
+  document.getElementById("formTitle").textContent =
+    "Add Product";
+
+  saveProductBtn.textContent =
+    "Add Product";
+
+  cancelEditBtn.style.display =
+    "none";
+
+  imageHelp.textContent =
+    "Choose an image for the new product.";
+
+  imagePreview.removeAttribute("src");
+  imagePreview.style.display =
+    "none";
+
+  if (clearMessage) {
+    clearProductMessage();
+  }
+}
+
+
+function showProductMessage(text, type) {
+  productMessage.className = type;
+  productMessage.textContent = text;
+}
+
+
+function clearProductMessage() {
+  productMessage.className = "";
+  productMessage.textContent = "";
+}
+
+
+function displayCategory(category) {
+
+  const categories = {
+    health: "Health & Fitness",
+    beauty: "Beauty & Personal Care",
+    home: "Home & Storage",
+    kitchen: "Kitchen",
+    bathroom: "Bathroom",
+    cleaning: "Cleaning",
+    outdoor: "Camping & Outdoor",
+    tools: "Tools & DIY",
+    electronics: "Electronics & Accessories",
+    car: "Car Accessories",
+    baby: "Baby & Kids",
+    pets: "Pet Products",
+    gifts: "Gifts & Lifestyle",
+    other: "Other"
+  };
+
+  return categories[category] || category || "Other";
+}
+
+
+function shorten(text, length) {
+
+  if (text.length <= length) {
+    return text;
+  }
+
+  return text.slice(0, length).trim() + "...";
+}
+
+
+function formatPrice(price) {
+
+  const number = Number(price);
+
+  if (Number.isNaN(number)) {
+    return "0";
+  }
+
+  return number.toLocaleString("en-ZA", {
+    minimumFractionDigits:
+      Number.isInteger(number) ? 0 : 2,
+    maximumFractionDigits: 2
+  });
+}
+
+
+function escapeHtml(value) {
+
+  return String(value)
+    .replaceAll("&", "&amp;")
+    .replaceAll("<", "&lt;")
+    .replaceAll(">", "&gt;")
+    .replaceAll('"', "&quot;")
+    .replaceAll("'", "&#039;");
+}
+
+
+async function checkLogin() {
+
+  const { data } =
+    await supabaseClient.auth.getUser();
+
+  if (data.user && data.user.id === ADMIN_UID) {
+    showDashboard();
+  }
+}
+
+
+function showDashboard() {
+
+  loginSection.style.display =
+    "none";
+
+  dashboard.style.display =
+    "block";
+
+  loadProducts();
+}
+
+
+async function logout() {
+
+  await supabaseClient.auth.signOut();
+
+  dashboard.style.display =
+    "none";
+
+  loginSection.style.display =
+    "flex";
+
+  document.getElementById("password").value =
+    "";
+
+  message.className = "";
+  message.textContent = "";
+
+  resetProductForm();
+}
+
+
+checkLogin();
+</script>
+
+</body>
+</html>
