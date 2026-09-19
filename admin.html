@@ -3,555 +3,507 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
 <title>Grably Admin</title>
 
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
 <style>
-:root {
-    --lime: #9BE000;
-    --lime-dark: #79b800;
-    --dark: #171717;
-    --light: #f5f5f5;
-    --grey: #666;
-    --border: #ddd;
-    --danger: #d32f2f;
+:root{
+  --lime:#9BE000;
+  --lime-dark:#79b800;
+  --dark:#171717;
+  --light:#f5f5f5;
+  --grey:#666;
+  --border:#ddd;
+  --danger:#d32f2f;
+  --yellow:#f5b301;
 }
 
-* {
-    box-sizing: border-box;
-    margin: 0;
-    padding: 0;
+*{box-sizing:border-box;margin:0;padding:0}
+
+body{
+  font-family:Arial,Helvetica,sans-serif;
+  background:var(--light);
+  color:var(--dark);
 }
 
-body {
-    font-family: Arial, Helvetica, sans-serif;
-    background: var(--light);
-    color: var(--dark);
+.topbar{
+  background:var(--dark);
+  padding:15px 5%;
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  gap:20px;
 }
 
-.topbar {
-    background: var(--dark);
-    padding: 16px 24px;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    gap: 15px;
+.topbar img{
+  width:150px;
+  height:80px;
+  object-fit:contain;
+  background:white;
 }
 
-.topbar img {
-    height: 58px;
-    max-width: 180px;
-    object-fit: contain;
+.topbar-right{
+  display:flex;
+  align-items:center;
+  gap:20px;
 }
 
-.topbar-right {
-    display: flex;
-    align-items: center;
-    gap: 15px;
+.topbar h2{color:var(--lime)}
+
+.topbar a{
+  color:white;
+  text-decoration:none;
+  font-weight:bold;
 }
 
-.topbar h2 {
-    color: var(--lime);
+.topbar a:hover{color:var(--lime)}
+
+button{
+  border:none;
+  border-radius:8px;
+  padding:12px 17px;
+  font-weight:bold;
+  cursor:pointer;
+  background:var(--lime);
+  color:#111;
 }
 
-.shop-link {
-    color: white;
-    text-decoration: none;
-    font-weight: bold;
+button:hover{opacity:.9}
+button:disabled{opacity:.55;cursor:not-allowed}
+
+input,textarea,select{
+  width:100%;
+  padding:12px;
+  border:1px solid var(--border);
+  border-radius:8px;
+  margin-bottom:15px;
+  font-family:Arial,sans-serif;
+  font-size:15px;
+  background:white;
 }
 
-.shop-link:hover {
-    color: var(--lime);
+textarea{
+  min-height:105px;
+  resize:vertical;
 }
 
-/* LOGIN */
-
-.login-container {
-    min-height: calc(100vh - 90px);
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    padding: 20px;
+input:focus,textarea:focus,select:focus{
+  outline:none;
+  border-color:var(--lime);
+  box-shadow:0 0 0 2px rgba(155,224,0,.12);
 }
 
-.login-box {
-    width: 100%;
-    max-width: 420px;
-    background: white;
-    padding: 35px;
-    border-radius: 15px;
-    box-shadow: 0 8px 30px rgba(0,0,0,.12);
+label{
+  display:block;
+  font-weight:bold;
+  margin-bottom:7px;
 }
 
-.login-box h1 {
-    text-align: center;
-    margin-bottom: 8px;
+.error{color:var(--danger)}
+.success{color:#4c8500}
+
+.login-container{
+  min-height:calc(100vh - 110px);
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  padding:20px;
 }
 
-.login-box p {
-    text-align: center;
-    color: var(--grey);
-    margin-bottom: 25px;
+.login-box{
+  width:100%;
+  max-width:420px;
+  background:white;
+  padding:35px;
+  border-radius:15px;
+  box-shadow:0 8px 30px rgba(0,0,0,.12);
 }
 
-label {
-    display: block;
-    font-weight: bold;
-    margin-bottom: 7px;
+.login-box h1{text-align:center;margin-bottom:8px}
+
+.login-box p{
+  text-align:center;
+  color:var(--grey);
+  margin-bottom:25px;
 }
 
-input,
-textarea,
-select {
-    width: 100%;
-    padding: 12px;
-    border: 1px solid var(--border);
-    border-radius: 8px;
-    margin-bottom: 16px;
-    font-size: 15px;
-    font-family: Arial, sans-serif;
-    background: white;
+.login-box button{width:100%}
+
+#message{
+  margin-top:15px;
+  text-align:center;
+  font-weight:bold;
 }
 
-textarea {
-    min-height: 110px;
-    resize: vertical;
+.dashboard{
+  display:none;
+  max-width:1300px;
+  margin:30px auto;
+  padding:0 20px 60px;
 }
 
-input:focus,
-textarea:focus,
-select:focus {
-    outline: none;
-    border-color: var(--lime);
-    box-shadow: 0 0 0 2px rgba(155,224,0,.12);
+.dashboard-header{
+  background:white;
+  padding:24px;
+  border-radius:15px;
+  box-shadow:0 5px 20px rgba(0,0,0,.07);
+  margin-bottom:22px;
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  gap:20px;
+  flex-wrap:wrap;
 }
 
-button {
-    border: none;
-    border-radius: 8px;
-    background: var(--lime);
-    color: #111;
-    font-size: 15px;
-    font-weight: bold;
-    cursor: pointer;
-    padding: 12px 18px;
+.dashboard-header span{color:var(--lime-dark)}
+
+.dashboard-header p{
+  color:var(--grey);
+  margin-top:7px;
 }
 
-button:hover {
-    opacity: .9;
+.logout-btn{
+  background:var(--dark);
+  color:white;
 }
 
-button:disabled {
-    opacity: .55;
-    cursor: not-allowed;
+/* NAV TABS */
+
+.admin-nav{
+  background:var(--dark);
+  padding:12px;
+  border-radius:13px;
+  display:flex;
+  gap:9px;
+  flex-wrap:wrap;
+  margin-bottom:24px;
 }
 
-.login-box button {
-    width: 100%;
+.admin-nav button{
+  background:#2b2b2b;
+  color:white;
 }
 
-#message {
-    margin-top: 15px;
-    text-align: center;
-    font-weight: bold;
+.admin-nav button.active,
+.admin-nav button:hover{
+  background:var(--lime);
+  color:#111;
 }
 
-.error {
-    color: var(--danger);
+.admin-section{display:none}
+.admin-section.active{display:block}
+
+.card{
+  background:white;
+  padding:24px;
+  border-radius:15px;
+  box-shadow:0 5px 20px rgba(0,0,0,.07);
+  margin-bottom:24px;
 }
 
-.success {
-    color: #489000;
+.card h2{margin-bottom:8px}
+
+.card-subtitle{
+  color:var(--grey);
+  font-size:14px;
+  line-height:1.5;
+  margin-bottom:22px;
 }
 
-/* DASHBOARD */
-
-.dashboard {
-    display: none;
-    max-width: 1250px;
-    margin: 32px auto;
-    padding: 0 20px 50px;
+.grid-two{
+  display:grid;
+  grid-template-columns:minmax(300px,390px) 1fr;
+  gap:24px;
+  align-items:start;
 }
 
-.dashboard-header {
-    background: white;
-    padding: 24px;
-    border-radius: 15px;
-    box-shadow: 0 5px 20px rgba(0,0,0,.07);
-    margin-bottom: 24px;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    gap: 20px;
-    flex-wrap: wrap;
+.form-row{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:12px;
 }
 
-.dashboard-header h1 span {
-    color: var(--lime-dark);
+.checkbox-row{
+  display:flex;
+  gap:20px;
+  flex-wrap:wrap;
+  margin:5px 0 18px;
 }
 
-.dashboard-header p {
-    color: var(--grey);
-    margin-top: 7px;
+.checkbox-label{
+  display:flex;
+  align-items:center;
+  gap:8px;
+  font-weight:normal;
+  margin:0;
 }
 
-.logout-btn {
-    background: var(--dark);
-    color: white;
+.checkbox-label input{
+  width:auto;
+  margin:0;
+  accent-color:var(--lime-dark);
 }
 
-.admin-grid {
-    display: grid;
-    grid-template-columns: minmax(300px,390px) 1fr;
-    gap: 24px;
-    align-items: start;
+.image-preview{
+  display:none;
+  width:100%;
+  height:210px;
+  object-fit:contain;
+  border:1px solid var(--border);
+  border-radius:10px;
+  background:#fafafa;
+  margin-bottom:15px;
 }
 
-.card {
-    background: white;
-    padding: 24px;
-    border-radius: 15px;
-    box-shadow: 0 5px 20px rgba(0,0,0,.07);
+.form-actions{
+  display:flex;
+  gap:10px;
+  flex-wrap:wrap;
 }
 
-.card h2 {
-    margin-bottom: 8px;
+.form-actions button{flex:1}
+
+.cancel-btn{
+  background:#e8e8e8;
+  display:none;
 }
 
-.card-subtitle {
-    color: var(--grey);
-    margin-bottom: 22px;
-    font-size: 14px;
-    line-height: 1.5;
+.small-note{
+  color:var(--grey);
+  font-size:12px;
+  margin:-8px 0 15px;
 }
 
-.form-row {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 12px;
+.form-message{
+  margin-top:15px;
+  font-weight:bold;
 }
 
-.checkbox-row {
-    display: flex;
-    gap: 20px;
-    flex-wrap: wrap;
-    margin: 5px 0 18px;
+/* TOOLBARS */
+
+.toolbar{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  gap:15px;
+  flex-wrap:wrap;
+  margin-bottom:18px;
 }
 
-.checkbox-label {
-    display: flex;
-    align-items: center;
-    gap: 8px;
-    font-weight: normal;
-    margin: 0;
-}
+.refresh-btn{background:#eee}
 
-.checkbox-label input {
-    width: auto;
-    margin: 0;
-    accent-color: var(--lime-dark);
-}
+.search-box{margin-bottom:18px}
 
-.image-preview {
-    display: none;
-    width: 100%;
-    height: 200px;
-    object-fit: contain;
-    border: 1px solid var(--border);
-    border-radius: 10px;
-    margin-bottom: 16px;
-    background: #fafafa;
-}
+.search-box input{margin-bottom:5px}
 
-.form-actions {
-    display: flex;
-    gap: 10px;
-    flex-wrap: wrap;
-}
-
-.form-actions button {
-    flex: 1;
-}
-
-.cancel-btn {
-    background: #e7e7e7;
-    display: none;
-}
-
-#productMessage {
-    margin-top: 15px;
-    font-weight: bold;
-}
-
-.small-note {
-    color: var(--grey);
-    font-size: 12px;
-    margin-top: -8px;
-    margin-bottom: 16px;
-}
-
-/* SEARCH */
-
-.search-area {
-    margin-bottom: 20px;
-}
-
-.search-area input {
-    margin-bottom: 0;
-}
-
-.result-count {
-    color: var(--grey);
-    font-size: 13px;
-    margin-top: 8px;
+.result-count{
+  color:var(--grey);
+  font-size:13px;
 }
 
 /* PRODUCTS */
 
-.products-toolbar,
-.reviews-toolbar {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    gap: 15px;
-    margin-bottom: 18px;
-    flex-wrap: wrap;
+.list{
+  display:grid;
+  gap:14px;
 }
 
-.refresh-btn {
-    background: #eee;
+.item{
+  border:1px solid #e7e7e7;
+  border-radius:12px;
+  padding:14px;
 }
 
-.products-list,
-.reviews-list {
-    display: grid;
-    gap: 14px;
+.product-item{
+  display:grid;
+  grid-template-columns:90px 1fr auto;
+  gap:15px;
+  align-items:center;
 }
 
-.product-item {
-    display: grid;
-    grid-template-columns: 92px 1fr auto;
-    gap: 16px;
-    align-items: center;
-    border: 1px solid #e7e7e7;
-    border-radius: 12px;
-    padding: 14px;
+.item-image{
+  width:90px;
+  height:90px;
+  object-fit:contain;
+  border:1px solid #eee;
+  border-radius:9px;
+  background:#fafafa;
 }
 
-.product-image {
-    width: 92px;
-    height: 92px;
-    object-fit: contain;
-    background: #fafafa;
-    border-radius: 9px;
-    border: 1px solid #eee;
+.item h3{margin-bottom:6px}
+
+.price{
+  color:var(--lime-dark);
+  font-weight:bold;
+  margin-bottom:5px;
 }
 
-.product-info h3 {
-    margin-bottom: 6px;
+.meta{
+  color:var(--grey);
+  font-size:13px;
+  line-height:1.5;
 }
 
-.product-price {
-    font-weight: bold;
-    color: var(--lime-dark);
-    margin-bottom: 5px;
+.badges{
+  display:flex;
+  flex-wrap:wrap;
+  gap:6px;
+  margin-top:8px;
 }
 
-.product-meta {
-    color: var(--grey);
-    font-size: 13px;
-    margin-bottom: 5px;
+.badge{
+  padding:5px 8px;
+  border-radius:999px;
+  font-size:11px;
+  font-weight:bold;
 }
 
-.status-badges {
-    display: flex;
-    gap: 7px;
-    flex-wrap: wrap;
-    margin-top: 7px;
+.stock{background:#eef8d8;color:#497500}
+.out{background:#ffe4e4;color:#a00000}
+.featured{background:#fff4c7;color:#775800}
+.hidden{background:#eee;color:#555}
+
+.actions{
+  display:flex;
+  flex-direction:column;
+  gap:8px;
 }
 
-.badge {
-    padding: 5px 8px;
-    border-radius: 999px;
-    font-size: 11px;
-    font-weight: bold;
-}
+.edit-btn{background:var(--lime)}
+.delete-btn{background:var(--danger);color:white}
 
-.badge-stock {
-    background: #eef8d8;
-    color: #497500;
-}
-
-.badge-out {
-    background: #ffe4e4;
-    color: #a00000;
-}
-
-.badge-featured {
-    background: #fff4c7;
-    color: #775800;
-}
-
-.product-actions {
-    display: flex;
-    flex-direction: column;
-    gap: 8px;
-}
-
-.edit-btn {
-    background: var(--lime);
-}
-
-.delete-btn {
-    background: var(--danger);
-    color: white;
-}
-
-.empty-state,
-.loading-state {
-    text-align: center;
-    padding: 35px 15px;
-    color: var(--grey);
-    background: #fafafa;
-    border-radius: 10px;
+.empty{
+  padding:30px;
+  text-align:center;
+  color:var(--grey);
+  background:#fafafa;
+  border-radius:10px;
 }
 
 /* REVIEWS */
 
-.reviews-section {
-    margin-top: 24px;
+.review-item{
+  display:grid;
+  grid-template-columns:1fr auto;
+  gap:15px;
 }
 
-.review-count-box {
-    background: var(--dark);
-    color: white;
-    border-radius: 12px;
-    padding: 18px;
-    margin-bottom: 20px;
-    display: flex;
-    align-items: center;
-    gap: 12px;
+.review-stars{
+  color:var(--yellow);
+  font-size:20px;
+  margin:7px 0;
 }
 
-.review-count-number {
-    color: var(--lime);
-    font-size: 30px;
-    font-weight: bold;
+.review-text{
+  line-height:1.55;
+  color:#444;
+  white-space:pre-wrap;
 }
 
-.review-item {
-    border: 1px solid #e5e5e5;
-    border-radius: 12px;
-    padding: 18px;
+.review-count-card{
+  background:var(--dark);
+  color:white;
+  padding:20px;
+  border-radius:12px;
+  margin-bottom:20px;
 }
 
-.review-top {
-    display: flex;
-    justify-content: space-between;
-    align-items: flex-start;
-    gap: 15px;
-    margin-bottom: 10px;
+.review-count-card strong{
+  color:var(--lime);
+  font-size:32px;
+  margin-right:8px;
 }
 
-.review-product {
-    font-size: 17px;
-    font-weight: bold;
+/* HOMEPAGE */
+
+.homepage-intro{
+  background:linear-gradient(135deg,#171717,#292929);
+  color:white;
+  padding:25px;
+  border-radius:15px;
+  margin-bottom:24px;
 }
 
-.review-name {
-    color: var(--grey);
-    margin-top: 4px;
-    font-size: 14px;
+.homepage-intro h2{
+  color:var(--lime);
+  margin-bottom:8px;
 }
 
-.review-stars {
-    color: #f5b301;
-    font-size: 20px;
-    letter-spacing: 1px;
-    margin: 7px 0;
+.homepage-intro p{
+  color:#ccc;
+  line-height:1.6;
 }
 
-.review-text {
-    line-height: 1.6;
-    color: #444;
-    margin-bottom: 10px;
-    white-space: pre-wrap;
+.category-admin-item{
+  display:grid;
+  grid-template-columns:125px 1fr auto;
+  gap:18px;
+  align-items:center;
 }
 
-.review-date {
-    color: #888;
-    font-size: 12px;
+.category-admin-image{
+  width:125px;
+  height:105px;
+  object-fit:cover;
+  border-radius:10px;
+  background:#f4f4f4;
+  border:1px solid #eee;
 }
 
-.review-delete {
-    background: var(--danger);
-    color: white;
-    white-space: nowrap;
+.category-description{
+  color:var(--grey);
+  line-height:1.5;
+  font-size:14px;
+  margin:5px 0;
 }
 
-/* RESPONSIVE */
-
-@media(max-width:900px) {
-    .admin-grid {
-        grid-template-columns: 1fr;
-    }
+.order-badge{
+  display:inline-block;
+  margin-top:6px;
+  font-size:12px;
+  font-weight:bold;
+  background:#efffd0;
+  padding:5px 8px;
+  border-radius:20px;
 }
 
-@media(max-width:650px) {
+/* MOBILE */
 
-    .topbar {
-        padding: 12px 15px;
-    }
+@media(max-width:900px){
+  .grid-two{grid-template-columns:1fr}
+}
 
-    .topbar img {
-        height: 48px;
-    }
+@media(max-width:650px){
+  .topbar{padding:12px}
+  .topbar img{width:110px;height:65px}
+  .topbar a{display:none}
+  .dashboard{padding:0 12px 35px}
+  .card{padding:18px}
+  .form-row{grid-template-columns:1fr;gap:0}
 
-    .shop-link {
-        display: none;
-    }
+  .product-item,
+  .category-admin-item,
+  .review-item{
+    grid-template-columns:1fr;
+  }
 
-    .dashboard {
-        padding: 0 12px 30px;
-    }
+  .item-image,
+  .category-admin-image{
+    width:100%;
+    height:180px;
+  }
 
-    .dashboard-header,
-    .card {
-        padding: 18px;
-    }
+  .actions{
+    flex-direction:row;
+  }
 
-    .form-row {
-        grid-template-columns: 1fr;
-        gap: 0;
-    }
+  .actions button{flex:1}
 
-    .product-item {
-        grid-template-columns: 75px 1fr;
-    }
-
-    .product-image {
-        width: 75px;
-        height: 75px;
-    }
-
-    .product-actions {
-        grid-column: 1/-1;
-        flex-direction: row;
-    }
-
-    .product-actions button {
-        flex: 1;
-    }
-
-    .review-top {
-        flex-direction: column;
-    }
-
-    .review-delete {
-        width: 100%;
-    }
+  .admin-nav button{
+    flex:1;
+    min-width:130px;
+  }
 }
 </style>
 </head>
@@ -559,17 +511,13 @@ button:disabled {
 <body>
 
 <header class="topbar">
+  <img src="images/grably-logo.png" alt="Grably Logo">
 
-    <img src="images/grably-logo.png" alt="Grably Logo">
-
-    <div class="topbar-right">
-        <a href="shop.html" class="shop-link">
-            View Shop
-        </a>
-
-        <h2>ADMIN</h2>
-    </div>
-
+  <div class="topbar-right">
+    <a href="index.html">View Homepage</a>
+    <a href="shop.html">View Shop</a>
+    <h2>ADMIN</h2>
+  </div>
 </header>
 
 
@@ -577,40 +525,38 @@ button:disabled {
 
 <div class="login-container" id="loginSection">
 
-    <div class="login-box">
+  <div class="login-box">
 
-        <h1>Admin Login</h1>
+    <h1>Admin Login</h1>
+    <p>Manage your Grably website.</p>
 
-        <p>Sign in to manage your Grably shop.</p>
+    <form id="loginForm">
 
-        <form id="loginForm">
+      <label>Email Address</label>
 
-            <label>Email Address</label>
+      <input
+        type="email"
+        id="email"
+        autocomplete="email"
+        required>
 
-            <input
-                type="email"
-                id="email"
-                placeholder="Your admin email"
-                required>
+      <label>Password</label>
 
-            <label>Password</label>
+      <input
+        type="password"
+        id="password"
+        autocomplete="current-password"
+        required>
 
-            <input
-                type="password"
-                id="password"
-                placeholder="Your password"
-                required>
+      <button type="submit">
+        Login
+      </button>
 
-            <button type="submit">
-                Login
-            </button>
+    </form>
 
-        </form>
+    <div id="message"></div>
 
-        <div id="message"></div>
-
-    </div>
-
+  </div>
 </div>
 
 
@@ -618,365 +564,677 @@ button:disabled {
 
 <div class="dashboard" id="dashboard">
 
-    <div class="dashboard-header">
+  <div class="dashboard-header">
 
-        <div>
-            <h1>
-                Welcome to
-                <span>Grably Admin</span>
-            </h1>
+    <div>
+      <h1>Welcome to <span>Grably Admin</span></h1>
 
-            <p>
-                Manage products, stock, prices and customer reviews.
-            </p>
-        </div>
-
-        <button
-            class="logout-btn"
-            onclick="logout()">
-            Log Out
-        </button>
-
+      <p>
+        Manage your products, homepage and customer reviews.
+      </p>
     </div>
 
+    <button class="logout-btn" onclick="logout()">
+      Log Out
+    </button>
 
-    <div class="admin-grid">
+  </div>
 
 
-        <!-- ADD / EDIT PRODUCT -->
+  <!-- ADMIN NAV -->
 
-        <section class="card">
+  <div class="admin-nav">
 
-            <h2 id="formTitle">
-                Add Product
-            </h2>
+    <button
+      class="active"
+      data-section="productsSection"
+      onclick="showAdminSection('productsSection',this)">
+      📦 Products
+    </button>
 
-            <p class="card-subtitle">
-                Add a new item to your Grably shop.
-            </p>
+    <button
+      data-section="homepageSection"
+      onclick="showAdminSection('homepageSection',this)">
+      🏠 Homepage
+    </button>
 
-            <form id="productForm">
+    <button
+      data-section="reviewsSection"
+      onclick="showAdminSection('reviewsSection',this)">
+      ⭐ Reviews
+    </button>
 
-                <input
-                    type="hidden"
-                    id="editingProductId">
+  </div>
 
-                <input
-                    type="hidden"
-                    id="existingImageUrl">
 
+  <!-- ======================
+       PRODUCTS
+  ======================= -->
 
-                <label>Product Name</label>
+  <section
+    class="admin-section active"
+    id="productsSection">
 
-                <input
-                    type="text"
-                    id="productName"
-                    placeholder="Example: Fitness Gloves"
-                    required>
+    <div class="grid-two">
 
 
-                <div class="form-row">
+      <!-- PRODUCT FORM -->
 
-                    <div>
+      <div class="card">
 
-                        <label>Price (R)</label>
+        <h2 id="productFormTitle">
+          Add Product
+        </h2>
 
-                        <input
-                            type="number"
-                            id="productPrice"
-                            min="0"
-                            step="0.01"
-                            required>
+        <p class="card-subtitle">
+          Add products or change existing products.
+        </p>
 
-                    </div>
+        <form id="productForm">
 
+          <input
+            type="hidden"
+            id="editingProductId">
 
-                    <div>
+          <input
+            type="hidden"
+            id="existingProductImage">
 
-                        <label>Category</label>
 
-                        <select
-                            id="productCategory"
-                            required>
+          <label>Product Name</label>
 
-                            <option value="">
-                                Choose category
-                            </option>
+          <input
+            type="text"
+            id="productName"
+            required>
 
-                            <option value="health">
-                                Health & Fitness
-                            </option>
 
-                            <option value="beauty">
-                                Beauty & Personal Care
-                            </option>
-
-                            <option value="home">
-                                Home & Storage
-                            </option>
-
-                            <option value="kitchen">
-                                Kitchen
-                            </option>
-
-                            <option value="bathroom">
-                                Bathroom
-                            </option>
-
-                            <option value="cleaning">
-                                Cleaning
-                            </option>
-
-                            <option value="outdoor">
-                                Camping & Outdoor
-                            </option>
-
-                            <option value="tools">
-                                Tools & DIY
-                            </option>
-
-                            <option value="electronics">
-                                Electronics & Accessories
-                            </option>
-
-                            <option value="car">
-                                Car Accessories
-                            </option>
-
-                            <option value="baby">
-                                Baby & Kids
-                            </option>
-
-                            <option value="pets">
-                                Pet Products
-                            </option>
-
-                            <option value="gifts">
-                                Gifts & Lifestyle
-                            </option>
-
-                            <option value="other">
-                                Other
-                            </option>
-
-                        </select>
-
-                    </div>
-
-                </div>
-
-
-                <label>Description</label>
-
-                <textarea
-                    id="productDescription"
-                    placeholder="Describe the product..."
-                    required></textarea>
-
-
-                <label>Product Image</label>
-
-                <input
-                    type="file"
-                    id="productImage"
-                    accept="image/jpeg,image/png,image/webp,image/gif">
-
-
-                <p
-                    class="small-note"
-                    id="imageHelp">
-
-                    Choose an image for the new product.
-
-                </p>
-
-
-                <img
-                    id="imagePreview"
-                    class="image-preview"
-                    alt="Product preview">
-
-
-                <div class="checkbox-row">
-
-                    <label class="checkbox-label">
-
-                        <input
-                            type="checkbox"
-                            id="productStock"
-                            checked>
-
-                        In stock
-
-                    </label>
-
-
-                    <label class="checkbox-label">
-
-                        <input
-                            type="checkbox"
-                            id="productFeatured">
-
-                        Featured
-
-                    </label>
-
-                </div>
-
-
-                <div class="form-actions">
-
-                    <button
-                        type="submit"
-                        id="saveProductBtn">
-
-                        Add Product
-
-                    </button>
-
-
-                    <button
-                        type="button"
-                        class="cancel-btn"
-                        id="cancelEditBtn"
-                        onclick="resetProductForm()">
-
-                        Cancel Edit
-
-                    </button>
-
-                </div>
-
-
-                <div id="productMessage"></div>
-
-            </form>
-
-        </section>
-
-
-        <!-- PRODUCTS -->
-
-        <section class="card">
-
-            <div class="products-toolbar">
-
-                <h2>Your Products</h2>
-
-                <button
-                    class="refresh-btn"
-                    onclick="loadProducts()">
-
-                    Refresh
-
-                </button>
-
-            </div>
-
-
-            <div class="search-area">
-
-                <input
-                    type="text"
-                    id="productSearch"
-                    placeholder="🔎 Search products..."
-                    oninput="filterAdminProducts()">
-
-                <div
-                    class="result-count"
-                    id="productResultCount">
-                </div>
-
-            </div>
-
-
-            <div
-                id="productsList"
-                class="products-list">
-
-                <div class="loading-state">
-                    Loading products...
-                </div>
-
-            </div>
-
-        </section>
-
-    </div>
-
-
-    <!-- REVIEWS -->
-
-    <section class="card reviews-section">
-
-        <div class="reviews-toolbar">
+          <div class="form-row">
 
             <div>
-                <h2>⭐ Manage Reviews</h2>
 
-                <p class="card-subtitle">
-                    View and remove customer reviews.
-                </p>
+              <label>Price (R)</label>
+
+              <input
+                type="number"
+                id="productPrice"
+                min="0"
+                step="0.01"
+                required>
+
             </div>
 
 
-            <button
-                class="refresh-btn"
-                onclick="loadReviews()">
+            <div>
 
-                Refresh Reviews
+              <label>Category</label>
+
+              <select
+                id="productCategory"
+                required>
+
+                <option value="">
+                  Choose category
+                </option>
+
+                <option value="health">
+                  Health & Fitness
+                </option>
+
+                <option value="beauty">
+                  Beauty & Personal Care
+                </option>
+
+                <option value="home">
+                  Home & Storage
+                </option>
+
+                <option value="kitchen">
+                  Kitchen
+                </option>
+
+                <option value="bathroom">
+                  Bathroom
+                </option>
+
+                <option value="cleaning">
+                  Cleaning
+                </option>
+
+                <option value="outdoor">
+                  Camping & Outdoor
+                </option>
+
+                <option value="tools">
+                  Tools & DIY
+                </option>
+
+                <option value="electronics">
+                  Electronics & Accessories
+                </option>
+
+                <option value="car">
+                  Car Accessories
+                </option>
+
+                <option value="baby">
+                  Baby & Kids
+                </option>
+
+                <option value="pets">
+                  Pet Products
+                </option>
+
+                <option value="gifts">
+                  Gifts & Lifestyle
+                </option>
+
+                <option value="other">
+                  Other
+                </option>
+
+              </select>
+
+            </div>
+
+          </div>
+
+
+          <label>Description</label>
+
+          <textarea
+            id="productDescription"
+            required></textarea>
+
+
+          <label>Product Image</label>
+
+          <input
+            type="file"
+            id="productImage"
+            accept="image/jpeg,image/png,image/webp,image/gif">
+
+
+          <p
+            class="small-note"
+            id="productImageHelp">
+
+            Choose an image for the product.
+
+          </p>
+
+
+          <img
+            class="image-preview"
+            id="productImagePreview"
+            alt="Product preview">
+
+
+          <div class="checkbox-row">
+
+            <label class="checkbox-label">
+
+              <input
+                type="checkbox"
+                id="productStock"
+                checked>
+
+              In stock
+
+            </label>
+
+
+            <label class="checkbox-label">
+
+              <input
+                type="checkbox"
+                id="productFeatured">
+
+              Featured
+
+            </label>
+
+          </div>
+
+
+          <div class="form-actions">
+
+            <button
+              type="submit"
+              id="saveProductBtn">
+
+              Add Product
 
             </button>
 
+
+            <button
+              type="button"
+              class="cancel-btn"
+              id="cancelProductEdit"
+              onclick="resetProductForm()">
+
+              Cancel Edit
+
+            </button>
+
+          </div>
+
+          <div
+            id="productMessage"
+            class="form-message">
+          </div>
+
+        </form>
+
+      </div>
+
+
+      <!-- PRODUCT LIST -->
+
+      <div class="card">
+
+        <div class="toolbar">
+
+          <h2>Your Products</h2>
+
+          <button
+            class="refresh-btn"
+            onclick="loadProducts()">
+
+            Refresh
+
+          </button>
+
         </div>
 
 
-        <div class="review-count-box">
+        <div class="search-box">
 
-            <span class="review-count-number"
-                  id="reviewCount">
-                0
-            </span>
+          <input
+            type="text"
+            id="productSearch"
+            placeholder="🔎 Search products..."
+            oninput="filterProducts()">
 
-            <span>
-                Total Customer Reviews
-            </span>
-
-        </div>
-
-
-        <div class="search-area">
-
-            <input
-                type="text"
-                id="reviewSearch"
-                placeholder="🔎 Search reviews..."
-                oninput="filterReviews()">
-
-            <div
-                class="result-count"
-                id="reviewResultCount">
-            </div>
+          <div
+            class="result-count"
+            id="productResultCount">
+          </div>
 
         </div>
 
 
         <div
-            id="reviewsList"
-            class="reviews-list">
+          class="list"
+          id="productsList">
 
-            <div class="loading-state">
-                Loading reviews...
-            </div>
+          <div class="empty">
+            Loading products...
+          </div>
 
         </div>
 
-    </section>
+      </div>
+
+    </div>
+
+  </section>
+
+
+  <!-- ======================
+       HOMEPAGE
+  ======================= -->
+
+  <section
+    class="admin-section"
+    id="homepageSection">
+
+
+    <div class="homepage-intro">
+
+      <h2>🏠 Homepage Management</h2>
+
+      <p>
+        Control the Browse Categories cards on your
+        Grably homepage. Change the picture, title,
+        description, category link, display order,
+        or hide a card without deleting it.
+      </p>
+
+    </div>
+
+
+    <div class="grid-two">
+
+
+      <!-- HOMEPAGE CATEGORY FORM -->
+
+      <div class="card">
+
+        <h2 id="homepageFormTitle">
+          Add Homepage Category
+        </h2>
+
+        <p class="card-subtitle">
+          Create a category card for the Grably homepage.
+        </p>
+
+
+        <form id="homepageForm">
+
+          <input
+            type="hidden"
+            id="editingHomepageId">
+
+          <input
+            type="hidden"
+            id="existingHomepageImage">
+
+
+          <label>Category Title</label>
+
+          <input
+            type="text"
+            id="homepageName"
+            placeholder="Example: Health & Fitness"
+            maxlength="80"
+            required>
+
+
+          <label>Description</label>
+
+          <textarea
+            id="homepageDescription"
+            placeholder="Supports, fitness accessories and workout essentials."
+            maxlength="300"
+            required></textarea>
+
+
+          <label>
+            Shop Category
+          </label>
+
+          <select
+            id="homepageCategoryValue"
+            required>
+
+            <option value="">
+              Choose where this card should open
+            </option>
+
+            <option value="health">
+              Health & Fitness
+            </option>
+
+            <option value="beauty">
+              Beauty & Personal Care
+            </option>
+
+            <option value="home">
+              Home & Storage
+            </option>
+
+            <option value="kitchen">
+              Kitchen
+            </option>
+
+            <option value="bathroom">
+              Bathroom
+            </option>
+
+            <option value="cleaning">
+              Cleaning
+            </option>
+
+            <option value="outdoor">
+              Camping & Outdoor
+            </option>
+
+            <option value="tools">
+              Tools & DIY
+            </option>
+
+            <option value="electronics">
+              Electronics & Accessories
+            </option>
+
+            <option value="car">
+              Car Accessories
+            </option>
+
+            <option value="baby">
+              Baby & Kids
+            </option>
+
+            <option value="pets">
+              Pet Products
+            </option>
+
+            <option value="gifts">
+              Gifts & Lifestyle
+            </option>
+
+            <option value="other">
+              Other
+            </option>
+
+          </select>
+
+
+          <label>Display Order</label>
+
+          <input
+            type="number"
+            id="homepageOrder"
+            min="0"
+            step="1"
+            value="0"
+            required>
+
+          <p class="small-note">
+            Smaller numbers appear first.
+            For example: 1, 2, 3, 4.
+          </p>
+
+
+          <label>Category Picture</label>
+
+          <input
+            type="file"
+            id="homepageImage"
+            accept="image/jpeg,image/png,image/webp,image/gif">
+
+
+          <p
+            class="small-note"
+            id="homepageImageHelp">
+
+            Choose the picture customers will see on the homepage.
+
+          </p>
+
+
+          <img
+            id="homepageImagePreview"
+            class="image-preview"
+            alt="Homepage category preview">
+
+
+          <div class="checkbox-row">
+
+            <label class="checkbox-label">
+
+              <input
+                type="checkbox"
+                id="homepageVisible"
+                checked>
+
+              Show on homepage
+
+            </label>
+
+          </div>
+
+
+          <div class="form-actions">
+
+            <button
+              type="submit"
+              id="saveHomepageBtn">
+
+              Add Category
+
+            </button>
+
+
+            <button
+              type="button"
+              class="cancel-btn"
+              id="cancelHomepageEdit"
+              onclick="resetHomepageForm()">
+
+              Cancel Edit
+
+            </button>
+
+          </div>
+
+
+          <div
+            id="homepageMessage"
+            class="form-message">
+          </div>
+
+        </form>
+
+      </div>
+
+
+      <!-- HOMEPAGE CATEGORY LIST -->
+
+      <div class="card">
+
+        <div class="toolbar">
+
+          <div>
+            <h2>Homepage Categories</h2>
+
+            <p class="card-subtitle">
+              These are the category cards saved for your homepage.
+            </p>
+          </div>
+
+
+          <button
+            class="refresh-btn"
+            onclick="loadHomepageCategories()">
+
+            Refresh
+
+          </button>
+
+        </div>
+
+
+        <div
+          id="homepageCategoriesList"
+          class="list">
+
+          <div class="empty">
+            Loading homepage categories...
+          </div>
+
+        </div>
+
+      </div>
+
+    </div>
+
+  </section>
+
+
+  <!-- ======================
+       REVIEWS
+  ======================= -->
+
+  <section
+    class="admin-section"
+    id="reviewsSection">
+
+    <div class="card">
+
+      <div class="toolbar">
+
+        <div>
+
+          <h2>⭐ Manage Reviews</h2>
+
+          <p class="card-subtitle">
+            View and delete customer reviews.
+          </p>
+
+        </div>
+
+
+        <button
+          class="refresh-btn"
+          onclick="loadReviews()">
+
+          Refresh
+
+        </button>
+
+      </div>
+
+
+      <div class="review-count-card">
+
+        <strong id="reviewCount">0</strong>
+
+        Total Customer Reviews
+
+      </div>
+
+
+      <div class="search-box">
+
+        <input
+          type="text"
+          id="reviewSearch"
+          placeholder="🔎 Search reviews..."
+          oninput="filterReviews()">
+
+        <div
+          class="result-count"
+          id="reviewResultCount">
+        </div>
+
+      </div>
+
+
+      <div
+        class="list"
+        id="reviewsList">
+
+        <div class="empty">
+          Loading reviews...
+        </div>
+
+      </div>
+
+    </div>
+
+  </section>
 
 </div>
 
 
 <script>
+
+/* =========================
+   SUPABASE
+========================= */
 
 const SUPABASE_URL =
 "https://ifvuodmmsmyohwtzgqsa.supabase.co";
@@ -993,1434 +1251,2179 @@ const STORAGE_BUCKET =
 
 const supabaseClient =
 supabase.createClient(
-    SUPABASE_URL,
-    SUPABASE_KEY
+  SUPABASE_URL,
+  SUPABASE_KEY
 );
 
+
+/* =========================
+   DATA
+========================= */
+
+let productsCache = [];
+let reviewsCache = [];
+let homepageCache = [];
+
+
+/* =========================
+   LOGIN
+========================= */
 
 const loginForm =
 document.getElementById("loginForm");
 
-const message =
-document.getElementById("message");
-
-const loginSection =
-document.getElementById("loginSection");
-
-const dashboard =
-document.getElementById("dashboard");
-
-const productForm =
-document.getElementById("productForm");
-
-const productMessage =
-document.getElementById("productMessage");
-
-const productsList =
-document.getElementById("productsList");
-
-const reviewsList =
-document.getElementById("reviewsList");
-
-const saveProductBtn =
-document.getElementById("saveProductBtn");
-
-const cancelEditBtn =
-document.getElementById("cancelEditBtn");
-
-const imagePreview =
-document.getElementById("imagePreview");
-
-const imageHelp =
-document.getElementById("imageHelp");
-
-
-let productsCache = [];
-let reviewsCache = [];
-
-
-/* =========================
-LOGIN
-========================= */
-
 loginForm.addEventListener(
 "submit",
-async function(event) {
+async function(event){
 
-    event.preventDefault();
+  event.preventDefault();
 
-    message.className = "";
+  const message =
+  document.getElementById("message");
+
+  message.className = "";
+  message.textContent =
+  "Signing in...";
+
+
+  const email =
+  document
+  .getElementById("email")
+  .value
+  .trim();
+
+
+  const password =
+  document
+  .getElementById("password")
+  .value;
+
+
+  const {data,error} =
+  await supabaseClient.auth
+  .signInWithPassword({
+    email,
+    password
+  });
+
+
+  if(error){
+
+    message.className =
+    "error";
+
     message.textContent =
-    "Signing in...";
+    "Login failed. Please check your email and password.";
+
+    return;
+  }
 
 
-    const email =
-    document
-    .getElementById("email")
-    .value
-    .trim();
+  if(
+    !data.user ||
+    data.user.id !== ADMIN_UID
+  ){
 
-
-    const password =
-    document
-    .getElementById("password")
-    .value;
-
-
-    const {data,error} =
     await supabaseClient.auth
-    .signInWithPassword({
-        email,
-        password
-    });
+    .signOut();
+
+    message.className =
+    "error";
+
+    message.textContent =
+    "This account does not have admin access.";
+
+    return;
+  }
 
 
-    if(error) {
-
-        message.className =
-        "error";
-
-        message.textContent =
-        "Login failed. Please check your email and password.";
-
-        return;
-    }
+  showDashboard();
+});
 
 
-    if(
-        !data.user ||
-        data.user.id !== ADMIN_UID
-    ) {
+async function checkLogin(){
 
-        await supabaseClient.auth
-        .signOut();
+  const {data} =
+  await supabaseClient.auth
+  .getUser();
 
-        message.className =
-        "error";
 
-        message.textContent =
-        "This account does not have admin access.";
-
-        return;
-    }
-
+  if(
+    data.user &&
+    data.user.id === ADMIN_UID
+  ){
 
     showDashboard();
-});
+  }
+}
+
+
+function showDashboard(){
+
+  document
+  .getElementById("loginSection")
+  .style.display =
+  "none";
+
+
+  document
+  .getElementById("dashboard")
+  .style.display =
+  "block";
+
+
+  loadProducts();
+
+  loadHomepageCategories();
+
+  loadReviews();
+}
+
+
+async function logout(){
+
+  await supabaseClient.auth
+  .signOut();
+
+
+  document
+  .getElementById("dashboard")
+  .style.display =
+  "none";
+
+
+  document
+  .getElementById("loginSection")
+  .style.display =
+  "flex";
+
+
+  document
+  .getElementById("password")
+  .value =
+  "";
+}
 
 
 /* =========================
-SAVE PRODUCT
+   ADMIN TABS
 ========================= */
 
-productForm.addEventListener(
-"submit",
-async function(event) {
-
-    event.preventDefault();
-
-    clearProductMessage();
-
-
-    const editingId =
-    document
-    .getElementById(
-        "editingProductId"
-    ).value;
-
-
-    const name =
-    document
-    .getElementById(
-        "productName"
-    ).value.trim();
-
-
-    const price =
-    Number(
-        document
-        .getElementById(
-            "productPrice"
-        ).value
-    );
-
-
-    const category =
-    document
-    .getElementById(
-        "productCategory"
-    ).value;
-
-
-    const description =
-    document
-    .getElementById(
-        "productDescription"
-    ).value.trim();
-
-
-    const inStock =
-    document
-    .getElementById(
-        "productStock"
-    ).checked;
-
-
-    const featured =
-    document
-    .getElementById(
-        "productFeatured"
-    ).checked;
-
-
-    const imageFile =
-    document
-    .getElementById(
-        "productImage"
-    ).files[0];
-
-
-    let imageUrl =
-    document
-    .getElementById(
-        "existingImageUrl"
-    ).value;
-
-
-    if(
-        !name ||
-        !category ||
-        !description ||
-        Number.isNaN(price) ||
-        price < 0
-    ) {
-
-        showProductMessage(
-            "Please complete all required product details.",
-            "error"
-        );
-
-        return;
-    }
-
-
-    if(
-        !editingId &&
-        !imageFile
-    ) {
-
-        showProductMessage(
-            "Please choose a product image.",
-            "error"
-        );
-
-        return;
-    }
-
-
-    if(
-        imageFile &&
-        imageFile.size >
-        5 * 1024 * 1024
-    ) {
-
-        showProductMessage(
-            "The product image must be smaller than 5MB.",
-            "error"
-        );
-
-        return;
-    }
-
-
-    saveProductBtn.disabled =
-    true;
-
-    saveProductBtn.textContent =
-    editingId
-        ? "Saving..."
-        : "Adding...";
-
-
-    try {
-
-        if(imageFile) {
-
-            imageUrl =
-            await uploadProductImage(
-                imageFile
-            );
-        }
-
-
-        const productData = {
-
-            name,
-            price,
-            description,
-            category,
-
-            image_url:
-            imageUrl,
-
-            in_stock:
-            inStock,
-
-            featured
-        };
-
-
-        if(editingId) {
-
-            const {error} =
-            await supabaseClient
-            .from("products")
-            .update(productData)
-            .eq("id",editingId);
-
-
-            if(error)
-                throw error;
-
-
-            showProductMessage(
-                "Product updated successfully ✅",
-                "success"
-            );
-
-        } else {
-
-            const {error} =
-            await supabaseClient
-            .from("products")
-            .insert([productData]);
-
-
-            if(error)
-                throw error;
-
-
-            showProductMessage(
-                "Product added successfully ✅",
-                "success"
-            );
-        }
-
-
-        resetProductForm(false);
-
-        await loadProducts();
-
-
-    } catch(error) {
-
-        console.error(error);
-
-        showProductMessage(
-            error.message ||
-            "Something went wrong while saving the product.",
-            "error"
-        );
-
-    } finally {
-
-        saveProductBtn.disabled =
-        false;
-
-        saveProductBtn.textContent =
-        "Add Product";
-    }
-});
+function showAdminSection(
+  sectionId,
+  button
+){
+
+  document
+  .querySelectorAll(
+    ".admin-section"
+  )
+  .forEach(
+    section =>
+    section.classList.remove(
+      "active"
+    )
+  );
+
+
+  document
+  .getElementById(sectionId)
+  .classList.add("active");
+
+
+  document
+  .querySelectorAll(
+    ".admin-nav button"
+  )
+  .forEach(
+    btn =>
+    btn.classList.remove(
+      "active"
+    )
+  );
+
+
+  button.classList.add(
+    "active"
+  );
+}
 
 
 /* =========================
-IMAGE PREVIEW
+   IMAGE UPLOAD
+========================= */
+
+async function uploadImage(
+  file,
+  prefix
+){
+
+  if(
+    file.size >
+    5 * 1024 * 1024
+  ){
+
+    throw new Error(
+      "Image must be smaller than 5MB."
+    );
+  }
+
+
+  const extension =
+  file.name
+  .split(".")
+  .pop()
+  .toLowerCase();
+
+
+  const safeExtension =
+  [
+    "jpg",
+    "jpeg",
+    "png",
+    "webp",
+    "gif"
+  ].includes(extension)
+
+  ? extension
+  : "jpg";
+
+
+  const randomPart =
+  (
+    window.crypto &&
+    typeof crypto.randomUUID ===
+    "function"
+  )
+
+  ? crypto.randomUUID()
+
+  : Math.random()
+    .toString(36)
+    .slice(2);
+
+
+  const fileName =
+  `${prefix}-${Date.now()}-${randomPart}.${safeExtension}`;
+
+
+  const {error} =
+  await supabaseClient.storage
+  .from(STORAGE_BUCKET)
+  .upload(
+    fileName,
+    file,
+    {
+      cacheControl:"3600",
+      upsert:false
+    }
+  );
+
+
+  if(error){
+    throw error;
+  }
+
+
+  const {data} =
+  supabaseClient.storage
+  .from(STORAGE_BUCKET)
+  .getPublicUrl(fileName);
+
+
+  if(
+    !data ||
+    !data.publicUrl
+  ){
+
+    throw new Error(
+      "The image uploaded but its public URL could not be created."
+    );
+  }
+
+
+  return data.publicUrl;
+}
+
+
+/* =========================
+   PRODUCT IMAGE PREVIEW
 ========================= */
 
 document
 .getElementById("productImage")
 .addEventListener(
 "change",
-function(event) {
+function(event){
 
-    const file =
-    event.target.files[0];
-
-    if(!file)
-        return;
-
-
-    const reader =
-    new FileReader();
-
-
-    reader.onload =
-    function(e) {
-
-        imagePreview.src =
-        e.target.result;
-
-        imagePreview.style.display =
-        "block";
-    };
-
-
-    reader.readAsDataURL(file);
+  previewSelectedImage(
+    event.target.files[0],
+    "productImagePreview"
+  );
 });
 
 
 /* =========================
-UPLOAD IMAGE
+   PRODUCT SAVE
 ========================= */
 
-async function uploadProductImage(file) {
+document
+.getElementById("productForm")
+.addEventListener(
+"submit",
+async function(event){
 
-    const extension =
-    file.name
-    .split(".")
-    .pop()
-    .toLowerCase();
-
-
-    const safeExtension =
-    [
-        "jpg",
-        "jpeg",
-        "png",
-        "webp",
-        "gif"
-    ].includes(extension)
-
-    ? extension
-    : "jpg";
+  event.preventDefault();
 
 
-    const randomPart =
-    (
-        window.crypto &&
-        typeof crypto.randomUUID === "function"
+  const message =
+  document.getElementById(
+    "productMessage"
+  );
+
+
+  message.textContent = "";
+  message.className =
+  "form-message";
+
+
+  const editingId =
+  document
+  .getElementById(
+    "editingProductId"
+  ).value;
+
+
+  const name =
+  document
+  .getElementById(
+    "productName"
+  )
+  .value
+  .trim();
+
+
+  const price =
+  Number(
+    document
+    .getElementById(
+      "productPrice"
     )
-
-    ? crypto.randomUUID()
-
-    : Math.random()
-      .toString(36)
-      .slice(2);
+    .value
+  );
 
 
-    const fileName =
-    `${Date.now()}-${randomPart}.${safeExtension}`;
+  const category =
+  document
+  .getElementById(
+    "productCategory"
+  ).value;
 
 
-    const {error} =
-    await supabaseClient.storage
-    .from(STORAGE_BUCKET)
-    .upload(
-        fileName,
+  const description =
+  document
+  .getElementById(
+    "productDescription"
+  )
+  .value
+  .trim();
+
+
+  const inStock =
+  document
+  .getElementById(
+    "productStock"
+  ).checked;
+
+
+  const featured =
+  document
+  .getElementById(
+    "productFeatured"
+  ).checked;
+
+
+  const file =
+  document
+  .getElementById(
+    "productImage"
+  ).files[0];
+
+
+  let imageUrl =
+  document
+  .getElementById(
+    "existingProductImage"
+  ).value;
+
+
+  if(
+    !name ||
+    !category ||
+    !description ||
+    Number.isNaN(price)
+  ){
+
+    showFormMessage(
+      "productMessage",
+      "Please complete all product details.",
+      "error"
+    );
+
+    return;
+  }
+
+
+  if(
+    !editingId &&
+    !file
+  ){
+
+    showFormMessage(
+      "productMessage",
+      "Please choose a product image.",
+      "error"
+    );
+
+    return;
+  }
+
+
+  const button =
+  document.getElementById(
+    "saveProductBtn"
+  );
+
+
+  button.disabled = true;
+
+  button.textContent =
+  "Saving...";
+
+
+  try{
+
+    if(file){
+
+      imageUrl =
+      await uploadImage(
         file,
-        {
-            cacheControl:"3600",
-            upsert:false
-        }
-    );
-
-
-    if(error)
-        throw error;
-
-
-    const {data} =
-    supabaseClient.storage
-    .from(STORAGE_BUCKET)
-    .getPublicUrl(fileName);
-
-
-    if(
-        !data ||
-        !data.publicUrl
-    ) {
-
-        throw new Error(
-            "Image uploaded but public URL could not be created."
-        );
+        "product"
+      );
     }
 
 
-    return data.publicUrl;
-}
+    const payload = {
 
+      name,
+      price,
+      category,
+      description,
 
-/* =========================
-LOAD PRODUCTS
-========================= */
+      image_url:
+      imageUrl,
 
-async function loadProducts() {
+      in_stock:
+      inStock,
 
-    productsList.innerHTML =
-    '<div class="loading-state">Loading products...</div>';
-
-
-    const {data,error} =
-    await supabaseClient
-    .from("products")
-    .select("*")
-    .order(
-        "created_at",
-        {ascending:false}
-    );
-
-
-    if(error) {
-
-        productsList.innerHTML =
-        `<div class="empty-state error">
-        Could not load products:
-        ${escapeHtml(error.message)}
-        </div>`;
-
-        return;
-    }
-
-
-    productsCache =
-    data || [];
-
-
-    filterAdminProducts();
-}
-
-
-/* =========================
-PRODUCT SEARCH
-========================= */
-
-function filterAdminProducts() {
-
-    const search =
-    document
-    .getElementById(
-        "productSearch"
-    )
-    .value
-    .toLowerCase()
-    .trim();
-
-
-    const filtered =
-    productsCache.filter(
-        product => {
-
-            const text =
-            [
-                product.name,
-                product.description,
-                product.category,
-                displayCategory(
-                    product.category
-                )
-            ]
-            .join(" ")
-            .toLowerCase();
-
-
-            return text.includes(search);
-        }
-    );
-
-
-    renderProducts(filtered);
-
-
-    document
-    .getElementById(
-        "productResultCount"
-    )
-    .textContent =
-    `${filtered.length} of ${productsCache.length} products`;
-}
-
-
-/* =========================
-RENDER PRODUCTS
-========================= */
-
-function renderProducts(products) {
-
-    if(products.length === 0) {
-
-        productsList.innerHTML =
-        `<div class="empty-state">
-        No products found.
-        </div>`;
-
-        return;
-    }
-
-
-    productsList.innerHTML =
-    products.map(product => {
-
-        const image =
-        product.image_url
-        ? escapeHtml(
-            product.image_url
-          )
-        : "";
-
-
-        return `
-
-        <div class="product-item">
-
-            ${
-                image
-                ? `<img
-                    src="${image}"
-                    class="product-image"
-                    alt="${escapeHtml(product.name)}">`
-                : `<div class="product-image"></div>`
-            }
-
-
-            <div class="product-info">
-
-                <h3>
-                    ${escapeHtml(product.name)}
-                </h3>
-
-
-                <div class="product-price">
-                    R${formatPrice(product.price)}
-                </div>
-
-
-                <div class="product-meta">
-                    Category:
-                    ${escapeHtml(
-                        displayCategory(
-                            product.category
-                        )
-                    )}
-                </div>
-
-
-                <div class="product-meta">
-                    ${escapeHtml(
-                        shorten(
-                            product.description || "",
-                            110
-                        )
-                    )}
-                </div>
-
-
-                <div class="status-badges">
-
-                    ${
-                        product.in_stock
-                        ? `<span class="badge badge-stock">
-                           IN STOCK
-                           </span>`
-                        : `<span class="badge badge-out">
-                           OUT OF STOCK
-                           </span>`
-                    }
-
-
-                    ${
-                        product.featured
-                        ? `<span class="badge badge-featured">
-                           FEATURED
-                           </span>`
-                        : ""
-                    }
-
-                </div>
-
-            </div>
-
-
-            <div class="product-actions">
-
-                <button
-                    class="edit-btn"
-                    onclick="editProduct('${product.id}')">
-
-                    Edit
-
-                </button>
-
-
-                <button
-                    class="delete-btn"
-                    onclick="deleteProduct('${product.id}')">
-
-                    Delete
-
-                </button>
-
-            </div>
-
-        </div>
-
-        `;
-
-    }).join("");
-}
-
-
-/* =========================
-EDIT PRODUCT
-========================= */
-
-function editProduct(id) {
-
-    const product =
-    productsCache.find(
-        item =>
-        String(item.id) ===
-        String(id)
-    );
-
-
-    if(!product)
-        return;
-
-
-    document
-    .getElementById(
-        "editingProductId"
-    ).value =
-    product.id;
-
-
-    document
-    .getElementById(
-        "existingImageUrl"
-    ).value =
-    product.image_url || "";
-
-
-    document
-    .getElementById(
-        "productName"
-    ).value =
-    product.name || "";
-
-
-    document
-    .getElementById(
-        "productPrice"
-    ).value =
-    product.price ?? "";
-
-
-    document
-    .getElementById(
-        "productCategory"
-    ).value =
-    product.category || "";
-
-
-    document
-    .getElementById(
-        "productDescription"
-    ).value =
-    product.description || "";
-
-
-    document
-    .getElementById(
-        "productStock"
-    ).checked =
-    product.in_stock !== false;
-
-
-    document
-    .getElementById(
-        "productFeatured"
-    ).checked =
-    product.featured === true;
-
-
-    document
-    .getElementById(
-        "productImage"
-    ).value = "";
-
-
-    if(product.image_url) {
-
-        imagePreview.src =
-        product.image_url;
-
-        imagePreview.style.display =
-        "block";
-
-    } else {
-
-        imagePreview.style.display =
-        "none";
-    }
-
-
-    document
-    .getElementById(
-        "formTitle"
-    ).textContent =
-    "Edit Product";
-
-
-    saveProductBtn.textContent =
-    "Save Changes";
-
-
-    cancelEditBtn.style.display =
-    "block";
-
-
-    imageHelp.textContent =
-    "Leave the image empty to keep the current image.";
-
-
-    window.scrollTo({
-        top:0,
-        behavior:"smooth"
-    });
-}
-
-
-/* =========================
-DELETE PRODUCT
-========================= */
-
-async function deleteProduct(id) {
-
-    const product =
-    productsCache.find(
-        item =>
-        String(item.id) ===
-        String(id)
-    );
-
-
-    if(!product)
-        return;
-
-
-    const confirmed =
-    confirm(
-        `Delete "${product.name}"?\n\nIts reviews will also be deleted.`
-    );
-
-
-    if(!confirmed)
-        return;
-
-
-    const {error} =
-    await supabaseClient
-    .from("products")
-    .delete()
-    .eq("id",id);
-
-
-    if(error) {
-
-        alert(
-            "Could not delete product: "
-            + error.message
-        );
-
-        return;
-    }
-
-
-    resetProductForm();
-
-    await loadProducts();
-
-    await loadReviews();
-}
-
-
-/* =========================
-RESET FORM
-========================= */
-
-function resetProductForm(
-    clearMessage=true
-) {
-
-    productForm.reset();
-
-
-    document
-    .getElementById(
-        "editingProductId"
-    ).value = "";
-
-
-    document
-    .getElementById(
-        "existingImageUrl"
-    ).value = "";
-
-
-    document
-    .getElementById(
-        "productStock"
-    ).checked = true;
-
-
-    document
-    .getElementById(
-        "productFeatured"
-    ).checked = false;
-
-
-    document
-    .getElementById(
-        "formTitle"
-    ).textContent =
-    "Add Product";
-
-
-    saveProductBtn.textContent =
-    "Add Product";
-
-
-    cancelEditBtn.style.display =
-    "none";
-
-
-    imagePreview.style.display =
-    "none";
-
-
-    imagePreview.removeAttribute(
-        "src"
-    );
-
-
-    imageHelp.textContent =
-    "Choose an image for the new product.";
-
-
-    if(clearMessage)
-        clearProductMessage();
-}
-
-
-/* =========================
-LOAD REVIEWS
-========================= */
-
-async function loadReviews() {
-
-    reviewsList.innerHTML =
-    `<div class="loading-state">
-    Loading reviews...
-    </div>`;
-
-
-    const {data,error} =
-    await supabaseClient
-    .from("reviews")
-    .select("*")
-    .order(
-        "created_at",
-        {ascending:false}
-    );
-
-
-    if(error) {
-
-        reviewsList.innerHTML =
-        `<div class="empty-state error">
-        Could not load reviews:
-        ${escapeHtml(error.message)}
-        </div>`;
-
-        return;
-    }
-
-
-    reviewsCache =
-    data || [];
-
-
-    document
-    .getElementById(
-        "reviewCount"
-    ).textContent =
-    reviewsCache.length;
-
-
-    filterReviews();
-}
-
-
-/* =========================
-REVIEW SEARCH
-========================= */
-
-function filterReviews() {
-
-    const search =
-    document
-    .getElementById(
-        "reviewSearch"
-    )
-    .value
-    .toLowerCase()
-    .trim();
-
-
-    const filtered =
-    reviewsCache.filter(
-        review => {
-
-            const product =
-            getProductById(
-                review.product_id
-            );
-
-
-            const productName =
-            product
-            ? product.name
-            : "Unknown Product";
-
-
-            const text =
-            [
-                productName,
-                review.customer_name,
-                review.review_text,
-                review.rating
-            ]
-            .join(" ")
-            .toLowerCase();
-
-
-            return text.includes(search);
-        }
-    );
-
-
-    renderReviews(filtered);
-
-
-    document
-    .getElementById(
-        "reviewResultCount"
-    ).textContent =
-    `${filtered.length} of ${reviewsCache.length} reviews`;
-}
-
-
-/* =========================
-RENDER REVIEWS
-========================= */
-
-function renderReviews(reviews) {
-
-    if(reviews.length === 0) {
-
-        reviewsList.innerHTML =
-        `<div class="empty-state">
-        No reviews found.
-        </div>`;
-
-        return;
-    }
-
-
-    reviewsList.innerHTML =
-    reviews.map(review => {
-
-        const product =
-        getProductById(
-            review.product_id
-        );
-
-
-        const productName =
-        product
-        ? product.name
-        : "Unknown Product";
-
-
-        return `
-
-        <div class="review-item">
-
-            <div class="review-top">
-
-                <div>
-
-                    <div class="review-product">
-                        ${escapeHtml(productName)}
-                    </div>
-
-
-                    <div class="review-name">
-                        Customer:
-                        ${escapeHtml(review.customer_name)}
-                    </div>
-
-
-                    <div class="review-stars">
-                        ${createStars(review.rating)}
-                    </div>
-
-                </div>
-
-
-                <button
-                    class="review-delete"
-                    onclick="deleteReview('${review.id}')">
-
-                    Delete Review
-
-                </button>
-
-            </div>
-
-
-            <div class="review-text">
-                ${escapeHtml(review.review_text)}
-            </div>
-
-
-            <div class="review-date">
-                Submitted:
-                ${escapeHtml(
-                    formatReviewDate(
-                        review.created_at
-                    )
-                )}
-            </div>
-
-        </div>
-
-        `;
-
-    }).join("");
-}
-
-
-/* =========================
-DELETE REVIEW
-========================= */
-
-async function deleteReview(id) {
-
-    const review =
-    reviewsCache.find(
-        item =>
-        String(item.id) ===
-        String(id)
-    );
-
-
-    if(!review)
-        return;
-
-
-    const confirmed =
-    confirm(
-        `Delete this review from ${review.customer_name}?\n\nThis cannot be undone.`
-    );
-
-
-    if(!confirmed)
-        return;
-
-
-    const {error} =
-    await supabaseClient
-    .from("reviews")
-    .delete()
-    .eq("id",id);
-
-
-    if(error) {
-
-        alert(
-            "Could not delete review: "
-            + error.message
-        );
-
-        return;
-    }
-
-
-    await loadReviews();
-}
-
-
-/* =========================
-HELPERS
-========================= */
-
-function getProductById(id) {
-
-    return productsCache.find(
-        product =>
-        String(product.id) ===
-        String(id)
-    );
-}
-
-
-function createStars(rating) {
-
-    const value =
-    Math.max(
-        0,
-        Math.min(
-            5,
-            Number(rating) || 0
-        )
-    );
-
-
-    let stars = "";
-
-
-    for(
-        let i=1;
-        i<=5;
-        i++
-    ) {
-
-        stars +=
-        i <= value
-        ? "★"
-        : "☆";
-    }
-
-
-    return stars;
-}
-
-
-function displayCategory(category) {
-
-    const categories = {
-
-        health:
-        "Health & Fitness",
-
-        beauty:
-        "Beauty & Personal Care",
-
-        home:
-        "Home & Storage",
-
-        kitchen:
-        "Kitchen",
-
-        bathroom:
-        "Bathroom",
-
-        cleaning:
-        "Cleaning",
-
-        outdoor:
-        "Camping & Outdoor",
-
-        tools:
-        "Tools & DIY",
-
-        electronics:
-        "Electronics & Accessories",
-
-        car:
-        "Car Accessories",
-
-        baby:
-        "Baby & Kids",
-
-        pets:
-        "Pet Products",
-
-        gifts:
-        "Gifts & Lifestyle",
-
-        other:
-        "Other"
+      featured
     };
 
 
-    return (
-        categories[category] ||
-        category ||
-        "Other"
-    );
-}
+    let error;
 
 
-function shorten(text,length) {
+    if(editingId){
 
-    if(text.length <= length)
-        return text;
+      const result =
+      await supabaseClient
+      .from("products")
+      .update(payload)
+      .eq("id",editingId);
 
+      error =
+      result.error;
 
-    return (
-        text
-        .slice(0,length)
-        .trim()
-        + "..."
-    );
-}
+    }else{
 
+      const result =
+      await supabaseClient
+      .from("products")
+      .insert([payload]);
 
-function formatPrice(price) {
-
-    const number =
-    Number(price);
-
-
-    if(Number.isNaN(number))
-        return "0";
-
-
-    return number.toLocaleString(
-        "en-ZA",
-        {
-            minimumFractionDigits:2,
-            maximumFractionDigits:2
-        }
-    );
-}
-
-
-function formatReviewDate(value) {
-
-    if(!value)
-        return "";
-
-
-    const date =
-    new Date(value);
-
-
-    return date.toLocaleDateString(
-        "en-ZA",
-        {
-            year:"numeric",
-            month:"short",
-            day:"numeric",
-            hour:"2-digit",
-            minute:"2-digit"
-        }
-    );
-}
-
-
-function escapeHtml(value) {
-
-    return String(value ?? "")
-    .replaceAll("&","&amp;")
-    .replaceAll("<","&lt;")
-    .replaceAll(">","&gt;")
-    .replaceAll('"',"&quot;")
-    .replaceAll("'","&#039;");
-}
-
-
-function showProductMessage(
-    text,
-    type
-) {
-
-    productMessage.className =
-    type;
-
-    productMessage.textContent =
-    text;
-}
-
-
-function clearProductMessage() {
-
-    productMessage.className = "";
-
-    productMessage.textContent = "";
-}
-
-
-/* =========================
-LOGIN CHECK
-========================= */
-
-async function checkLogin() {
-
-    const {data} =
-    await supabaseClient.auth
-    .getUser();
-
-
-    if(
-        data.user &&
-        data.user.id === ADMIN_UID
-    ) {
-
-        showDashboard();
+      error =
+      result.error;
     }
-}
 
 
-function showDashboard() {
-
-    loginSection.style.display =
-    "none";
-
-
-    dashboard.style.display =
-    "block";
+    if(error){
+      throw error;
+    }
 
 
-    loadProducts()
-    .then(() => {
-        loadReviews();
-    });
-}
+    resetProductForm(false);
+
+
+    showFormMessage(
+      "productMessage",
+      editingId
+      ? "Product updated successfully ✅"
+      : "Product added successfully ✅",
+      "success"
+    );
+
+
+    await loadProducts();
+
+  }catch(error){
+
+    console.error(error);
+
+    showFormMessage(
+      "productMessage",
+      error.message ||
+      "Could not save the product.",
+      "error"
+    );
+
+  }finally{
+
+    button.disabled =
+    false;
+
+    button.textContent =
+    "Add Product";
+  }
+});
 
 
 /* =========================
-LOGOUT
+   PRODUCTS
 ========================= */
 
-async function logout() {
+async function loadProducts(){
 
-    await supabaseClient.auth
-    .signOut();
-
-
-    dashboard.style.display =
-    "none";
+  const list =
+  document.getElementById(
+    "productsList"
+  );
 
 
-    loginSection.style.display =
-    "flex";
+  list.innerHTML =
+  `<div class="empty">
+  Loading products...
+  </div>`;
 
+
+  const {data,error} =
+  await supabaseClient
+  .from("products")
+  .select("*")
+  .order(
+    "created_at",
+    {ascending:false}
+  );
+
+
+  if(error){
+
+    list.innerHTML =
+    `<div class="empty error">
+    ${escapeHtml(error.message)}
+    </div>`;
+
+    return;
+  }
+
+
+  productsCache =
+  data || [];
+
+
+  filterProducts();
+}
+
+
+function filterProducts(){
+
+  const search =
+  document
+  .getElementById(
+    "productSearch"
+  )
+  .value
+  .toLowerCase()
+  .trim();
+
+
+  const filtered =
+  productsCache.filter(
+    product => {
+
+      const text =
+      [
+        product.name,
+        product.description,
+        product.category,
+        displayCategory(
+          product.category
+        )
+      ]
+      .join(" ")
+      .toLowerCase();
+
+
+      return text.includes(
+        search
+      );
+    }
+  );
+
+
+  renderProducts(
+    filtered
+  );
+
+
+  document
+  .getElementById(
+    "productResultCount"
+  )
+  .textContent =
+  `${filtered.length} of ${productsCache.length} products`;
+}
+
+
+function renderProducts(
+  products
+){
+
+  const list =
+  document.getElementById(
+    "productsList"
+  );
+
+
+  if(
+    products.length === 0
+  ){
+
+    list.innerHTML =
+    `<div class="empty">
+    No products found.
+    </div>`;
+
+    return;
+  }
+
+
+  list.innerHTML =
+  products.map(
+    product => `
+
+    <div class="item product-item">
+
+      ${
+        product.image_url
+
+        ? `<img
+            src="${escapeHtml(product.image_url)}"
+            class="item-image"
+            alt="${escapeHtml(product.name)}">`
+
+        : `<div class="item-image"></div>`
+      }
+
+
+      <div>
+
+        <h3>
+          ${escapeHtml(product.name)}
+        </h3>
+
+        <div class="price">
+          R${formatPrice(product.price)}
+        </div>
+
+        <div class="meta">
+          ${escapeHtml(
+            displayCategory(
+              product.category
+            )
+          )}
+        </div>
+
+        <div class="meta">
+          ${escapeHtml(
+            shorten(
+              product.description || "",
+              100
+            )
+          )}
+        </div>
+
+
+        <div class="badges">
+
+          ${
+            product.in_stock
+
+            ? `<span class="badge stock">
+               IN STOCK
+               </span>`
+
+            : `<span class="badge out">
+               OUT OF STOCK
+               </span>`
+          }
+
+          ${
+            product.featured
+
+            ? `<span class="badge featured">
+               FEATURED
+               </span>`
+
+            : ""
+          }
+
+        </div>
+
+      </div>
+
+
+      <div class="actions">
+
+        <button
+          class="edit-btn"
+          onclick="editProduct('${product.id}')">
+          Edit
+        </button>
+
+        <button
+          class="delete-btn"
+          onclick="deleteProduct('${product.id}')">
+          Delete
+        </button>
+
+      </div>
+
+    </div>
+
+  `).join("");
+}
+
+
+function editProduct(id){
+
+  const product =
+  productsCache.find(
+    item =>
+    String(item.id) ===
+    String(id)
+  );
+
+
+  if(!product){
+    return;
+  }
+
+
+  document
+  .getElementById(
+    "editingProductId"
+  ).value =
+  product.id;
+
+
+  document
+  .getElementById(
+    "existingProductImage"
+  ).value =
+  product.image_url || "";
+
+
+  document
+  .getElementById(
+    "productName"
+  ).value =
+  product.name || "";
+
+
+  document
+  .getElementById(
+    "productPrice"
+  ).value =
+  product.price ?? "";
+
+
+  document
+  .getElementById(
+    "productCategory"
+  ).value =
+  product.category || "";
+
+
+  document
+  .getElementById(
+    "productDescription"
+  ).value =
+  product.description || "";
+
+
+  document
+  .getElementById(
+    "productStock"
+  ).checked =
+  product.in_stock !== false;
+
+
+  document
+  .getElementById(
+    "productFeatured"
+  ).checked =
+  product.featured === true;
+
+
+  document
+  .getElementById(
+    "productFormTitle"
+  ).textContent =
+  "Edit Product";
+
+
+  document
+  .getElementById(
+    "saveProductBtn"
+  ).textContent =
+  "Save Changes";
+
+
+  document
+  .getElementById(
+    "cancelProductEdit"
+  ).style.display =
+  "block";
+
+
+  document
+  .getElementById(
+    "productImageHelp"
+  ).textContent =
+  "Leave empty to keep the current picture, or choose a new picture.";
+
+
+  const preview =
+  document.getElementById(
+    "productImagePreview"
+  );
+
+
+  if(product.image_url){
+
+    preview.src =
+    product.image_url;
+
+    preview.style.display =
+    "block";
+  }
+
+
+  window.scrollTo({
+    top:0,
+    behavior:"smooth"
+  });
+}
+
+
+async function deleteProduct(id){
+
+  const product =
+  productsCache.find(
+    item =>
+    String(item.id) ===
+    String(id)
+  );
+
+
+  if(!product){
+    return;
+  }
+
+
+  if(
+    !confirm(
+      `Delete "${product.name}"?\n\nIts reviews will also be deleted.`
+    )
+  ){
+    return;
+  }
+
+
+  const {error} =
+  await supabaseClient
+  .from("products")
+  .delete()
+  .eq("id",id);
+
+
+  if(error){
+
+    alert(
+      "Could not delete product: "
+      + error.message
+    );
+
+    return;
+  }
+
+
+  resetProductForm();
+
+  await loadProducts();
+
+  await loadReviews();
+}
+
+
+function resetProductForm(
+  clearMessage=true
+){
+
+  document
+  .getElementById(
+    "productForm"
+  ).reset();
+
+
+  document
+  .getElementById(
+    "editingProductId"
+  ).value = "";
+
+
+  document
+  .getElementById(
+    "existingProductImage"
+  ).value = "";
+
+
+  document
+  .getElementById(
+    "productStock"
+  ).checked =
+  true;
+
+
+  document
+  .getElementById(
+    "productFormTitle"
+  ).textContent =
+  "Add Product";
+
+
+  document
+  .getElementById(
+    "saveProductBtn"
+  ).textContent =
+  "Add Product";
+
+
+  document
+  .getElementById(
+    "cancelProductEdit"
+  ).style.display =
+  "none";
+
+
+  document
+  .getElementById(
+    "productImageHelp"
+  ).textContent =
+  "Choose an image for the product.";
+
+
+  hidePreview(
+    "productImagePreview"
+  );
+
+
+  if(clearMessage){
 
     document
     .getElementById(
-        "password"
-    ).value = "";
+      "productMessage"
+    )
+    .textContent = "";
+  }
+}
 
 
-    message.className = "";
+/* =========================
+   HOMEPAGE IMAGE PREVIEW
+========================= */
 
-    message.textContent = "";
+document
+.getElementById(
+  "homepageImage"
+)
+.addEventListener(
+"change",
+function(event){
+
+  previewSelectedImage(
+    event.target.files[0],
+    "homepageImagePreview"
+  );
+});
 
 
-    resetProductForm();
+/* =========================
+   SAVE HOMEPAGE CATEGORY
+========================= */
+
+document
+.getElementById(
+  "homepageForm"
+)
+.addEventListener(
+"submit",
+async function(event){
+
+  event.preventDefault();
+
+
+  const editingId =
+  document
+  .getElementById(
+    "editingHomepageId"
+  ).value;
+
+
+  const name =
+  document
+  .getElementById(
+    "homepageName"
+  )
+  .value
+  .trim();
+
+
+  const description =
+  document
+  .getElementById(
+    "homepageDescription"
+  )
+  .value
+  .trim();
+
+
+  const categoryValue =
+  document
+  .getElementById(
+    "homepageCategoryValue"
+  ).value;
+
+
+  const displayOrder =
+  Number(
+    document
+    .getElementById(
+      "homepageOrder"
+    ).value
+  );
+
+
+  const visible =
+  document
+  .getElementById(
+    "homepageVisible"
+  ).checked;
+
+
+  const file =
+  document
+  .getElementById(
+    "homepageImage"
+  ).files[0];
+
+
+  let imageUrl =
+  document
+  .getElementById(
+    "existingHomepageImage"
+  ).value;
+
+
+  if(
+    !name ||
+    !description ||
+    !categoryValue ||
+    Number.isNaN(displayOrder)
+  ){
+
+    showFormMessage(
+      "homepageMessage",
+      "Please complete all homepage category details.",
+      "error"
+    );
+
+    return;
+  }
+
+
+  if(
+    !editingId &&
+    !file
+  ){
+
+    showFormMessage(
+      "homepageMessage",
+      "Please choose a category picture.",
+      "error"
+    );
+
+    return;
+  }
+
+
+  const button =
+  document.getElementById(
+    "saveHomepageBtn"
+  );
+
+
+  button.disabled =
+  true;
+
+  button.textContent =
+  "Saving...";
+
+
+  try{
+
+    if(file){
+
+      imageUrl =
+      await uploadImage(
+        file,
+        "homepage"
+      );
+    }
+
+
+    const payload = {
+
+      name,
+
+      description,
+
+      category_value:
+      categoryValue,
+
+      image_url:
+      imageUrl,
+
+      display_order:
+      displayOrder,
+
+      visible
+    };
+
+
+    let error;
+
+
+    if(editingId){
+
+      const result =
+      await supabaseClient
+      .from(
+        "homepage_categories"
+      )
+      .update(payload)
+      .eq("id",editingId);
+
+      error =
+      result.error;
+
+    }else{
+
+      const result =
+      await supabaseClient
+      .from(
+        "homepage_categories"
+      )
+      .insert([payload]);
+
+      error =
+      result.error;
+    }
+
+
+    if(error){
+      throw error;
+    }
+
+
+    resetHomepageForm(
+      false
+    );
+
+
+    showFormMessage(
+      "homepageMessage",
+      editingId
+      ? "Homepage category updated successfully ✅"
+      : "Homepage category added successfully ✅",
+      "success"
+    );
+
+
+    await loadHomepageCategories();
+
+  }catch(error){
+
+    console.error(error);
+
+    showFormMessage(
+      "homepageMessage",
+      error.message ||
+      "Could not save the homepage category.",
+      "error"
+    );
+
+  }finally{
+
+    button.disabled =
+    false;
+
+    button.textContent =
+    "Add Category";
+  }
+});
+
+
+/* =========================
+   HOMEPAGE CATEGORIES
+========================= */
+
+async function loadHomepageCategories(){
+
+  const list =
+  document.getElementById(
+    "homepageCategoriesList"
+  );
+
+
+  list.innerHTML =
+  `<div class="empty">
+  Loading homepage categories...
+  </div>`;
+
+
+  const {data,error} =
+  await supabaseClient
+  .from(
+    "homepage_categories"
+  )
+  .select("*")
+  .order(
+    "display_order",
+    {ascending:true}
+  );
+
+
+  if(error){
+
+    list.innerHTML =
+    `<div class="empty error">
+    ${escapeHtml(error.message)}
+    </div>`;
+
+    return;
+  }
+
+
+  homepageCache =
+  data || [];
+
+
+  renderHomepageCategories();
+}
+
+
+function renderHomepageCategories(){
+
+  const list =
+  document.getElementById(
+    "homepageCategoriesList"
+  );
+
+
+  if(
+    homepageCache.length === 0
+  ){
+
+    list.innerHTML = `
+
+      <div class="empty">
+
+        No homepage categories have been added yet.
+
+        <br><br>
+
+        Use the form on the left to add
+        Health & Fitness, Home & Storage,
+        Cleaning, Bathroom and your other
+        homepage categories.
+
+      </div>
+    `;
+
+    return;
+  }
+
+
+  list.innerHTML =
+  homepageCache.map(
+    item => `
+
+    <div class="item category-admin-item">
+
+      ${
+        item.image_url
+
+        ? `<img
+            src="${escapeHtml(item.image_url)}"
+            class="category-admin-image"
+            alt="${escapeHtml(item.name)}">`
+
+        : `<div class="category-admin-image"></div>`
+      }
+
+
+      <div>
+
+        <h3>
+          ${escapeHtml(item.name)}
+        </h3>
+
+        <div class="category-description">
+          ${escapeHtml(item.description || "")}
+        </div>
+
+        <div class="meta">
+          Opens:
+          ${escapeHtml(
+            displayCategory(
+              item.category_value
+            )
+          )}
+        </div>
+
+
+        <span class="order-badge">
+          Order:
+          ${escapeHtml(item.display_order)}
+        </span>
+
+
+        <div class="badges">
+
+          ${
+            item.visible
+
+            ? `<span class="badge stock">
+               VISIBLE
+               </span>`
+
+            : `<span class="badge hidden">
+               HIDDEN
+               </span>`
+          }
+
+        </div>
+
+      </div>
+
+
+      <div class="actions">
+
+        <button
+          onclick="editHomepageCategory('${item.id}')">
+
+          Edit
+
+        </button>
+
+
+        <button
+          class="delete-btn"
+          onclick="deleteHomepageCategory('${item.id}')">
+
+          Delete
+
+        </button>
+
+      </div>
+
+    </div>
+
+  `).join("");
+}
+
+
+function editHomepageCategory(id){
+
+  const item =
+  homepageCache.find(
+    category =>
+    String(category.id) ===
+    String(id)
+  );
+
+
+  if(!item){
+    return;
+  }
+
+
+  document
+  .getElementById(
+    "editingHomepageId"
+  ).value =
+  item.id;
+
+
+  document
+  .getElementById(
+    "existingHomepageImage"
+  ).value =
+  item.image_url || "";
+
+
+  document
+  .getElementById(
+    "homepageName"
+  ).value =
+  item.name || "";
+
+
+  document
+  .getElementById(
+    "homepageDescription"
+  ).value =
+  item.description || "";
+
+
+  document
+  .getElementById(
+    "homepageCategoryValue"
+  ).value =
+  item.category_value || "";
+
+
+  document
+  .getElementById(
+    "homepageOrder"
+  ).value =
+  item.display_order ?? 0;
+
+
+  document
+  .getElementById(
+    "homepageVisible"
+  ).checked =
+  item.visible !== false;
+
+
+  document
+  .getElementById(
+    "homepageFormTitle"
+  ).textContent =
+  "Edit Homepage Category";
+
+
+  document
+  .getElementById(
+    "saveHomepageBtn"
+  ).textContent =
+  "Save Changes";
+
+
+  document
+  .getElementById(
+    "cancelHomepageEdit"
+  ).style.display =
+  "block";
+
+
+  document
+  .getElementById(
+    "homepageImageHelp"
+  ).textContent =
+  "Leave empty to keep the current picture, or choose a new picture.";
+
+
+  const preview =
+  document.getElementById(
+    "homepageImagePreview"
+  );
+
+
+  if(item.image_url){
+
+    preview.src =
+    item.image_url;
+
+    preview.style.display =
+    "block";
+  }
+
+
+  showAdminSection(
+    "homepageSection",
+    document.querySelector(
+      '[data-section="homepageSection"]'
+    )
+  );
+
+
+  window.scrollTo({
+    top:0,
+    behavior:"smooth"
+  });
+}
+
+
+async function deleteHomepageCategory(
+  id
+){
+
+  const item =
+  homepageCache.find(
+    category =>
+    String(category.id) ===
+    String(id)
+  );
+
+
+  if(!item){
+    return;
+  }
+
+
+  if(
+    !confirm(
+      `Delete "${item.name}" from your homepage categories?`
+    )
+  ){
+
+    return;
+  }
+
+
+  const {error} =
+  await supabaseClient
+  .from(
+    "homepage_categories"
+  )
+  .delete()
+  .eq("id",id);
+
+
+  if(error){
+
+    alert(
+      "Could not delete category: "
+      + error.message
+    );
+
+    return;
+  }
+
+
+  resetHomepageForm();
+
+  await loadHomepageCategories();
+}
+
+
+function resetHomepageForm(
+  clearMessage=true
+){
+
+  document
+  .getElementById(
+    "homepageForm"
+  ).reset();
+
+
+  document
+  .getElementById(
+    "editingHomepageId"
+  ).value = "";
+
+
+  document
+  .getElementById(
+    "existingHomepageImage"
+  ).value = "";
+
+
+  document
+  .getElementById(
+    "homepageVisible"
+  ).checked =
+  true;
+
+
+  document
+  .getElementById(
+    "homepageOrder"
+  ).value =
+  "0";
+
+
+  document
+  .getElementById(
+    "homepageFormTitle"
+  ).textContent =
+  "Add Homepage Category";
+
+
+  document
+  .getElementById(
+    "saveHomepageBtn"
+  ).textContent =
+  "Add Category";
+
+
+  document
+  .getElementById(
+    "cancelHomepageEdit"
+  ).style.display =
+  "none";
+
+
+  document
+  .getElementById(
+    "homepageImageHelp"
+  ).textContent =
+  "Choose the picture customers will see on the homepage.";
+
+
+  hidePreview(
+    "homepageImagePreview"
+  );
+
+
+  if(clearMessage){
+
+    document
+    .getElementById(
+      "homepageMessage"
+    ).textContent =
+    "";
+  }
+}
+
+
+/* =========================
+   REVIEWS
+========================= */
+
+async function loadReviews(){
+
+  const list =
+  document.getElementById(
+    "reviewsList"
+  );
+
+
+  list.innerHTML =
+  `<div class="empty">
+  Loading reviews...
+  </div>`;
+
+
+  const {data,error} =
+  await supabaseClient
+  .from("reviews")
+  .select("*")
+  .order(
+    "created_at",
+    {ascending:false}
+  );
+
+
+  if(error){
+
+    list.innerHTML =
+    `<div class="empty error">
+    ${escapeHtml(error.message)}
+    </div>`;
+
+    return;
+  }
+
+
+  reviewsCache =
+  data || [];
+
+
+  document
+  .getElementById(
+    "reviewCount"
+  ).textContent =
+  reviewsCache.length;
+
+
+  filterReviews();
+}
+
+
+function filterReviews(){
+
+  const search =
+  document
+  .getElementById(
+    "reviewSearch"
+  )
+  .value
+  .toLowerCase()
+  .trim();
+
+
+  const filtered =
+  reviewsCache.filter(
+    review => {
+
+      const product =
+      productsCache.find(
+        item =>
+        String(item.id) ===
+        String(review.product_id)
+      );
+
+
+      const text =
+      [
+        review.customer_name,
+        review.review_text,
+        review.rating,
+        product
+        ? product.name
+        : ""
+      ]
+      .join(" ")
+      .toLowerCase();
+
+
+      return text.includes(
+        search
+      );
+    }
+  );
+
+
+  renderReviews(
+    filtered
+  );
+
+
+  document
+  .getElementById(
+    "reviewResultCount"
+  ).textContent =
+  `${filtered.length} of ${reviewsCache.length} reviews`;
+}
+
+
+function renderReviews(
+  reviews
+){
+
+  const list =
+  document.getElementById(
+    "reviewsList"
+  );
+
+
+  if(
+    reviews.length === 0
+  ){
+
+    list.innerHTML =
+    `<div class="empty">
+    No reviews found.
+    </div>`;
+
+    return;
+  }
+
+
+  list.innerHTML =
+  reviews.map(
+    review => {
+
+      const product =
+      productsCache.find(
+        item =>
+        String(item.id) ===
+        String(review.product_id)
+      );
+
+
+      return `
+
+      <div class="item review-item">
+
+        <div>
+
+          <h3>
+            ${
+              escapeHtml(
+                product
+                ? product.name
+                : "Unknown Product"
+              )
+            }
+          </h3>
+
+          <div class="meta">
+            Customer:
+            ${escapeHtml(review.customer_name)}
+          </div>
+
+          <div class="review-stars">
+            ${createStars(review.rating)}
+          </div>
+
+          <div class="review-text">
+            ${escapeHtml(review.review_text)}
+          </div>
+
+          <div class="meta"
+               style="margin-top:10px">
+
+            ${escapeHtml(
+              formatDate(
+                review.created_at
+              )
+            )}
+
+          </div>
+
+        </div>
+
+
+        <div class="actions">
+
+          <button
+            class="delete-btn"
+            onclick="deleteReview('${review.id}')">
+
+            Delete Review
+
+          </button>
+
+        </div>
+
+      </div>
+
+    `;
+
+    }
+  ).join("");
+}
+
+
+async function deleteReview(id){
+
+  const review =
+  reviewsCache.find(
+    item =>
+    String(item.id) ===
+    String(id)
+  );
+
+
+  if(!review){
+    return;
+  }
+
+
+  if(
+    !confirm(
+      `Delete this review from ${review.customer_name}?`
+    )
+  ){
+
+    return;
+  }
+
+
+  const {error} =
+  await supabaseClient
+  .from("reviews")
+  .delete()
+  .eq("id",id);
+
+
+  if(error){
+
+    alert(
+      "Could not delete review: "
+      + error.message
+    );
+
+    return;
+  }
+
+
+  await loadReviews();
+}
+
+
+/* =========================
+   HELPERS
+========================= */
+
+function previewSelectedImage(
+  file,
+  previewId
+){
+
+  if(!file){
+    return;
+  }
+
+
+  const reader =
+  new FileReader();
+
+
+  reader.onload =
+  function(event){
+
+    const preview =
+    document.getElementById(
+      previewId
+    );
+
+
+    preview.src =
+    event.target.result;
+
+    preview.style.display =
+    "block";
+  };
+
+
+  reader.readAsDataURL(file);
+}
+
+
+function hidePreview(id){
+
+  const preview =
+  document.getElementById(id);
+
+  preview.removeAttribute(
+    "src"
+  );
+
+  preview.style.display =
+  "none";
+}
+
+
+function showFormMessage(
+  id,
+  text,
+  type
+){
+
+  const element =
+  document.getElementById(id);
+
+  element.textContent =
+  text;
+
+  element.className =
+  `form-message ${type}`;
+}
+
+
+function displayCategory(
+  category
+){
+
+  const categories = {
+
+    health:
+    "Health & Fitness",
+
+    beauty:
+    "Beauty & Personal Care",
+
+    home:
+    "Home & Storage",
+
+    kitchen:
+    "Kitchen",
+
+    bathroom:
+    "Bathroom",
+
+    cleaning:
+    "Cleaning",
+
+    outdoor:
+    "Camping & Outdoor",
+
+    tools:
+    "Tools & DIY",
+
+    electronics:
+    "Electronics & Accessories",
+
+    car:
+    "Car Accessories",
+
+    baby:
+    "Baby & Kids",
+
+    pets:
+    "Pet Products",
+
+    gifts:
+    "Gifts & Lifestyle",
+
+    other:
+    "Other"
+  };
+
+
+  return (
+    categories[category] ||
+    category ||
+    "Other"
+  );
+}
+
+
+function createStars(rating){
+
+  const value =
+  Number(rating) || 0;
+
+  let stars = "";
+
+
+  for(
+    let i=1;
+    i<=5;
+    i++
+  ){
+
+    stars +=
+    i <= value
+    ? "★"
+    : "☆";
+  }
+
+
+  return stars;
+}
+
+
+function formatPrice(value){
+
+  const number =
+  Number(value);
+
+
+  if(
+    Number.isNaN(number)
+  ){
+
+    return "0.00";
+  }
+
+
+  return number.toLocaleString(
+    "en-ZA",
+    {
+      minimumFractionDigits:2,
+      maximumFractionDigits:2
+    }
+  );
+}
+
+
+function formatDate(value){
+
+  if(!value){
+    return "";
+  }
+
+
+  const date =
+  new Date(value);
+
+
+  return date.toLocaleDateString(
+    "en-ZA",
+    {
+      year:"numeric",
+      month:"short",
+      day:"numeric",
+      hour:"2-digit",
+      minute:"2-digit"
+    }
+  );
+}
+
+
+function shorten(
+  text,
+  length
+){
+
+  text =
+  String(text || "");
+
+
+  if(
+    text.length <= length
+  ){
+
+    return text;
+  }
+
+
+  return (
+    text
+    .slice(0,length)
+    .trim()
+    + "..."
+  );
+}
+
+
+function escapeHtml(value){
+
+  return String(
+    value ?? ""
+  )
+  .replaceAll("&","&amp;")
+  .replaceAll("<","&lt;")
+  .replaceAll(">","&gt;")
+  .replaceAll('"',"&quot;")
+  .replaceAll("'","&#039;");
 }
 
 
