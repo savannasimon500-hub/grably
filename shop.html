@@ -19,14 +19,19 @@
     --lime: #9BE000;
     --lime-dark: #79b800;
     --dark: #171717;
+    --black: #111111;
     --light: #f7f7f7;
     --grey: #666;
     --yellow: #f5b301;
 }
 
+html {
+    scroll-behavior: smooth;
+}
+
 body {
     font-family: Arial, Helvetica, sans-serif;
-    background: var(--light);
+    background: #f7f7f7;
     color: var(--dark);
 }
 
@@ -34,112 +39,211 @@ body.modal-open {
     overflow: hidden;
 }
 
-/* HEADER */
+/* =========================
+   HEADER
+========================= */
 
 header {
-    background: white;
-    border-bottom: 1px solid #ddd;
-    padding: 14px 6%;
+    background: #171717;
+    padding: 18px 6%;
     display: flex;
     justify-content: space-between;
     align-items: center;
+    gap: 30px;
     position: sticky;
     top: 0;
     z-index: 100;
+    box-shadow: 0 3px 15px rgba(0,0,0,.18);
 }
 
 .logo {
     display: flex;
     align-items: center;
+    text-decoration: none;
 }
 
 .logo img {
-    width: 150px;
-    height: 70px;
+    width: 185px;
+    height: 120px;
     object-fit: contain;
+    background: white;
 }
 
 nav {
     display: flex;
-    gap: 28px;
     align-items: center;
+    justify-content: center;
+    gap: 36px;
 }
 
 nav a {
+    color: white;
     text-decoration: none;
-    color: var(--dark);
-    font-weight: 600;
+    font-size: 16px;
+    font-weight: 700;
 }
 
-nav a:hover {
-    color: var(--lime-dark);
+nav a:hover,
+nav a.active {
+    color: var(--lime);
 }
 
 .cart-button {
-    background: var(--dark);
-    color: white;
-    padding: 12px 18px;
-    border-radius: 8px;
+    background: var(--lime);
+    color: var(--dark);
+    padding: 16px 25px;
+    border-radius: 10px;
     text-decoration: none;
-    font-weight: bold;
+    font-weight: 800;
+    white-space: nowrap;
 }
 
 .cart-button:hover {
-    background: var(--lime);
-    color: var(--dark);
+    background: white;
 }
 
-/* SHOP HEADING */
+/* =========================
+   HERO
+========================= */
 
-.shop-heading {
-    text-align: center;
-    padding: 60px 20px 30px;
-    background: linear-gradient(135deg, white, #f7f7f7, #efffd0);
+.shop-hero {
+    background:
+        linear-gradient(
+            120deg,
+            #171717 0%,
+            #171717 56%,
+            #9BE000 56%,
+            #9BE000 100%
+        );
+
+    min-height: 310px;
+    display: flex;
+    align-items: center;
 }
 
-.shop-heading small {
-    color: var(--lime-dark);
+.hero-inner {
+    width: 88%;
+    max-width: 1250px;
+    margin: auto;
+
+    display: grid;
+    grid-template-columns: 1.2fr .8fr;
+    align-items: center;
+    gap: 40px;
+}
+
+.hero-text {
+    color: white;
+    padding: 55px 0;
+}
+
+.hero-label {
+    color: var(--lime);
     letter-spacing: 5px;
+    font-size: 13px;
+    font-weight: 900;
+    margin-bottom: 14px;
+}
+
+.hero-text h1 {
+    font-size: 50px;
+    line-height: 1.05;
+    margin-bottom: 15px;
+}
+
+.hero-text h1 span {
+    color: var(--lime);
+}
+
+.hero-text p {
+    color: #d0d0d0;
+    font-size: 17px;
+    line-height: 1.6;
+    max-width: 580px;
+}
+
+.hero-box {
+    background: white;
+    border-radius: 18px;
+    padding: 30px;
+    box-shadow: 0 12px 35px rgba(0,0,0,.18);
+}
+
+.hero-box h2 {
+    font-size: 27px;
+    margin-bottom: 10px;
+}
+
+.hero-box h2 span {
+    color: var(--lime-dark);
+}
+
+.hero-box p {
+    color: var(--grey);
+    line-height: 1.6;
+}
+
+.hero-box strong {
+    display: block;
+    margin-top: 15px;
+}
+
+/* =========================
+   DELIVERY
+========================= */
+
+.delivery-notice {
+    width: 90%;
+    max-width: 1250px;
+    margin: 30px auto 0;
+    background: white;
+    border-left: 6px solid var(--lime);
+    padding: 18px 22px;
+    border-radius: 12px;
+    box-shadow: 0 3px 14px rgba(0,0,0,.06);
+    text-align: center;
+    line-height: 1.5;
+}
+
+/* =========================
+   SHOP TOOLS
+========================= */
+
+.shop-tools {
+    width: 90%;
+    max-width: 1250px;
+    margin: 35px auto;
+}
+
+.tools-heading {
+    text-align: center;
+    margin-bottom: 25px;
+}
+
+.tools-heading small {
+    color: var(--lime-dark);
+    letter-spacing: 4px;
     font-weight: bold;
 }
 
-.shop-heading h1 {
-    font-size: 46px;
-    margin: 12px 0;
+.tools-heading h2 {
+    font-size: 36px;
+    margin-top: 8px;
 }
 
-.shop-heading p {
-    color: var(--grey);
-}
-
-.delivery-notice {
-    width: 92%;
-    max-width: 1250px;
-    margin: 30px auto 20px;
-    background: #efffd0;
-    border-left: 5px solid var(--lime);
-    padding: 16px 20px;
-    border-radius: 10px;
-    text-align: center;
-}
-
-/* SEARCH + CATEGORIES */
-
-.shop-tools {
-    width: 92%;
-    max-width: 1250px;
-    margin: 25px auto 35px;
-    display: flex;
-    flex-direction: column;
-    gap: 20px;
+.search-box {
+    max-width: 800px;
+    margin: 0 auto 25px;
 }
 
 .search-box input {
     width: 100%;
-    padding: 15px 18px;
-    border: 1px solid #ccc;
-    border-radius: 8px;
+    padding: 17px 20px;
+    border: 2px solid #e2e2e2;
+    border-radius: 12px;
     font-size: 16px;
+    background: white;
+    box-shadow: 0 3px 12px rgba(0,0,0,.04);
 }
 
 .search-box input:focus {
@@ -149,64 +253,95 @@ nav a:hover {
 
 .filters {
     display: flex;
+    justify-content: center;
     flex-wrap: wrap;
     gap: 10px;
 }
 
 .filter-button {
-    border: 1px solid #ccc;
+    border: 2px solid #e5e5e5;
     background: white;
-    padding: 10px 16px;
-    border-radius: 25px;
+    padding: 11px 17px;
+    border-radius: 30px;
     cursor: pointer;
-    font-weight: 600;
+    font-weight: 700;
+    transition: .2s;
 }
 
 .filter-button:hover {
     border-color: var(--lime);
+    transform: translateY(-2px);
 }
 
 .filter-button.active {
     background: var(--lime);
-    color: var(--dark);
     border-color: var(--lime);
+    color: var(--dark);
 }
 
-/* PRODUCTS */
+/* =========================
+   PRODUCTS
+========================= */
+
+.products-section {
+    background: white;
+    padding: 50px 0 80px;
+}
+
+.products-heading {
+    width: 90%;
+    max-width: 1250px;
+    margin: 0 auto 28px;
+}
+
+.products-heading small {
+    color: var(--lime-dark);
+    font-weight: bold;
+    letter-spacing: 3px;
+}
+
+.products-heading h2 {
+    font-size: 34px;
+    margin-top: 7px;
+}
 
 .products {
-    width: 92%;
+    width: 90%;
     max-width: 1250px;
     margin: auto;
+
     display: grid;
     grid-template-columns: repeat(3, 1fr);
     gap: 25px;
-    padding-bottom: 70px;
 }
 
 .product {
     background: white;
-    border-radius: 14px;
+    border-radius: 17px;
     overflow: hidden;
-    box-shadow: 0 3px 14px rgba(0,0,0,0.08);
-    transition: 0.2s;
+    border: 1px solid #eeeeee;
+    box-shadow: 0 5px 18px rgba(0,0,0,.07);
+
     display: flex;
     flex-direction: column;
+
+    transition: transform .2s, box-shadow .2s;
 }
 
 .product:hover {
-    transform: translateY(-5px);
-    box-shadow: 0 8px 25px rgba(0,0,0,0.12);
+    transform: translateY(-6px);
+    box-shadow: 0 12px 30px rgba(0,0,0,.12);
 }
 
 .product-image-box {
     position: relative;
-    background: #eee;
+    background: #f4f4f4;
+    padding: 10px;
 }
 
 .product img {
     width: 100%;
-    height: 340px;
+    height: 330px;
     object-fit: contain;
     display: block;
 }
@@ -214,12 +349,15 @@ nav a:hover {
 .new-badge,
 .out-badge {
     position: absolute;
-    top: 14px;
-    left: 14px;
+    top: 15px;
+    left: 15px;
+    z-index: 2;
+
     padding: 7px 11px;
     border-radius: 20px;
-    font-size: 12px;
-    font-weight: bold;
+
+    font-size: 11px;
+    font-weight: 900;
 }
 
 .new-badge {
@@ -233,7 +371,7 @@ nav a:hover {
 }
 
 .product-info {
-    padding: 20px;
+    padding: 21px;
     display: flex;
     flex-direction: column;
     flex: 1;
@@ -241,46 +379,30 @@ nav a:hover {
 
 .category {
     color: var(--lime-dark);
-    font-weight: bold;
-    font-size: 12px;
-    margin-bottom: 8px;
+    font-weight: 900;
+    font-size: 11px;
     text-transform: uppercase;
+    letter-spacing: .5px;
+    margin-bottom: 8px;
 }
 
 .product h2 {
     font-size: 20px;
-    margin-bottom: 8px;
+    margin-bottom: 7px;
 }
-
-.description {
-    color: var(--grey);
-    font-size: 14px;
-    line-height: 1.55;
-    margin-bottom: 15px;
-    flex: 1;
-}
-
-.price {
-    font-size: 24px;
-    font-weight: bold;
-    margin: 10px 0 16px;
-}
-
-/* PRODUCT RATINGS */
 
 .product-rating {
     display: flex;
     align-items: center;
-    gap: 7px;
     flex-wrap: wrap;
-    margin: 3px 0 10px;
-    font-size: 14px;
+    gap: 7px;
+    margin-bottom: 12px;
 }
 
 .rating-stars {
     color: var(--yellow);
-    letter-spacing: 1px;
     font-size: 18px;
+    letter-spacing: 1px;
 }
 
 .rating-text {
@@ -288,9 +410,22 @@ nav a:hover {
     font-size: 13px;
 }
 
+.description {
+    color: var(--grey);
+    line-height: 1.55;
+    font-size: 14px;
+    margin-bottom: 15px;
+    flex: 1;
+}
+
+.price {
+    font-size: 25px;
+    font-weight: 900;
+    margin: 8px 0 17px;
+}
+
 .product-buttons {
     display: grid;
-    grid-template-columns: 1fr;
     gap: 9px;
 }
 
@@ -298,16 +433,16 @@ nav a:hover {
 .review-button {
     width: 100%;
     padding: 14px;
-    border-radius: 8px;
-    cursor: pointer;
+    border-radius: 9px;
     font-size: 15px;
-    font-weight: bold;
+    font-weight: 800;
+    cursor: pointer;
 }
 
 .add-button {
+    border: none;
     background: var(--lime);
     color: var(--dark);
-    border: none;
 }
 
 .add-button:hover:not(:disabled) {
@@ -316,6 +451,7 @@ nav a:hover {
 }
 
 .add-button:disabled {
+    border: none;
     background: #ccc;
     color: #666;
     cursor: not-allowed;
@@ -332,32 +468,24 @@ nav a:hover {
     color: white;
 }
 
-/* MESSAGES */
+/* =========================
+   LOADING
+========================= */
 
-#message {
-    position: fixed;
-    right: 25px;
-    bottom: 25px;
-    background: var(--dark);
-    color: white;
-    padding: 15px 22px;
-    border-left: 5px solid var(--lime);
-    border-radius: 8px;
-    display: none;
-    z-index: 500;
-}
-
-#no-results,
 #loading,
-#shop-error {
+#shop-error,
+#no-results {
+    width: 90%;
+    max-width: 1250px;
+    margin: auto;
+    padding: 45px 20px;
     text-align: center;
+    color: var(--grey);
     font-size: 18px;
-    color: #666;
-    padding: 50px 20px;
 }
 
-#no-results,
-#shop-error {
+#shop-error,
+#no-results {
     display: none;
 }
 
@@ -365,17 +493,37 @@ nav a:hover {
     color: #b00020;
 }
 
-/* REVIEW MODAL */
+#message {
+    display: none;
+    position: fixed;
+    right: 25px;
+    bottom: 25px;
+    z-index: 1500;
+
+    background: var(--dark);
+    color: white;
+
+    border-left: 5px solid var(--lime);
+    border-radius: 9px;
+
+    padding: 15px 22px;
+    font-weight: bold;
+}
+
+/* =========================
+   REVIEW MODAL
+========================= */
 
 .review-modal {
     display: none;
+
     position: fixed;
+    inset: 0;
+
     z-index: 1000;
-    left: 0;
-    top: 0;
-    width: 100%;
-    height: 100%;
-    background: rgba(0,0,0,0.65);
+
+    background: rgba(0,0,0,.7);
+
     padding: 25px;
     overflow-y: auto;
 }
@@ -386,72 +534,76 @@ nav a:hover {
 
 .review-modal-content {
     background: white;
+
     width: 100%;
     max-width: 720px;
+
     margin: 20px auto;
-    border-radius: 16px;
+
+    border-radius: 18px;
     overflow: hidden;
-    box-shadow: 0 15px 50px rgba(0,0,0,0.3);
+
+    box-shadow: 0 15px 50px rgba(0,0,0,.35);
 }
 
 .review-modal-header {
     background: var(--dark);
     color: white;
-    padding: 20px 24px;
+
+    padding: 22px 25px;
+
     display: flex;
     justify-content: space-between;
-    align-items: flex-start;
     gap: 20px;
 }
 
 .review-modal-header h2 {
-    font-size: 23px;
     margin-bottom: 5px;
 }
 
 .review-modal-header p {
-    color: #ccc;
+    color: #bbb;
     font-size: 14px;
 }
 
 .close-review {
-    background: transparent;
     border: none;
+    background: transparent;
     color: white;
     font-size: 32px;
-    line-height: 1;
     cursor: pointer;
 }
 
 .review-modal-body {
-    padding: 24px;
+    padding: 25px;
 }
 
 .review-summary {
-    background: #f8f8f8;
+    background: #efffd0;
+    border-left: 5px solid var(--lime);
     border-radius: 12px;
-    padding: 18px;
+
+    padding: 20px;
     margin-bottom: 25px;
+
     text-align: center;
 }
 
 .review-summary-number {
-    font-size: 36px;
-    font-weight: bold;
+    font-size: 38px;
+    font-weight: 900;
 }
 
 .review-summary-stars {
     color: var(--yellow);
     font-size: 25px;
-    margin: 4px 0;
+    margin: 5px 0;
 }
 
 .review-summary-count {
     color: var(--grey);
     font-size: 14px;
 }
-
-/* EXISTING REVIEWS */
 
 .existing-reviews {
     margin-bottom: 30px;
@@ -462,23 +614,14 @@ nav a:hover {
 }
 
 .review-entry {
+    padding: 16px 0;
     border-bottom: 1px solid #e5e5e5;
-    padding: 15px 0;
-}
-
-.review-entry:first-of-type {
-    padding-top: 0;
-}
-
-.review-entry:last-child {
-    border-bottom: none;
 }
 
 .review-entry-top {
     display: flex;
     justify-content: space-between;
     gap: 12px;
-    align-items: center;
     margin-bottom: 5px;
 }
 
@@ -498,19 +641,17 @@ nav a:hover {
 
 .review-entry-text {
     color: #555;
-    line-height: 1.55;
     font-size: 14px;
+    line-height: 1.55;
 }
 
 .no-reviews {
     color: var(--grey);
-    background: #f8f8f8;
+    background: #f7f7f7;
     padding: 18px;
-    border-radius: 9px;
+    border-radius: 10px;
     text-align: center;
 }
-
-/* REVIEW FORM */
 
 .leave-review {
     border-top: 2px solid #eee;
@@ -518,13 +659,13 @@ nav a:hover {
 }
 
 .leave-review h3 {
-    margin-bottom: 7px;
+    margin-bottom: 6px;
 }
 
 .leave-review > p {
     color: var(--grey);
-    margin-bottom: 20px;
     font-size: 14px;
+    margin-bottom: 20px;
 }
 
 .review-label {
@@ -536,11 +677,15 @@ nav a:hover {
 .review-input,
 .review-textarea {
     width: 100%;
+
     border: 1px solid #ccc;
-    border-radius: 8px;
-    padding: 12px;
+    border-radius: 9px;
+
+    padding: 13px;
+
     font-family: Arial, sans-serif;
     font-size: 15px;
+
     margin-bottom: 17px;
 }
 
@@ -562,29 +707,35 @@ nav a:hover {
 }
 
 .star-choice {
-    background: transparent;
     border: none;
+    background: transparent;
+
     color: #ccc;
-    font-size: 34px;
-    cursor: pointer;
-    padding: 0;
+
+    font-size: 35px;
     line-height: 1;
+
+    cursor: pointer;
 }
 
-.star-choice.selected,
-.star-choice.hovered {
+.star-choice.selected {
     color: var(--yellow);
 }
 
 .submit-review {
     width: 100%;
+
     border: none;
+    border-radius: 9px;
+
+    padding: 14px;
+
     background: var(--lime);
     color: var(--dark);
+
     font-size: 16px;
     font-weight: bold;
-    padding: 14px;
-    border-radius: 8px;
+
     cursor: pointer;
 }
 
@@ -600,8 +751,8 @@ nav a:hover {
 
 #review-form-message {
     margin-top: 13px;
-    font-weight: bold;
     font-size: 14px;
+    font-weight: bold;
 }
 
 .review-success {
@@ -612,53 +763,107 @@ nav a:hover {
     color: #b00020;
 }
 
-/* FOOTER */
+/* =========================
+   FOOTER
+========================= */
 
 footer {
     background: #111;
     color: white;
-    text-align: center;
-    padding: 35px;
+    padding: 45px 6%;
 }
 
-footer strong {
+.footer-inner {
+    max-width: 1250px;
+    margin: auto;
+
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+
+    gap: 25px;
+    flex-wrap: wrap;
+}
+
+.footer-brand strong {
     color: var(--lime);
+    font-size: 23px;
 }
 
-footer p {
+.footer-brand p {
     color: #aaa;
     margin-top: 7px;
 }
 
-/* RESPONSIVE */
+.footer-links {
+    display: flex;
+    gap: 20px;
+    flex-wrap: wrap;
+}
 
-@media (max-width: 950px) {
+.footer-links a {
+    color: white;
+    text-decoration: none;
+}
+
+.footer-links a:hover {
+    color: var(--lime);
+}
+
+/* =========================
+   MOBILE
+========================= */
+
+@media(max-width:950px) {
+
     .products {
-        grid-template-columns: repeat(2, 1fr);
+        grid-template-columns: repeat(2,1fr);
+    }
+
+    .hero-inner {
+        grid-template-columns: 1fr;
+    }
+
+    .shop-hero {
+        background: var(--dark);
+    }
+
+    .hero-box {
+        margin-bottom: 40px;
+        border-top: 7px solid var(--lime);
     }
 }
 
-@media (max-width: 650px) {
+@media(max-width:700px) {
+
     header {
         flex-wrap: wrap;
-        gap: 12px;
+        padding: 13px 4%;
     }
 
     .logo img {
-        width: 120px;
-        height: 55px;
+        width: 125px;
+        height: 78px;
     }
 
     nav {
-        width: 100%;
         order: 3;
-        justify-content: center;
-        gap: 15px;
+        width: 100%;
+        gap: 20px;
         flex-wrap: wrap;
     }
 
-    .shop-heading h1 {
-        font-size: 34px;
+    .cart-button {
+        padding: 12px 16px;
+    }
+
+    .hero-text h1 {
+        font-size: 38px;
+    }
+
+    .tools-heading h2,
+    .products-heading h2 {
+        font-size: 29px;
     }
 
     .products {
@@ -667,15 +872,11 @@ footer p {
 
     .product img {
         height: auto;
-        max-height: 440px;
+        max-height: 430px;
     }
 
     .review-modal {
         padding: 10px;
-    }
-
-    .review-modal-content {
-        margin: 10px auto;
     }
 
     .review-modal-header,
@@ -684,7 +885,6 @@ footer p {
     }
 
     .review-entry-top {
-        align-items: flex-start;
         flex-direction: column;
         gap: 4px;
     }
@@ -694,121 +894,209 @@ footer p {
 
 <body>
 
+<!-- HEADER -->
+
 <header>
+
     <a href="index.html" class="logo">
-        <img src="images/grably-logo.png" alt="Grably Logo">
+        <img
+            src="images/grably-logo.png"
+            alt="Grably Logo">
     </a>
 
     <nav>
         <a href="index.html">Home</a>
-        <a href="shop.html">Shop</a>
+        <a href="shop.html" class="active">Shop</a>
         <a href="index.html#about">About</a>
         <a href="index.html#contact">Contact</a>
     </nav>
 
-    <a href="cart.html" class="cart-button">
-        🛒 Cart <span id="cart-count">0</span>
+    <a
+        href="cart.html"
+        class="cart-button">
+
+        🛒 Cart
+        <span id="cart-count">0</span>
+
     </a>
+
 </header>
 
 
-<section class="shop-heading">
-    <small>GRABLY</small>
-    <h1>Shop Our Products</h1>
-    <p>Great finds. Better prices.</p>
+<!-- HERO -->
+
+<section class="shop-hero">
+
+    <div class="hero-inner">
+
+        <div class="hero-text">
+
+            <div class="hero-label">
+                GRABLY ONLINE SHOP
+            </div>
+
+            <h1>
+                Great finds.<br>
+                <span>Better prices.</span>
+            </h1>
+
+            <p>
+                Browse Grably's growing range of products
+                across home, fitness, beauty, electronics,
+                lifestyle and more.
+            </p>
+
+        </div>
+
+
+        <div class="hero-box">
+
+            <h2>
+                Find it. <span>Grab it.</span>
+            </h2>
+
+            <p>
+                Search our products or browse through
+                the categories below to find exactly
+                what you're looking for.
+            </p>
+
+            <strong>
+                🚚 We deliver — delivery is calculated
+                separately based on distance.
+            </strong>
+
+        </div>
+
+    </div>
+
 </section>
 
 
+<!-- DELIVERY -->
+
 <div class="delivery-notice">
-    🚚 <strong>Delivery fee is not included.</strong>
+
+    🚚
+    <strong>Delivery fee is not included in the product price.</strong>
     Delivery is calculated separately based on distance.
+
 </div>
 
 
+<!-- SEARCH + CATEGORIES -->
+
 <section class="shop-tools">
 
+    <div class="tools-heading">
+
+        <small>SHOP GRABLY</small>
+
+        <h2>Browse Our Products</h2>
+
+    </div>
+
+
     <div class="search-box">
+
         <input
             type="text"
             id="search-input"
-            placeholder="Search Grably products..."
+            placeholder="🔎 Search Grably products..."
             oninput="filterProducts()">
+
     </div>
+
 
     <div class="filters">
 
-        <button class="filter-button active"
-            onclick="selectCategory('all', this)">
+        <button
+            class="filter-button active"
+            onclick="selectCategory('all',this)">
             All Products
         </button>
 
-        <button class="filter-button"
-            onclick="selectCategory('health', this)">
+        <button
+            class="filter-button"
+            onclick="selectCategory('health',this)">
             🏋️ Health & Fitness
         </button>
 
-        <button class="filter-button"
-            onclick="selectCategory('beauty', this)">
+        <button
+            class="filter-button"
+            onclick="selectCategory('beauty',this)">
             💄 Beauty & Personal Care
         </button>
 
-        <button class="filter-button"
-            onclick="selectCategory('home', this)">
+        <button
+            class="filter-button"
+            onclick="selectCategory('home',this)">
             🏠 Home & Storage
         </button>
 
-        <button class="filter-button"
-            onclick="selectCategory('kitchen', this)">
+        <button
+            class="filter-button"
+            onclick="selectCategory('kitchen',this)">
             🍳 Kitchen
         </button>
 
-        <button class="filter-button"
-            onclick="selectCategory('bathroom', this)">
+        <button
+            class="filter-button"
+            onclick="selectCategory('bathroom',this)">
             🛁 Bathroom
         </button>
 
-        <button class="filter-button"
-            onclick="selectCategory('cleaning', this)">
+        <button
+            class="filter-button"
+            onclick="selectCategory('cleaning',this)">
             🧹 Cleaning
         </button>
 
-        <button class="filter-button"
-            onclick="selectCategory('outdoor', this)">
+        <button
+            class="filter-button"
+            onclick="selectCategory('outdoor',this)">
             🏕️ Camping & Outdoor
         </button>
 
-        <button class="filter-button"
-            onclick="selectCategory('tools', this)">
+        <button
+            class="filter-button"
+            onclick="selectCategory('tools',this)">
             🔧 Tools & DIY
         </button>
 
-        <button class="filter-button"
-            onclick="selectCategory('electronics', this)">
+        <button
+            class="filter-button"
+            onclick="selectCategory('electronics',this)">
             📱 Electronics & Accessories
         </button>
 
-        <button class="filter-button"
-            onclick="selectCategory('car', this)">
+        <button
+            class="filter-button"
+            onclick="selectCategory('car',this)">
             🚗 Car Accessories
         </button>
 
-        <button class="filter-button"
-            onclick="selectCategory('baby', this)">
+        <button
+            class="filter-button"
+            onclick="selectCategory('baby',this)">
             👶 Baby & Kids
         </button>
 
-        <button class="filter-button"
-            onclick="selectCategory('pets', this)">
+        <button
+            class="filter-button"
+            onclick="selectCategory('pets',this)">
             🐾 Pet Products
         </button>
 
-        <button class="filter-button"
-            onclick="selectCategory('gifts', this)">
+        <button
+            class="filter-button"
+            onclick="selectCategory('gifts',this)">
             🎁 Gifts & Lifestyle
         </button>
 
-        <button class="filter-button"
-            onclick="selectCategory('other', this)">
+        <button
+            class="filter-button"
+            onclick="selectCategory('other',this)">
             📦 Other
         </button>
 
@@ -817,14 +1105,43 @@ footer p {
 </section>
 
 
-<div id="loading">Loading Grably products...</div>
-<div id="shop-error"></div>
+<!-- PRODUCTS -->
 
-<main class="products" id="products"></main>
+<section class="products-section">
 
-<div id="no-results">No products found.</div>
+    <div class="products-heading">
 
-<div id="message">Added to cart ✓</div>
+        <small>GRAB IT. WE DELIVER.</small>
+
+        <h2>Our Products</h2>
+
+    </div>
+
+
+    <div id="loading">
+        Loading Grably products...
+    </div>
+
+
+    <div id="shop-error"></div>
+
+
+    <main
+        class="products"
+        id="products">
+    </main>
+
+
+    <div id="no-results">
+        No products found.
+    </div>
+
+</section>
+
+
+<div id="message">
+    Added to cart ✓
+</div>
 
 
 <!-- REVIEW MODAL -->
@@ -832,14 +1149,14 @@ footer p {
 <div
     class="review-modal"
     id="review-modal"
-    onclick="handleModalBackground(event)"
->
+    onclick="handleModalBackground(event)">
 
     <div class="review-modal-content">
 
         <div class="review-modal-header">
 
             <div>
+
                 <h2 id="review-product-name">
                     Product Reviews
                 </h2>
@@ -847,13 +1164,14 @@ footer p {
                 <p>
                     Customer ratings and reviews
                 </p>
+
             </div>
+
 
             <button
                 class="close-review"
                 type="button"
-                onclick="closeReviews()"
-                aria-label="Close reviews">
+                onclick="closeReviews()">
                 ×
             </button>
 
@@ -901,7 +1219,8 @@ footer p {
                 <h3>Leave a Review</h3>
 
                 <p>
-                    Tell other customers what you think about this product.
+                    Tell other customers what you think
+                    about this product.
                 </p>
 
 
@@ -922,6 +1241,7 @@ footer p {
                 <label class="review-label">
                     Your Rating
                 </label>
+
 
                 <div
                     class="star-picker"
@@ -978,7 +1298,9 @@ footer p {
                     class="submit-review"
                     id="submit-review-button"
                     onclick="submitReview()">
+
                     Submit Review
+
                 </button>
 
 
@@ -993,107 +1315,182 @@ footer p {
 </div>
 
 
+<!-- FOOTER -->
+
 <footer>
-    <strong>GRABLY</strong>
-    <p>Great finds. Better prices.</p>
-    <p>© 2026 Grably. All rights reserved.</p>
+
+    <div class="footer-inner">
+
+        <div class="footer-brand">
+
+            <strong>GRABLY</strong>
+
+            <p>
+                GRAB IT. WE DELIVER.
+            </p>
+
+        </div>
+
+
+        <div class="footer-links">
+
+            <a href="index.html">
+                Home
+            </a>
+
+            <a href="shop.html">
+                Shop
+            </a>
+
+            <a href="index.html#about">
+                About
+            </a>
+
+            <a href="index.html#contact">
+                Contact
+            </a>
+
+        </div>
+
+    </div>
+
 </footer>
 
 
 <script>
 
+/* =========================
+   SUPABASE
+========================= */
+
 const SUPABASE_URL =
-    "https://ifvuodmmsmyohwtzgqsa.supabase.co";
+"https://ifvuodmmsmyohwtzgqsa.supabase.co";
 
 const SUPABASE_KEY =
-    "sb_publishable_uG11g-DgVvHp79lsHskk0Q_YxdqqV0L";
+"sb_publishable_uG11g-DgVvHp79lsHskk0Q_YxdqqV0L";
 
 const supabaseClient =
-    supabase.createClient(
-        SUPABASE_URL,
-        SUPABASE_KEY
-    );
+supabase.createClient(
+    SUPABASE_URL,
+    SUPABASE_KEY
+);
 
+
+/* =========================
+   VARIABLES
+========================= */
 
 let cart =
-    JSON.parse(
-        localStorage.getItem("grablyCart")
-    ) || [];
+JSON.parse(
+    localStorage.getItem(
+        "grablyCart"
+    )
+) || [];
 
 
-let selectedCategory = "all";
+let selectedCategory =
+"all";
 
-let shopProducts = [];
+let shopProducts =
+[];
 
-let allReviews = [];
+let allReviews =
+[];
 
-let currentReviewProductId = null;
+let currentReviewProductId =
+null;
 
-let selectedRating = 0;
+let selectedRating =
+0;
 
 
-/* ================================
-   CART
-================================ */
+/* =========================
+   CART COUNT
+========================= */
 
 function updateCartCount() {
 
     let total = 0;
 
-    cart.forEach(product => {
-        total += product.quantity || 1;
-    });
+
+    cart.forEach(
+        product => {
+
+            total +=
+            product.quantity || 1;
+        }
+    );
+
 
     document
-        .getElementById("cart-count")
-        .textContent = total;
+    .getElementById(
+        "cart-count"
+    )
+    .textContent =
+    total;
 }
 
 
-/* ================================
-   LOAD PRODUCTS + REVIEWS
-================================ */
+/* =========================
+   LOAD PRODUCTS
+========================= */
 
 async function loadProducts() {
 
     const loading =
-        document.getElementById("loading");
+    document.getElementById(
+        "loading"
+    );
+
 
     const errorBox =
-        document.getElementById("shop-error");
-
-    loading.style.display = "block";
-    errorBox.style.display = "none";
-
-
-    const productResult =
-        await supabaseClient
-            .from("products")
-            .select("*")
-            .order(
-                "created_at",
-                { ascending: true }
-            );
+    document.getElementById(
+        "shop-error"
+    );
 
 
-    loading.style.display = "none";
+    loading.style.display =
+    "block";
+
+    errorBox.style.display =
+    "none";
 
 
-    if (productResult.error) {
+    const {
+        data,
+        error
+    } =
+    await supabaseClient
+    .from("products")
+    .select("*")
+    .order(
+        "created_at",
+        {
+            ascending:true
+        }
+    );
 
-        console.error(productResult.error);
+
+    loading.style.display =
+    "none";
+
+
+    if(error) {
+
+        console.error(error);
 
         errorBox.textContent =
-            "We couldn't load the products right now. Please try again.";
+        "We couldn't load the products right now. Please try again.";
 
-        errorBox.style.display = "block";
+        errorBox.style.display =
+        "block";
 
         return;
     }
 
 
     shopProducts =
-        productResult.data || [];
+    data || [];
 
 
     await loadAllReviews();
@@ -1104,24 +1501,30 @@ async function loadProducts() {
 }
 
 
+/* =========================
+   LOAD REVIEWS
+========================= */
+
 async function loadAllReviews() {
 
-    const { data, error } =
-        await supabaseClient
-            .from("reviews")
-            .select("*")
-            .order(
-                "created_at",
-                { ascending: false }
-            );
+    const {
+        data,
+        error
+    } =
+    await supabaseClient
+    .from("reviews")
+    .select("*")
+    .order(
+        "created_at",
+        {
+            ascending:false
+        }
+    );
 
 
-    if (error) {
+    if(error) {
 
-        console.error(
-            "Could not load reviews:",
-            error
-        );
+        console.error(error);
 
         allReviews = [];
 
@@ -1129,122 +1532,149 @@ async function loadAllReviews() {
     }
 
 
-    allReviews = data || [];
+    allReviews =
+    data || [];
 }
 
 
-/* ================================
-   RATINGS
-================================ */
+/* =========================
+   REVIEW HELPERS
+========================= */
 
-function getProductReviews(productId) {
+function getProductReviews(
+    productId
+) {
 
-    return allReviews.filter(review =>
+    return allReviews.filter(
+        review =>
         String(review.product_id) ===
         String(productId)
     );
 }
 
 
-function getRatingInfo(productId) {
+function getRatingInfo(
+    productId
+) {
 
     const reviews =
-        getProductReviews(productId);
+    getProductReviews(
+        productId
+    );
 
 
-    if (reviews.length === 0) {
+    if(
+        reviews.length === 0
+    ) {
 
         return {
-            average: 0,
-            count: 0
+            average:0,
+            count:0
         };
     }
 
 
     const total =
-        reviews.reduce(
-            (sum, review) =>
-                sum + Number(review.rating || 0),
-            0
-        );
+    reviews.reduce(
+        (sum,review) =>
+        sum +
+        Number(
+            review.rating || 0
+        ),
+        0
+    );
 
 
     return {
+
         average:
-            total / reviews.length,
+        total /
+        reviews.length,
 
         count:
-            reviews.length
+        reviews.length
     };
 }
 
 
-function createStars(rating) {
+function createStars(
+    rating
+) {
 
     const rounded =
-        Math.round(
-            Number(rating) || 0
-        );
+    Math.round(
+        Number(rating) || 0
+    );
+
 
     let stars = "";
 
-    for (
+
+    for(
         let i = 1;
         i <= 5;
         i++
     ) {
 
         stars +=
-            i <= rounded
-                ? "★"
-                : "☆";
+        i <= rounded
+        ? "★"
+        : "☆";
     }
+
 
     return stars;
 }
 
 
-/* ================================
-   CART PRICE SYNC
-================================ */
+/* =========================
+   SYNC CART
+========================= */
 
 function syncCartPrices() {
 
-    let changed = false;
+    let changed =
+    false;
 
 
-    cart.forEach(cartItem => {
+    cart.forEach(
+        cartItem => {
 
-        const latest =
+            const latest =
             shopProducts.find(
                 product =>
-                    String(product.id) ===
-                    String(cartItem.id) ||
-                    product.name ===
-                    cartItem.name
+                String(product.id) ===
+                String(cartItem.id) ||
+
+                product.name ===
+                cartItem.name
             );
 
 
-        if (latest) {
+            if(latest) {
 
-            cartItem.id =
+                cartItem.id =
                 latest.id;
 
-            cartItem.price =
-                Number(latest.price);
+                cartItem.price =
+                Number(
+                    latest.price
+                );
 
-            cartItem.name =
+                cartItem.name =
                 latest.name;
 
-            cartItem.image =
+                cartItem.image =
                 latest.image_url || "";
 
-            changed = true;
+                changed =
+                true;
+            }
         }
-    });
+    );
 
 
-    if (changed) {
+    if(changed) {
 
         localStorage.setItem(
             "grablyCart",
@@ -1257,203 +1687,228 @@ function syncCartPrices() {
 }
 
 
-/* ================================
+/* =========================
    RENDER PRODUCTS
-================================ */
+========================= */
 
 function renderProducts() {
 
     const container =
+    document.getElementById(
+        "products"
+    );
+
+
+    container.innerHTML =
+    "";
+
+
+    if(
+        shopProducts.length === 0
+    ) {
+
+        const noResults =
         document.getElementById(
-            "products"
+            "no-results"
         );
 
+        noResults.style.display =
+        "block";
 
-    container.innerHTML = "";
-
-
-    if (shopProducts.length === 0) {
-
-        document
-            .getElementById("no-results")
-            .style.display = "block";
-
-        document
-            .getElementById("no-results")
-            .textContent =
-                "No products have been added yet.";
+        noResults.textContent =
+        "No products have been added yet.";
 
         return;
     }
 
 
-    shopProducts.forEach(product => {
+    shopProducts.forEach(
+        product => {
 
-        const card =
-            document.createElement("div");
-
-
-        card.className = "product";
-
-
-        card.dataset.name =
-            (product.name || "")
-                .toLowerCase();
+            const card =
+            document.createElement(
+                "div"
+            );
 
 
-        card.dataset.description =
-            (product.description || "")
-                .toLowerCase();
+            card.className =
+            "product";
 
 
-        card.dataset.category =
-            product.category || "other";
+            card.dataset.name =
+            (
+                product.name || ""
+            ).toLowerCase();
 
 
-        const imageUrl =
-            product.image_url || "";
+            card.dataset.description =
+            (
+                product.description || ""
+            ).toLowerCase();
 
 
-        const categoryName =
+            card.dataset.category =
+            product.category ||
+            "other";
+
+
+            const imageUrl =
+            product.image_url ||
+            "";
+
+
+            const categoryName =
             displayCategory(
                 product.category
             );
 
 
-        const rating =
+            const rating =
             getRatingInfo(
                 product.id
             );
 
 
-        const ratingDisplay =
+            const ratingDisplay =
             rating.count > 0
 
-                ? `
-                    <span class="rating-stars">
-                        ${createStars(rating.average)}
-                    </span>
+            ? `
+                <span class="rating-stars">
+                    ${createStars(rating.average)}
+                </span>
 
-                    <span class="rating-text">
-                        ${rating.average.toFixed(1)}
-                        (${rating.count}
-                        ${rating.count === 1 ? "review" : "reviews"})
-                    </span>
-                `
+                <span class="rating-text">
+                    ${rating.average.toFixed(1)}
+                    (${rating.count}
+                    ${rating.count === 1 ? "review" : "reviews"})
+                </span>
+            `
 
-                : `
-                    <span class="rating-stars">
-                        ☆☆☆☆☆
-                    </span>
+            : `
+                <span class="rating-stars">
+                    ☆☆☆☆☆
+                </span>
 
-                    <span class="rating-text">
-                        No reviews yet
-                    </span>
-                `;
+                <span class="rating-text">
+                    No reviews yet
+                </span>
+            `;
 
 
-        const badge =
+            const badge =
             product.in_stock === false
 
-                ? '<span class="out-badge">OUT OF STOCK</span>'
+            ? `
+                <span class="out-badge">
+                    OUT OF STOCK
+                </span>
+            `
 
-                : product.featured
+            : product.featured
 
-                    ? '<span class="new-badge">FEATURED</span>'
+            ? `
+                <span class="new-badge">
+                    FEATURED
+                </span>
+            `
 
-                    : "";
+            : "";
 
 
-        const cartButton =
+            const cartButton =
             product.in_stock === false
 
-                ? `
-                    <button
-                        class="add-button"
-                        disabled>
-                        Out of Stock
-                    </button>
-                `
+            ? `
+                <button
+                    class="add-button"
+                    disabled>
+                    Out of Stock
+                </button>
+            `
 
-                : `
-                    <button
-                        class="add-button"
-                        data-product-id="${escapeHtml(product.id)}">
-                        Add to Cart
-                    </button>
-                `;
-
-
-        card.innerHTML = `
-
-            <div class="product-image-box">
-
-                ${badge}
-
-                <img
-                    src="${escapeHtml(imageUrl)}"
-                    alt="${escapeHtml(product.name || "Grably Product")}"
-                    onerror="this.style.visibility='hidden'">
-
-            </div>
+            : `
+                <button
+                    class="add-button"
+                    data-product-id="${escapeHtml(product.id)}">
+                    Add to Cart
+                </button>
+            `;
 
 
-            <div class="product-info">
+            card.innerHTML = `
 
-                <div class="category">
-                    ${escapeHtml(categoryName)}
-                </div>
+                <div class="product-image-box">
 
+                    ${badge}
 
-                <h2>
-                    ${escapeHtml(product.name || "")}
-                </h2>
-
-
-                <div class="product-rating">
-                    ${ratingDisplay}
-                </div>
-
-
-                <p class="description">
-                    ${escapeHtml(product.description || "")}
-                </p>
-
-
-                <div class="price">
-                    R${formatPrice(product.price)}
-                </div>
-
-
-                <div class="product-buttons">
-
-                    ${cartButton}
-
-                    <button
-                        type="button"
-                        class="review-button"
-                        data-review-product-id="${escapeHtml(product.id)}">
-
-                        ⭐ Reviews
-                        ${rating.count > 0 ? `(${rating.count})` : ""}
-
-                    </button>
+                    <img
+                        src="${escapeHtml(imageUrl)}"
+                        alt="${escapeHtml(product.name || "Grably Product")}"
+                        onerror="this.style.visibility='hidden'">
 
                 </div>
 
-            </div>
-        `;
+
+                <div class="product-info">
+
+                    <div class="category">
+                        ${escapeHtml(categoryName)}
+                    </div>
 
 
-        container.appendChild(card);
-    });
+                    <h2>
+                        ${escapeHtml(product.name || "")}
+                    </h2>
+
+
+                    <div class="product-rating">
+                        ${ratingDisplay}
+                    </div>
+
+
+                    <p class="description">
+                        ${escapeHtml(product.description || "")}
+                    </p>
+
+
+                    <div class="price">
+                        R${formatPrice(product.price)}
+                    </div>
+
+
+                    <div class="product-buttons">
+
+                        ${cartButton}
+
+                        <button
+                            type="button"
+                            class="review-button"
+                            data-review-product-id="${escapeHtml(product.id)}">
+
+                            ⭐ Reviews
+                            ${rating.count > 0 ? `(${rating.count})` : ""}
+
+                        </button>
+
+                    </div>
+
+                </div>
+            `;
+
+
+            container.appendChild(
+                card
+            );
+        }
+    );
 
 
     container
-        .querySelectorAll(
-            ".add-button[data-product-id]"
-        )
-        .forEach(button => {
+    .querySelectorAll(
+        ".add-button[data-product-id]"
+    )
+    .forEach(
+        button => {
 
             button.addEventListener(
                 "click",
@@ -1464,14 +1919,16 @@ function renderProducts() {
                     );
                 }
             );
-        });
+        }
+    );
 
 
     container
-        .querySelectorAll(
-            ".review-button[data-review-product-id]"
-        )
-        .forEach(button => {
+    .querySelectorAll(
+        ".review-button[data-review-product-id]"
+    )
+    .forEach(
+        button => {
 
             button.addEventListener(
                 "click",
@@ -1482,81 +1939,91 @@ function renderProducts() {
                     );
                 }
             );
-        });
+        }
+    );
 
 
     filterProducts();
 }
 
 
-/* ================================
+/* =========================
    ADD TO CART
-================================ */
+========================= */
 
-function addToCart(productId) {
+function addToCart(
+    productId
+) {
 
     const product =
-        shopProducts.find(
-            item =>
-                String(item.id) ===
-                String(productId)
-        );
+    shopProducts.find(
+        item =>
+        String(item.id) ===
+        String(productId)
+    );
 
 
-    if (
+    if(
         !product ||
         product.in_stock === false
     ) {
+
         return;
     }
 
 
-    const existingProduct =
-        cart.find(
-            item =>
-                String(item.id) ===
-                String(product.id) ||
-                item.name ===
-                product.name
-        );
+    const existing =
+    cart.find(
+        item =>
+        String(item.id) ===
+        String(product.id) ||
+
+        item.name ===
+        product.name
+    );
 
 
-    if (existingProduct) {
+    if(existing) {
 
-        existingProduct.quantity =
-            (existingProduct.quantity || 1)
-            + 1;
+        existing.quantity =
+        (
+            existing.quantity ||
+            1
+        ) + 1;
 
-        existingProduct.id =
-            product.id;
 
-        existingProduct.name =
-            product.name;
+        existing.id =
+        product.id;
 
-        existingProduct.price =
-            Number(product.price);
+        existing.name =
+        product.name;
 
-        existingProduct.image =
-            product.image_url || "";
+        existing.price =
+        Number(product.price);
+
+        existing.image =
+        product.image_url || "";
 
     } else {
 
         cart.push({
 
             id:
-                product.id,
+            product.id,
 
             name:
-                product.name,
+            product.name,
 
             price:
-                Number(product.price),
+            Number(
+                product.price
+            ),
 
             image:
-                product.image_url || "",
+            product.image_url || "",
 
             quantity:
-                1
+            1
         });
     }
 
@@ -1571,106 +2038,263 @@ function addToCart(productId) {
 
 
     const message =
-        document.getElementById(
-            "message"
-        );
+    document.getElementById(
+        "message"
+    );
 
 
     message.textContent =
-        "Added to cart ✓";
+    "Added to cart ✓";
 
     message.style.display =
-        "block";
+    "block";
 
 
     setTimeout(
-        function() {
+        () => {
+
             message.style.display =
-                "none";
+            "none";
+
         },
         1500
     );
 }
 
 
-/* ================================
-   OPEN REVIEWS
-================================ */
+/* =========================
+   FILTER
+========================= */
 
-function openReviews(productId) {
+function selectCategory(
+    category,
+    button
+) {
+
+    selectedCategory =
+    category;
+
+
+    document
+    .querySelectorAll(
+        ".filter-button"
+    )
+    .forEach(
+        btn =>
+        btn.classList.remove(
+            "active"
+        )
+    );
+
+
+    button.classList.add(
+        "active"
+    );
+
+
+    filterProducts();
+}
+
+
+function filterProducts() {
+
+    const searchText =
+    document
+    .getElementById(
+        "search-input"
+    )
+    .value
+    .toLowerCase()
+    .trim();
+
+
+    const products =
+    document.querySelectorAll(
+        ".product"
+    );
+
+
+    let visible =
+    0;
+
+
+    products.forEach(
+        product => {
+
+            const name =
+            product.dataset.name ||
+            "";
+
+
+            const description =
+            product.dataset.description ||
+            "";
+
+
+            const category =
+            product.dataset.category ||
+            "other";
+
+
+            const categoryName =
+            displayCategory(
+                category
+            ).toLowerCase();
+
+
+            const matchesSearch =
+
+            name.includes(
+                searchText
+            )
+
+            ||
+
+            description.includes(
+                searchText
+            )
+
+            ||
+
+            categoryName.includes(
+                searchText
+            );
+
+
+            const matchesCategory =
+
+            selectedCategory ===
+            "all"
+
+            ||
+
+            category ===
+            selectedCategory;
+
+
+            if(
+                matchesSearch &&
+                matchesCategory
+            ) {
+
+                product.style.display =
+                "flex";
+
+                visible++;
+
+            } else {
+
+                product.style.display =
+                "none";
+            }
+        }
+    );
+
+
+    const noResults =
+    document.getElementById(
+        "no-results"
+    );
+
+
+    noResults.style.display =
+    visible === 0
+    ? "block"
+    : "none";
+
+
+    if(
+        shopProducts.length > 0 &&
+        visible === 0
+    ) {
+
+        noResults.textContent =
+        "No products found.";
+    }
+}
+
+
+/* =========================
+   OPEN REVIEWS
+========================= */
+
+function openReviews(
+    productId
+) {
 
     const product =
-        shopProducts.find(
-            item =>
-                String(item.id) ===
-                String(productId)
-        );
+    shopProducts.find(
+        item =>
+        String(item.id) ===
+        String(productId)
+    );
 
 
-    if (!product) {
+    if(!product)
         return;
-    }
 
 
     currentReviewProductId =
-        product.id;
+    product.id;
 
 
-    selectedRating = 0;
-
-
-    document
-        .getElementById(
-            "review-product-name"
-        )
-        .textContent =
-            product.name;
+    selectedRating =
+    0;
 
 
     document
-        .getElementById(
-            "review-name"
-        )
-        .value = "";
+    .getElementById(
+        "review-product-name"
+    )
+    .textContent =
+    product.name;
 
 
     document
-        .getElementById(
-            "review-text"
-        )
-        .value = "";
+    .getElementById(
+        "review-name"
+    )
+    .value =
+    "";
 
 
     document
-        .getElementById(
-            "review-form-message"
-        )
-        .textContent = "";
+    .getElementById(
+        "review-text"
+    )
+    .value =
+    "";
 
 
-    document
-        .getElementById(
-            "review-form-message"
-        )
-        .className = "";
+    const formMessage =
+    document.getElementById(
+        "review-form-message"
+    );
+
+
+    formMessage.textContent =
+    "";
+
+    formMessage.className =
+    "";
 
 
     updateStarPicker();
-
 
     renderReviewModal();
 
 
     document
-        .getElementById(
-            "review-modal"
-        )
-        .classList.add(
-            "show"
-        );
+    .getElementById(
+        "review-modal"
+    )
+    .classList.add(
+        "show"
+    );
 
 
-    document.body.classList.add(
+    document.body
+    .classList.add(
         "modal-open"
     );
 }
@@ -1679,30 +2303,33 @@ function openReviews(productId) {
 function closeReviews() {
 
     document
-        .getElementById(
-            "review-modal"
-        )
-        .classList.remove(
-            "show"
-        );
+    .getElementById(
+        "review-modal"
+    )
+    .classList.remove(
+        "show"
+    );
 
 
-    document.body.classList.remove(
+    document.body
+    .classList.remove(
         "modal-open"
     );
 
 
     currentReviewProductId =
-        null;
+    null;
 
-
-    selectedRating = 0;
+    selectedRating =
+    0;
 }
 
 
-function handleModalBackground(event) {
+function handleModalBackground(
+    event
+) {
 
-    if (
+    if(
         event.target.id ===
         "review-modal"
     ) {
@@ -1712,96 +2339,95 @@ function handleModalBackground(event) {
 }
 
 
-/* ================================
-   REVIEW MODAL
-================================ */
+/* =========================
+   RENDER REVIEWS
+========================= */
 
 function renderReviewModal() {
 
-    if (
+    if(
         currentReviewProductId ===
         null
-    ) {
+    )
         return;
-    }
 
 
     const reviews =
-        getProductReviews(
-            currentReviewProductId
-        );
+    getProductReviews(
+        currentReviewProductId
+    );
 
 
     const rating =
-        getRatingInfo(
-            currentReviewProductId
-        );
+    getRatingInfo(
+        currentReviewProductId
+    );
 
 
-    const averageElement =
-        document.getElementById(
-            "modal-average-rating"
-        );
+    document
+    .getElementById(
+        "modal-average-rating"
+    )
+    .textContent =
+
+    rating.count > 0
+
+    ? rating.average.toFixed(1)
+
+    : "0.0";
 
 
-    const starsElement =
-        document.getElementById(
-            "modal-rating-stars"
-        );
+    document
+    .getElementById(
+        "modal-rating-stars"
+    )
+    .textContent =
+
+    rating.count > 0
+
+    ? createStars(
+        rating.average
+      )
+
+    : "☆☆☆☆☆";
 
 
-    const countElement =
-        document.getElementById(
-            "modal-review-count"
-        );
+    document
+    .getElementById(
+        "modal-review-count"
+    )
+    .textContent =
+
+    rating.count > 0
+
+    ? `${rating.count} ${
+        rating.count === 1
+        ? "review"
+        : "reviews"
+      }`
+
+    : "No reviews yet";
 
 
     const list =
-        document.getElementById(
-            "reviews-list"
-        );
+    document.getElementById(
+        "reviews-list"
+    );
 
 
-    if (rating.count > 0) {
-
-        averageElement.textContent =
-            rating.average.toFixed(1);
-
-
-        starsElement.textContent =
-            createStars(
-                rating.average
-            );
-
-
-        countElement.textContent =
-            `${rating.count} ${
-                rating.count === 1
-                    ? "review"
-                    : "reviews"
-            }`;
-
-    } else {
-
-        averageElement.textContent =
-            "0.0";
-
-
-        starsElement.textContent =
-            "☆☆☆☆☆";
-
-
-        countElement.textContent =
-            "No reviews yet";
-    }
-
-
-    if (reviews.length === 0) {
+    if(
+        reviews.length === 0
+    ) {
 
         list.innerHTML = `
+
             <div class="no-reviews">
-                No reviews have been left for this product yet.
+
+                No reviews have been left
+                for this product yet.<br><br>
+
                 Be the first to leave one!
+
             </div>
         `;
 
@@ -1810,50 +2436,50 @@ function renderReviewModal() {
 
 
     list.innerHTML =
-        reviews.map(review => {
+    reviews.map(
+        review => `
 
-            return `
+            <div class="review-entry">
 
-                <div class="review-entry">
+                <div class="review-entry-top">
 
-                    <div class="review-entry-top">
+                    <span class="review-customer">
+                        ${escapeHtml(review.customer_name)}
+                    </span>
 
-                        <span class="review-customer">
-                            ${escapeHtml(review.customer_name)}
-                        </span>
-
-                        <span class="review-date">
-                            ${escapeHtml(formatReviewDate(review.created_at))}
-                        </span>
-
-                    </div>
-
-
-                    <div class="review-entry-stars">
-                        ${createStars(review.rating)}
-                    </div>
-
-
-                    <div class="review-entry-text">
-                        ${escapeHtml(review.review_text)}
-                    </div>
+                    <span class="review-date">
+                        ${escapeHtml(formatReviewDate(review.created_at))}
+                    </span>
 
                 </div>
-            `;
 
-        }).join("");
+
+                <div class="review-entry-stars">
+                    ${createStars(review.rating)}
+                </div>
+
+
+                <div class="review-entry-text">
+                    ${escapeHtml(review.review_text)}
+                </div>
+
+            </div>
+
+        `
+    ).join("");
 }
 
 
-/* ================================
+/* =========================
    STAR PICKER
-================================ */
+========================= */
 
-function chooseRating(rating) {
+function chooseRating(
+    rating
+) {
 
     selectedRating =
-        Number(rating);
-
+    Number(rating);
 
     updateStarPicker();
 }
@@ -1862,18 +2488,19 @@ function chooseRating(rating) {
 function updateStarPicker() {
 
     document
-        .querySelectorAll(
-            ".star-choice"
-        )
-        .forEach(star => {
+    .querySelectorAll(
+        ".star-choice"
+    )
+    .forEach(
+        star => {
 
             const value =
-                Number(
-                    star.dataset.rating
-                );
+            Number(
+                star.dataset.rating
+            );
 
 
-            if (
+            if(
                 value <=
                 selectedRating
             ) {
@@ -1888,186 +2515,146 @@ function updateStarPicker() {
                     "selected"
                 );
             }
-        });
+        }
+    );
 }
 
 
-/* ================================
+/* =========================
    SUBMIT REVIEW
-================================ */
+========================= */
 
 async function submitReview() {
 
     const messageBox =
-        document.getElementById(
-            "review-form-message"
-        );
+    document.getElementById(
+        "review-form-message"
+    );
 
 
     const submitButton =
-        document.getElementById(
-            "submit-review-button"
-        );
+    document.getElementById(
+        "submit-review-button"
+    );
 
 
-    messageBox.textContent = "";
-    messageBox.className = "";
+    messageBox.textContent =
+    "";
+
+    messageBox.className =
+    "";
 
 
-    if (
+    if(
         currentReviewProductId ===
         null
-    ) {
-
+    )
         return;
-    }
 
 
     const customerName =
-        document
-            .getElementById(
-                "review-name"
-            )
-            .value
-            .trim();
+    document
+    .getElementById(
+        "review-name"
+    )
+    .value
+    .trim();
 
 
     const reviewText =
-        document
-            .getElementById(
-                "review-text"
-            )
-            .value
-            .trim();
+    document
+    .getElementById(
+        "review-text"
+    )
+    .value
+    .trim();
 
 
-    if (!customerName) {
+    if(!customerName) {
 
-        messageBox.textContent =
-            "Please enter your name.";
-
-        messageBox.className =
-            "review-error";
+        showReviewError(
+            "Please enter your name."
+        );
 
         return;
     }
 
 
-    if (
-        customerName.length > 50
-    ) {
-
-        messageBox.textContent =
-            "Your name must be 50 characters or less.";
-
-        messageBox.className =
-            "review-error";
-
-        return;
-    }
-
-
-    if (
+    if(
         selectedRating < 1 ||
         selectedRating > 5
     ) {
 
-        messageBox.textContent =
-            "Please choose a star rating from 1 to 5.";
-
-        messageBox.className =
-            "review-error";
+        showReviewError(
+            "Please choose a star rating from 1 to 5."
+        );
 
         return;
     }
 
 
-    if (!reviewText) {
+    if(!reviewText) {
 
-        messageBox.textContent =
-            "Please write a review.";
-
-        messageBox.className =
-            "review-error";
-
-        return;
-    }
-
-
-    if (
-        reviewText.length > 1000
-    ) {
-
-        messageBox.textContent =
-            "Your review must be 1000 characters or less.";
-
-        messageBox.className =
-            "review-error";
+        showReviewError(
+            "Please write a review."
+        );
 
         return;
     }
 
 
     submitButton.disabled =
-        true;
-
+    true;
 
     submitButton.textContent =
-        "Submitting...";
+    "Submitting...";
 
 
-    const reviewData = {
-
-        product_id:
+    const {
+        data,
+        error
+    } =
+    await supabaseClient
+    .from("reviews")
+    .insert([
+        {
+            product_id:
             currentReviewProductId,
 
-        customer_name:
+            customer_name:
             customerName,
 
-        rating:
+            rating:
             selectedRating,
 
-        review_text:
+            review_text:
             reviewText
-    };
+        }
+    ])
+    .select()
+    .single();
 
 
-    const { data, error } =
-        await supabaseClient
-            .from("reviews")
-            .insert([
-                reviewData
-            ])
-            .select()
-            .single();
-
-
-    if (error) {
+    if(error) {
 
         console.error(error);
 
-
-        messageBox.textContent =
-            "We couldn't submit your review. Please try again.";
-
-
-        messageBox.className =
-            "review-error";
+        showReviewError(
+            "We couldn't submit your review. Please try again."
+        );
 
 
         submitButton.disabled =
-            false;
-
+        false;
 
         submitButton.textContent =
-            "Submit Review";
-
+        "Submit Review";
 
         return;
     }
 
 
-    if (data) {
+    if(data) {
 
         allReviews.unshift(
             data
@@ -2076,336 +2663,226 @@ async function submitReview() {
 
 
     document
-        .getElementById(
-            "review-name"
-        )
-        .value = "";
+    .getElementById(
+        "review-name"
+    )
+    .value =
+    "";
 
 
     document
-        .getElementById(
-            "review-text"
-        )
-        .value = "";
+    .getElementById(
+        "review-text"
+    )
+    .value =
+    "";
 
 
-    selectedRating = 0;
-
+    selectedRating =
+    0;
 
     updateStarPicker();
 
 
     messageBox.textContent =
-        "Thank you! Your review has been submitted ⭐";
-
+    "Thank you! Your review has been submitted ⭐";
 
     messageBox.className =
-        "review-success";
+    "review-success";
 
 
     submitButton.disabled =
-        false;
-
+    false;
 
     submitButton.textContent =
-        "Submit Review";
+    "Submit Review";
 
 
     renderReviewModal();
-
 
     renderProducts();
 }
 
 
-/* ================================
-   CATEGORY FILTER
-================================ */
-
-function selectCategory(
-    category,
-    button
+function showReviewError(
+    text
 ) {
 
-    selectedCategory =
-        category;
-
-
-    document
-        .querySelectorAll(
-            ".filter-button"
-        )
-        .forEach(btn => {
-
-            btn.classList.remove(
-                "active"
-            );
-        });
-
-
-    button.classList.add(
-        "active"
+    const box =
+    document.getElementById(
+        "review-form-message"
     );
 
 
-    filterProducts();
+    box.textContent =
+    text;
+
+    box.className =
+    "review-error";
 }
 
 
-/* ================================
-   SEARCH
-================================ */
-
-function filterProducts() {
-
-    const searchText =
-        document
-            .getElementById(
-                "search-input"
-            )
-            .value
-            .toLowerCase()
-            .trim();
-
-
-    const products =
-        document.querySelectorAll(
-            ".product"
-        );
-
-
-    let visibleProducts = 0;
-
-
-    products.forEach(product => {
-
-        const productName =
-            product.dataset.name || "";
-
-
-        const description =
-            product.dataset.description || "";
-
-
-        const category =
-            product.dataset.category || "other";
-
-
-        const categoryName =
-            displayCategory(category)
-                .toLowerCase();
-
-
-        const matchesSearch =
-            productName.includes(
-                searchText
-            ) ||
-
-            description.includes(
-                searchText
-            ) ||
-
-            categoryName.includes(
-                searchText
-            );
-
-
-        const matchesCategory =
-            selectedCategory === "all" ||
-            category ===
-            selectedCategory;
-
-
-        if (
-            matchesSearch &&
-            matchesCategory
-        ) {
-
-            product.style.display =
-                "flex";
-
-            visibleProducts++;
-
-        } else {
-
-            product.style.display =
-                "none";
-        }
-    });
-
-
-    const noResults =
-        document.getElementById(
-            "no-results"
-        );
-
-
-    noResults.style.display =
-        visibleProducts === 0
-            ? "block"
-            : "none";
-
-
-    if (
-        shopProducts.length > 0 &&
-        visibleProducts === 0
-    ) {
-
-        noResults.textContent =
-            "No products found.";
-    }
-}
-
-
-/* ================================
+/* =========================
    CATEGORY NAMES
-================================ */
+========================= */
 
-function displayCategory(category) {
+function displayCategory(
+    category
+) {
 
     const categories = {
 
         health:
-            "Health & Fitness",
+        "Health & Fitness",
 
         beauty:
-            "Beauty & Personal Care",
+        "Beauty & Personal Care",
 
         home:
-            "Home & Storage",
+        "Home & Storage",
 
         kitchen:
-            "Kitchen",
+        "Kitchen",
 
         bathroom:
-            "Bathroom",
+        "Bathroom",
 
         cleaning:
-            "Cleaning",
+        "Cleaning",
 
         outdoor:
-            "Camping & Outdoor",
+        "Camping & Outdoor",
 
         tools:
-            "Tools & DIY",
+        "Tools & DIY",
 
         electronics:
-            "Electronics & Accessories",
+        "Electronics & Accessories",
 
         car:
-            "Car Accessories",
+        "Car Accessories",
 
         baby:
-            "Baby & Kids",
+        "Baby & Kids",
 
         pets:
-            "Pet Products",
+        "Pet Products",
 
         gifts:
-            "Gifts & Lifestyle",
+        "Gifts & Lifestyle",
 
         other:
-            "Other"
+        "Other"
     };
 
 
     return (
-        categories[category] ||
-        category ||
+        categories[category]
+        ||
+        category
+        ||
         "Other"
     );
 }
 
 
-/* ================================
-   FORMAT PRICE
-================================ */
+/* =========================
+   HELPERS
+========================= */
 
-function formatPrice(value) {
+function formatPrice(
+    value
+) {
 
     const number =
-        Number(value);
+    Number(value);
 
 
-    if (
+    if(
         Number.isNaN(number)
-    ) {
-
+    )
         return "0.00";
-    }
 
 
-    return number.toLocaleString(
+    return number
+    .toLocaleString(
         "en-ZA",
         {
-            minimumFractionDigits: 2,
-            maximumFractionDigits: 2
+            minimumFractionDigits:2,
+            maximumFractionDigits:2
         }
     );
 }
 
 
-/* ================================
-   FORMAT REVIEW DATE
-================================ */
+function formatReviewDate(
+    value
+) {
 
-function formatReviewDate(value) {
-
-    if (!value) {
+    if(!value)
         return "";
-    }
 
 
     const date =
-        new Date(value);
+    new Date(value);
 
 
-    if (
+    if(
         Number.isNaN(
             date.getTime()
         )
-    ) {
-
+    )
         return "";
-    }
 
 
-    return date.toLocaleDateString(
+    return date
+    .toLocaleDateString(
         "en-ZA",
         {
-            year: "numeric",
-            month: "short",
-            day: "numeric"
+            year:"numeric",
+            month:"short",
+            day:"numeric"
         }
     );
 }
 
 
-/* ================================
-   SAFE HTML
-================================ */
-
-function escapeHtml(value) {
+function escapeHtml(
+    value
+) {
 
     return String(
         value ?? ""
     )
-        .replaceAll("&", "&amp;")
-        .replaceAll("<", "&lt;")
-        .replaceAll(">", "&gt;")
-        .replaceAll('"', "&quot;")
-        .replaceAll("'", "&#039;");
+    .replaceAll(
+        "&","&amp;"
+    )
+    .replaceAll(
+        "<","&lt;"
+    )
+    .replaceAll(
+        ">","&gt;"
+    )
+    .replaceAll(
+        '"',"&quot;"
+    )
+    .replaceAll(
+        "'","&#039;"
+    );
 }
 
 
-/* CLOSE WITH ESC KEY */
+/* =========================
+   ESCAPE KEY
+========================= */
 
 document.addEventListener(
     "keydown",
     function(event) {
 
-        if (
-            event.key === "Escape"
+        if(
+            event.key ===
+            "Escape"
         ) {
 
             closeReviews();
@@ -2414,7 +2891,9 @@ document.addEventListener(
 );
 
 
-/* START */
+/* =========================
+   START
+========================= */
 
 updateCartCount();
 
